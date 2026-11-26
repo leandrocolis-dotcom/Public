@@ -1,0 +1,97 @@
+{
+ "generated_at": "2026-10-12T16:33:15.592Z",
+ "saDate": "2026-04-12",
+ "sample": 27,
+ "c1": {
+  "r2": 0.5958981844308091,
+  "intercept": 1.7031874167743017,
+  "coef": {
+   "value": 0.0052677320610472166,
+   "growth": 0.014922237707968074,
+   "profit": 0.0027712981572088654,
+   "mom": 0.006349083004769803,
+   "rev": 0.007717064847156247
+  },
+  "fitted": {
+   "value": 0.14,
+   "growth": 0.4,
+   "profit": 0.07,
+   "mom": 0.17,
+   "rev": 0.21
+  },
+  "adopted": false,
+  "r2Clean": null,
+  "coefClean": null,
+  "nClean": 7
+ },
+ "c2": {
+  "weak": 20,
+  "weakAbove35": 0,
+  "share": 0
+ },
+ "c3c4": {
+  "rho": {
+   "value": 0.5227554130942568,
+   "growth": 0.653736737228322,
+   "profit": 0.7118496850357633,
+   "mom": 0.808493990002178,
+   "rev": 0.24206278581702362
+  },
+  "rhoTotal": 0.6909123730065716
+ },
+ "c5": {
+  "ic": 0.21123321123321123,
+  "spyFwd": 0.15137471342738462,
+  "buckets": [
+   {
+    "label": "Compra forte",
+    "n": 3,
+    "fwd": 0.625939112960196
+   },
+   {
+    "label": "Compra",
+    "n": 3,
+    "fwd": -0.023541581463111954
+   },
+   {
+    "label": "Manter",
+    "n": 21,
+    "fwd": 0.049260507946667934
+   },
+   {
+    "label": "Venda",
+    "n": 0,
+    "fwd": null
+   },
+   {
+    "label": "Venda forte",
+    "n": 0,
+    "fwd": null
+   }
+  ],
+  "icOurs": 0.21798839576143164,
+  "note": "nossa nota usa fundamentos de hoje: o IC dela tem olhar no futuro e não vale como teste"
+ },
+ "distribution": [
+  [
+   "Compra forte",
+   3
+  ],
+  [
+   "Compra",
+   3
+  ],
+  [
+   "Manter",
+   21
+  ],
+  [
+   "Venda",
+   0
+  ],
+  [
+   "Venda forte",
+   0
+  ]
+ ]
+}

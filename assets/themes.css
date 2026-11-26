@@ -1,0 +1,237 @@
+/* Pêndulo: temas. Cada tema define só variáveis; os componentes ficam em styles.css.
+   <html data-theme="midnight|graphite|ember|terminal|paper|mist" data-mode="dark|light" data-cb="0|1">.
+   Os fundos "soft" são cores sólidas (não rgba) para o contraste poder ser conferido nos testes. */
+
+/* ───────── escalas independentes do tema ───────── */
+:root {
+  --ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --fs: 1; /* tamanho do texto: 0.9 / 1 / 1.12 / 1.25 */
+  --r-sm: 8px;
+  --r: 14px;
+  --r-lg: 20px;
+  --pad: 18px; /* respiro interno dos cartões */
+  --gap: 14px;
+  --rail-w: 232px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-density="compact"] {
+  --pad: 12px;
+  --gap: 10px;
+}
+
+/* ───────── Meia-noite: azul-noite profundo (padrão) ───────── */
+:root,
+html[data-theme="midnight"] {
+  color-scheme: dark;
+  --bg: #070a12;
+  --rail: #0a0e19;
+  --surface: #0f1524;
+  --surface-2: #151c2f;
+  --surface-3: #1c2540;
+  --line: #1f2a44;
+  --line-2: #2d3b5e;
+  --text: #e8edf8;
+  --text-2: #9aa7c2;
+  --text-3: #7986a3;
+  --accent: #8c9bff;
+  --accent-soft: #1b2250;
+  --on-accent: #0b1022;
+  --buy: #3ddc97;
+  --buy-soft: #0e2b26;
+  --sell: #ff7088;
+  --sell-soft: #331621;
+  --wait: #f5b94c;
+  --wait-soft: #33270f;
+  --info: #6cb4ff;
+  --info-soft: #0f2740;
+  --violet: #b79cff;
+  --glow-a: #3d4fe0;
+  --glow-b: #0fb982;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 30px -12px rgba(0, 0, 0, 0.65);
+  --tile-neutral: #1a2238;
+  --heat-max: 0.18; /* intensidade máxima do realce de células (tabelas) */
+}
+
+/* ───────── Grafite: preto neutro, menos azul ───────── */
+html[data-theme="graphite"] {
+  color-scheme: dark;
+  --bg: #0a0a0b;
+  --rail: #0e0e10;
+  --surface: #141416;
+  --surface-2: #1b1b1f;
+  --surface-3: #232328;
+  --line: #26262c;
+  --line-2: #373740;
+  --text: #ececef;
+  --text-2: #a1a1ab;
+  --text-3: #84848d;
+  --accent: #7dd3fc;
+  --accent-soft: #10303f;
+  --on-accent: #04141c;
+  --buy: #4ade80;
+  --buy-soft: #10291b;
+  --sell: #fb7185;
+  --sell-soft: #35151b;
+  --wait: #fbbf24;
+  --wait-soft: #33260a;
+  --info: #7dd3fc;
+  --info-soft: #10303f;
+  --violet: #c4b5fd;
+  --glow-a: #3b82a6;
+  --glow-b: #22a35a;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 30px -12px rgba(0, 0, 0, 0.7);
+  --tile-neutral: #1e1e23;
+  --heat-max: 0.18; /* intensidade máxima do realce de células (tabelas) */
+}
+
+/* ───────── Âmbar: escuro quente, pouca luz azul (sessões longas à noite) ───────── */
+html[data-theme="ember"] {
+  color-scheme: dark;
+  --bg: #120e09;
+  --rail: #17120c;
+  --surface: #1d1710;
+  --surface-2: #261e15;
+  --surface-3: #30261b;
+  --line: #33291c;
+  --line-2: #4a3c2a;
+  --text: #f1e7d5;
+  --text-2: #bfb09a;
+  --text-3: #948671;
+  --accent: #f2b04a;
+  --accent-soft: #3a2a10;
+  --on-accent: #1a1206;
+  --buy: #9bd98a;
+  --buy-soft: #1f2b16;
+  --sell: #f29a83;
+  --sell-soft: #33190f;
+  --wait: #f2c265;
+  --wait-soft: #3a2b0d;
+  --info: #e3b87a;
+  --info-soft: #38290f;
+  --violet: #d9b3e6;
+  --glow-a: #c9801f;
+  --glow-b: #7a9f3c;
+  --shadow: 0 1px 0 rgba(255, 235, 200, 0.04) inset, 0 10px 30px -12px rgba(0, 0, 0, 0.7);
+  --tile-neutral: #2a2217;
+  --heat-max: 0.18; /* intensidade máxima do realce de células (tabelas) */
+}
+
+/* ───────── Terminal: preto puro, laranja e âmbar, monoespaçado (estilo terminal de mercado) ───────── */
+html[data-theme="terminal"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --rail: #050505;
+  --surface: #0b0b0b;
+  --surface-2: #141414;
+  --surface-3: #1e1e1e;
+  --line: #262626;
+  --line-2: #3d3d3d;
+  --text: #f4f4f4;
+  --text-2: #ffa028;
+  --text-3: #aa752c;
+  --accent: #ff8a00;
+  --accent-soft: #2e1a00;
+  --on-accent: #000000;
+  --buy: #2ee06f;
+  --buy-soft: #06260f;
+  --sell: #ff4a3d;
+  --sell-soft: #2e0805;
+  --wait: #ffd500;
+  --wait-soft: #2b2400;
+  --info: #4aa8ff;
+  --info-soft: #04192e;
+  --violet: #c99bff;
+  --glow-a: #ff8a00;
+  --glow-b: #2ee06f;
+  --shadow: none;
+  --tile-neutral: #161616;
+  --heat-max: 0.15; /* intensidade máxima do realce de células (tabelas) */
+  --ui: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r-sm: 0px;
+  --r: 2px;
+  --r-lg: 2px;
+}
+
+/* ───────── Papel: claro, quente, sem brilho excessivo ───────── */
+html[data-theme="paper"] {
+  color-scheme: light;
+  --bg: #f3f0e9;
+  --rail: #ece8df;
+  --surface: #ffffff;
+  --surface-2: #f7f4ee;
+  --surface-3: #efebe2;
+  --line: #e4dfd3;
+  --line-2: #cfc8b8;
+  --text: #1b1e27;
+  --text-2: #565c6c;
+  --text-3: #666c7b;
+  --accent: #4338ca;
+  --accent-soft: #e5e3fb;
+  --on-accent: #ffffff;
+  --buy: #087050;
+  --buy-soft: #dcf2e9;
+  --sell: #bf2e48;
+  --sell-soft: #f8dfe4;
+  --wait: #8f5c00;
+  --wait-soft: #f8e9cc;
+  --info: #1f5bc4;
+  --info-soft: #dde8f9;
+  --violet: #6d3fd0;
+  --glow-a: #8b86f0;
+  --glow-b: #5cc9a0;
+  --shadow: 0 1px 2px rgba(27, 30, 39, 0.06), 0 8px 24px -14px rgba(27, 30, 39, 0.25);
+  --tile-neutral: #ebe7dc;
+  --heat-max: 0.07; /* intensidade máxima do realce de células (tabelas) */
+}
+
+/* ───────── Névoa: claro frio e suave ───────── */
+html[data-theme="mist"] {
+  color-scheme: light;
+  --bg: #e7ecf3;
+  --rail: #dee5ee;
+  --surface: #f5f8fc;
+  --surface-2: #ebf0f7;
+  --surface-3: #e0e7f1;
+  --line: #d3dce8;
+  --line-2: #b9c6d9;
+  --text: #172033;
+  --text-2: #4f5c76;
+  --text-3: #5d6982;
+  --accent: #3249c9;
+  --accent-soft: #dde3fa;
+  --on-accent: #ffffff;
+  --buy: #076d55;
+  --buy-soft: #d6efe7;
+  --sell: #b52b46;
+  --sell-soft: #f5dde2;
+  --wait: #8a5a06;
+  --wait-soft: #f3e6cb;
+  --info: #235cb8;
+  --info-soft: #d9e6f7;
+  --violet: #6b3fc9;
+  --glow-a: #7f93ee;
+  --glow-b: #62c6b3;
+  --shadow: 0 1px 2px rgba(23, 32, 51, 0.06), 0 8px 24px -14px rgba(23, 32, 51, 0.28);
+  --tile-neutral: #dbe3ee;
+  --heat-max: 0.07; /* intensidade máxima do realce de células (tabelas) */
+}
+
+/* ───────── Daltonismo: azul = alta, laranja = baixa, violeta = espera (não depende de verde/vermelho) ───────── */
+html[data-cb="1"][data-mode="dark"] {
+  --buy: #5aadff;
+  --buy-soft: #0f2742;
+  --sell: #ffa24a;
+  --sell-soft: #3a2410;
+  --wait: #c4b5fd;
+  --wait-soft: #272043;
+}
+html[data-cb="1"][data-mode="light"] {
+  --buy: #0f3f96;
+  --buy-soft: #d9e6fa;
+  --sell: #a34c00;
+  --sell-soft: #fbe9d8;
+  --wait: #6a47d1;
+  --wait-soft: #e7dffa;
+}

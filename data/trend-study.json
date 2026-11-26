@@ -1,0 +1,81 @@
+{
+ "generatedAt": "2026-10-09T09:56:21.160Z",
+ "from": "2008-06-30",
+ "to": "2026-10-08",
+ "assets": {
+  "SPY": "Ações EUA",
+  "EFA": "Ações desenvolvidos",
+  "EEM": "Ações emergentes",
+  "IEF": "Treasury 7-10",
+  "TLT": "Treasury 20+",
+  "GLD": "Ouro",
+  "DBC": "Commodities",
+  "UUP": "Dólar"
+ },
+ "strategies": {
+  "6040": {
+   "label": "60/40 (SPY/IEF)",
+   "all": {
+    "cagr": 0.08734798908324182,
+    "vol": 0.11113516171827524,
+    "sharpe": 0.8092100537550788,
+    "mdd": -0.2877606649314248,
+    "total": 3.6072046197070318
+   },
+   "corrSpy": 0.97,
+   "crises": {
+    "Crise 2008 (out/07–mar/09)": -0.2736,
+    "Covid (fev–mar/20)": -0.1889,
+    "2022 (juros)": -0.1664
+   }
+  },
+  "tsmom": {
+   "label": "Tendência multiclasse (comprado e vendido)",
+   "all": {
+    "cagr": 0.02813644766838519,
+    "vol": 0.05317760779726935,
+    "sharpe": 0.5484204962410105,
+    "mdd": -0.1078375053495666,
+    "total": 0.6589398612785657
+   },
+   "corrSpy": 0.02,
+   "crises": {
+    "Crise 2008 (out/07–mar/09)": 0.0697,
+    "Covid (fev–mar/20)": -0.0021,
+    "2022 (juros)": 0.073
+   }
+  },
+  "long": {
+   "label": "Tendência multiclasse (só comprado)",
+   "all": {
+    "cagr": 0.03631871069220716,
+    "vol": 0.04116564128686848,
+    "sharpe": 0.8872694656554567,
+    "mdd": -0.07373889690140767,
+    "total": 0.9170369374373994
+   },
+   "corrSpy": 0.37,
+   "crises": {
+    "Crise 2008 (out/07–mar/09)": 0.0103,
+    "Covid (fev–mar/20)": -0.043,
+    "2022 (juros)": 0.0176
+   }
+  },
+  "spy": {
+   "label": "S&P 500 comprar e segurar",
+   "all": {
+    "cagr": 0.12394274870419308,
+    "vol": 0.19699894868067297,
+    "sharpe": 0.6918080277115501,
+    "mdd": -0.47165235677795203,
+    "total": 7.427111325073833
+   },
+   "corrSpy": 1,
+   "crises": {
+    "Crise 2008 (out/07–mar/09)": -0.4604,
+    "Covid (fev–mar/20)": -0.3372,
+    "2022 (juros)": -0.1865
+   }
+  }
+ }
+}

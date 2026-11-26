@@ -1,0 +1,29 @@
+name: CI
+
+# Desde 26/11/2026 (cota de minutos do GitHub): 1 vez por dia útil + manual. Todo push já roda lint, format e testes
+# antes de subir (regra do CLAUDE.md); esta rodada pega o que escapar em até um dia.
+on:
+  schedule:
+    - cron: "55 23 * * 1-5"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, format e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm test
+      - name: Validar dados publicados
+        run: npm run verify:data

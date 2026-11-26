@@ -1,0 +1,16 @@
+{
+ "geradoEm": "2026-11-20T15:45:22.565Z",
+ "aprovado": false,
+ "alvo": "queda > 10% em 63 pregões",
+ "variaveis": [
+  "tendencia×10 (SPY ÷ MM200 − 1)",
+  "credito×20 (HYG/IEF, 60 pregões)"
+ ],
+ "coef": [
+  -1.537775883361866,
+  -0.8555815657831274,
+  -0.05515375795344746
+ ],
+ "taxaBase": 0.14946695095948828,
+ "treinoAte": "2026-08-24"
+}

@@ -1,0 +1,1623 @@
+{
+ "v": 2,
+ "startDate": "2026-07-14",
+ "lastRun": "2026-11-23",
+ "sessions": 94,
+ "final": false,
+ "finalAt": null,
+ "weights": {
+  "tech": 0.4618,
+  "fund": 0.2537,
+  "market": 0.1504,
+  "history": 0.134
+ },
+ "logics": {
+  "dec:buy-part:buy": {
+   "n": 80,
+   "raw": 420,
+   "score": 0.4482226280663781,
+   "lower": 0.359945583935251,
+   "upper": 0.5398878380025157,
+   "rx": {
+    "n": 67,
+    "raw": 313,
+    "mean": -0.18696694132153083,
+    "se": 0.10564576085295485,
+    "lower": -0.3607542179246416,
+    "upper": -0.013179664718420109,
+    "p": 0.9616159358922965
+   },
+   "rr": {
+    "n": 67,
+    "raw": 313,
+    "mean": -0.10403170651073634,
+    "se": 0.08222523048369923,
+    "lower": -0.2392922106564216,
+    "upper": 0.0312287976349489,
+    "p": 0.8971008832754193
+   },
+   "rwin": {
+    "n": 67,
+    "raw": 313,
+    "mean": 0.39874410415455175,
+    "se": 0.03691679359572218,
+    "lower": 0.33801597868958877,
+    "upper": 0.4594722296195147,
+    "p": 0
+   },
+   "rbull": {
+    "n": 67,
+    "raw": 313,
+    "mean": -0.18696694132153083,
+    "se": 0.10564576085295485,
+    "lower": -0.3607542179246416,
+    "upper": -0.013179664718420109,
+    "p": 0.9616159358922965
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eliminated",
+   "since": "2026-09-01"
+  },
+  "level:sup:wait": {
+   "n": 83,
+   "raw": 438,
+   "score": 0.7695344147151374,
+   "lower": 0.6857116956476563,
+   "upper": 0.8363369332872734,
+   "rx": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rr": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rwin": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbull": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "acerto",
+   "status": "approved",
+   "since": "2026-08-31"
+  },
+  "dec:buy:buy": {
+   "n": 75,
+   "raw": 221,
+   "score": 0.45156349206349194,
+   "lower": 0.3603679799513563,
+   "upper": 0.5461324980942496,
+   "rx": {
+    "n": 64,
+    "raw": 177,
+    "mean": -0.379078208705357,
+    "se": 0.10079464103330193,
+    "lower": -0.5448853932051387,
+    "upper": -0.21327102420557534,
+    "p": 0.9999153206016096
+   },
+   "rr": {
+    "n": 64,
+    "raw": 177,
+    "mean": -0.26830119791666673,
+    "se": 0.09664459464215124,
+    "lower": -0.42728155610300556,
+    "upper": -0.10932083973032794,
+    "p": 0.9972497153511019
+   },
+   "rwin": {
+    "n": 64,
+    "raw": 177,
+    "mean": 0.39196428571428577,
+    "se": 0.04708954981833023,
+    "lower": 0.31450197626313253,
+    "upper": 0.469426595165439,
+    "p": 0
+   },
+   "rbull": {
+    "n": 64,
+    "raw": 177,
+    "mean": -0.379078208705357,
+    "se": 0.10079464103330193,
+    "lower": -0.5448853932051387,
+    "upper": -0.21327102420557534,
+    "p": 0.9999153206016096
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eliminated",
+   "since": "2026-09-01"
+  },
+  "dec:wait:wait": {
+   "n": 80,
+   "raw": 356,
+   "score": 0.7622734036796537,
+   "lower": 0.6762153437184606,
+   "upper": 0.8311690286866282,
+   "rx": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rr": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rwin": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbull": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "acerto",
+   "status": "approved",
+   "since": "2026-09-01"
+  },
+  "level:res:wait": {
+   "n": 84,
+   "raw": 368,
+   "score": 0.7849820483749054,
+   "lower": 0.7029664800740254,
+   "upper": 0.8492094976274562,
+   "rx": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rr": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rwin": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbull": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "acerto",
+   "status": "approved",
+   "since": "2026-08-31"
+  },
+  "dec:reduce:sell": {
+   "n": 74,
+   "raw": 194,
+   "score": 0.4605802230802231,
+   "lower": 0.3683408422004682,
+   "upper": 0.5556008953080657,
+   "rx": {
+    "n": 61,
+    "raw": 149,
+    "mean": 0.07958792740046833,
+    "se": 0.17582321197129855,
+    "lower": -0.20964125629231778,
+    "upper": 0.36881711109325443,
+    "p": 0.3253971565266045
+   },
+   "rr": {
+    "n": 61,
+    "raw": 149,
+    "mean": 0.020420023419203775,
+    "se": 0.15031494492981284,
+    "lower": -0.22684806099033836,
+    "upper": 0.2676881078287459,
+    "p": 0.4459704616521918
+   },
+   "rwin": {
+    "n": 61,
+    "raw": 149,
+    "mean": 0.4344652615144418,
+    "se": 0.05287080834563089,
+    "lower": 0.347492781785879,
+    "upper": 0.5214377412430047,
+    "p": 1.1102230246251565e-16
+   },
+   "rbull": {
+    "n": 61,
+    "raw": 149,
+    "mean": 0.07958792740046833,
+    "se": 0.17582321197129855,
+    "lower": -0.20964125629231778,
+    "upper": 0.36881711109325443,
+    "p": 0.3253971565266045
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-07-21"
+  },
+  "level:res:buy": {
+   "n": 71,
+   "raw": 167,
+   "score": 0.43943661971830983,
+   "lower": 0.3465353702474923,
+   "upper": 0.5367848874926313,
+   "rx": {
+    "n": 70,
+    "raw": 164,
+    "mean": -0.08908590476190473,
+    "se": 0.07067668851919101,
+    "lower": -0.20534905737597395,
+    "upper": 0.027177247852164493,
+    "p": 0.8962501722980667
+   },
+   "rr": {
+    "n": 70,
+    "raw": 164,
+    "mean": -0.03487861904761904,
+    "se": 0.06753928378141102,
+    "lower": -0.14598074086804017,
+    "upper": 0.0762235027728021,
+    "p": 0.6972194466017447
+   },
+   "rwin": {
+    "n": 70,
+    "raw": 164,
+    "mean": 0.490952380952381,
+    "se": 0.05047700430350351,
+    "lower": 0.4079177088731177,
+    "upper": 0.5739870530316442,
+    "p": 0
+   },
+   "rbull": {
+    "n": 70,
+    "raw": 164,
+    "mean": -0.08908590476190473,
+    "se": 0.07067668851919101,
+    "lower": -0.20534905737597395,
+    "upper": 0.027177247852164493,
+    "p": 0.8962501722980667
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eliminated",
+   "since": "2026-08-13"
+  },
+  "sig:breakdown:sell": {
+   "n": 55,
+   "raw": 138,
+   "score": 0.47112554112554106,
+   "lower": 0.36437748837844275,
+   "upper": 0.580581630254482,
+   "rx": {
+    "n": 51,
+    "raw": 127,
+    "mean": 0.05147864845938372,
+    "se": 0.07890701710132697,
+    "lower": -0.07832339467229915,
+    "upper": 0.18128069159106658,
+    "p": 0.25707263797330815
+   },
+   "rr": {
+    "n": 51,
+    "raw": 127,
+    "mean": -0.028096549953314703,
+    "se": 0.08161654507755041,
+    "lower": -0.16235576660588513,
+    "upper": 0.10616266669925573,
+    "p": 0.6346711423423317
+   },
+   "rwin": {
+    "n": 51,
+    "raw": 127,
+    "mean": 0.49918300653594777,
+    "se": 0.06362836522413282,
+    "lower": 0.3945143457422493,
+    "upper": 0.6038516673296462,
+    "p": 2.220446049250313e-15
+   },
+   "rbull": {
+    "n": 51,
+    "raw": 127,
+    "mean": 0.05147864845938372,
+    "se": 0.07890701710132697,
+    "lower": -0.07832339467229915,
+    "upper": 0.18128069159106658,
+    "p": 0.25707263797330815
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-07-21"
+  },
+  "dec:sell:sell": {
+   "n": 46,
+   "raw": 75,
+   "score": 0.43115942028985504,
+   "lower": 0.3181897545475441,
+   "upper": 0.5517784201632163,
+   "rx": {
+    "n": 38,
+    "raw": 59,
+    "mean": -0.19297982456140358,
+    "se": 0.16419407867354668,
+    "lower": -0.4630790839793879,
+    "upper": 0.07711943485658071,
+    "p": 0.8800656810672409
+   },
+   "rr": {
+    "n": 38,
+    "raw": 59,
+    "mean": -0.2152929824561403,
+    "se": 0.15872699524134704,
+    "lower": -0.4763988896281562,
+    "upper": 0.04581292471587556,
+    "p": 0.9125096678039901
+   },
+   "rwin": {
+    "n": 38,
+    "raw": 59,
+    "mean": 0.3771929824561403,
+    "se": 0.07402605343991957,
+    "lower": 0.2554201245474726,
+    "upper": 0.498965840364808,
+    "p": 1.7429654186607024e-7
+   },
+   "rbull": {
+    "n": 38,
+    "raw": 59,
+    "mean": -0.19297982456140358,
+    "se": 0.16419407867354668,
+    "lower": -0.4630790839793879,
+    "upper": 0.07711943485658071,
+    "p": 0.8800656810672409
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eliminated",
+   "since": "2026-10-26"
+  },
+  "sig:rally_down:sell": {
+   "n": 29,
+   "raw": 43,
+   "score": 0.41379310344827586,
+   "lower": 0.2770787784994752,
+   "upper": 0.56522248758481,
+   "rx": {
+    "n": 29,
+    "raw": 43,
+    "mean": 0.00031609195402299966,
+    "se": 0.12153922062457555,
+    "lower": -0.19961592597340377,
+    "upper": 0.20024810988144975,
+    "p": 0.49896229997593156
+   },
+   "rr": {
+    "n": 29,
+    "raw": 43,
+    "mean": -0.042351724137931035,
+    "se": 0.12594235400148204,
+    "lower": -0.249526896470369,
+    "upper": 0.16482344819450692,
+    "p": 0.6316696573991657
+   },
+   "rwin": {
+    "n": 29,
+    "raw": 43,
+    "mean": 0.4482758620689655,
+    "se": 0.09398415777506855,
+    "lower": 0.2936719225289778,
+    "upper": 0.6028798016089533,
+    "p": 9.23674250086215e-7
+   },
+   "rbull": {
+    "n": 29,
+    "raw": 43,
+    "mean": 0.00031609195402299966,
+    "se": 0.12153922062457555,
+    "lower": -0.19961592597340377,
+    "upper": 0.20024810988144975,
+    "p": 0.49896229997593156
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-07-22"
+  },
+  "sig:pullback10:buy": {
+   "n": 62,
+   "raw": 165,
+   "score": 0.4054435483870968,
+   "lower": 0.30891509941316,
+   "upper": 0.5098807546050709,
+   "rx": {
+    "n": 59,
+    "raw": 153,
+    "mean": 0.001236910815173516,
+    "se": 0.08683605127517187,
+    "lower": -0.1416083935324842,
+    "upper": 0.14408221516283123,
+    "p": 0.4943173969100009
+   },
+   "rr": {
+    "n": 59,
+    "raw": 153,
+    "mean": -0.017389178773204218,
+    "se": 0.07368913458135935,
+    "lower": -0.13860780515954035,
+    "upper": 0.10382944761313193,
+    "p": 0.5932760599415245
+   },
+   "rwin": {
+    "n": 59,
+    "raw": 153,
+    "mean": 0.44112187247780477,
+    "se": 0.05448236065931628,
+    "lower": 0.3514983891932295,
+    "upper": 0.53074535576238,
+    "p": 3.3306690738754696e-16
+   },
+   "rbull": {
+    "n": 59,
+    "raw": 153,
+    "mean": 0.001236910815173516,
+    "se": 0.08683605127517187,
+    "lower": -0.1416083935324842,
+    "upper": 0.14408221516283123,
+    "p": 0.4943173969100009
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eliminated",
+   "since": "2026-09-25"
+  },
+  "sig:lost200:sell": {
+   "n": 33,
+   "raw": 50,
+   "score": 0.6075757575757575,
+   "lower": 0.4647530837657532,
+   "upper": 0.7340929093124458,
+   "rx": {
+    "n": 30,
+    "raw": 45,
+    "mean": 0.1437069444444444,
+    "se": 0.08589387646242631,
+    "lower": 0.00241151766375311,
+    "upper": 0.2850023712251357,
+    "p": 0.047156181321963975
+   },
+   "rr": {
+    "n": 30,
+    "raw": 45,
+    "mean": 0.09133944444444445,
+    "se": 0.09085587179508285,
+    "lower": -0.058118464658466845,
+    "upper": 0.24079735354735574,
+    "p": 0.15737078887841838
+   },
+   "rwin": {
+    "n": 30,
+    "raw": 45,
+    "mean": 0.5638888888888888,
+    "se": 0.08787284487685493,
+    "lower": 0.4193380590664624,
+    "upper": 0.7084397187113152,
+    "p": 6.97727431386852e-11
+   },
+   "rbull": {
+    "n": 30,
+    "raw": 45,
+    "mean": 0.1437069444444444,
+    "se": 0.08589387646242631,
+    "lower": 0.00241151766375311,
+    "upper": 0.2850023712251357,
+    "p": 0.047156181321963975
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-07-23"
+  },
+  "sig:stretched:sell": {
+   "n": 15,
+   "raw": 19,
+   "score": 0.6,
+   "lower": 0.3925894904536016,
+   "upper": 0.7768443604530813,
+   "rx": {
+    "n": 15,
+    "raw": 19,
+    "mean": 0.4100333333333333,
+    "se": 0.1968840971392794,
+    "lower": 0.08615899353921869,
+    "upper": 0.7339076731274479,
+    "p": 0.018643200095520784
+   },
+   "rr": {
+    "n": 15,
+    "raw": 19,
+    "mean": 0.20002,
+    "se": 0.1463409591624007,
+    "lower": -0.04071087782214913,
+    "upper": 0.44075087782214917,
+    "p": 0.08584278352314723
+   },
+   "rwin": {
+    "n": 15,
+    "raw": 19,
+    "mean": 0.6,
+    "se": 0.13093073414159542,
+    "lower": 0.3846189423370755,
+    "upper": 0.8153810576629245,
+    "p": 0.000002298748617346469
+   },
+   "rbull": {
+    "n": 15,
+    "raw": 19,
+    "mean": 0.4100333333333333,
+    "se": 0.1968840971392794,
+    "lower": 0.08615899353921869,
+    "upper": 0.7339076731274479,
+    "p": 0.018643200095520784
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-07-30"
+  },
+  "sig:dip:buy": {
+   "n": 14,
+   "raw": 25,
+   "score": 0.32142857142857145,
+   "lower": 0.16017913996338937,
+   "upper": 0.5405276409734283,
+   "rx": {
+    "n": 13,
+    "raw": 23,
+    "mean": -0.23876025641025633,
+    "se": 0.35401183045534645,
+    "lower": -0.8211097175093013,
+    "upper": 0.3435892046887886,
+    "p": 0.7499847836645162
+   },
+   "rr": {
+    "n": 13,
+    "raw": 23,
+    "mean": 0.035988461538461525,
+    "se": 0.31119825847910776,
+    "lower": -0.4759326736596708,
+    "upper": 0.5479095967365939,
+    "p": 0.4539668483619148
+   },
+   "rwin": {
+    "n": 13,
+    "raw": 23,
+    "mean": 0.3589743589743589,
+    "se": 0.12777706314295773,
+    "lower": 0.14878109010419346,
+    "upper": 0.5691676278445243,
+    "p": 0.002481909839945007
+   },
+   "rbull": {
+    "n": 13,
+    "raw": 23,
+    "mean": -0.23876025641025633,
+    "se": 0.35401183045534645,
+    "lower": -0.8211097175093013,
+    "upper": 0.3435892046887886,
+    "p": 0.7499847836645162
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-07-31"
+  },
+  "sig:reversal:buy": {
+   "n": 22,
+   "raw": 37,
+   "score": 0.3806818181818182,
+   "lower": 0.2325250377877806,
+   "upper": 0.5549761891396592,
+   "rx": {
+    "n": 21,
+    "raw": 35,
+    "mean": -0.17183341269841274,
+    "se": 0.1318010327390911,
+    "lower": -0.3886461115542176,
+    "upper": 0.044979286157392134,
+    "p": 0.9038377091670909
+   },
+   "rr": {
+    "n": 21,
+    "raw": 35,
+    "mean": -0.026570317460317454,
+    "se": 0.12921982880521854,
+    "lower": -0.23913693584490195,
+    "upper": 0.18599630092426703,
+    "p": 0.5814566248815829
+   },
+   "rwin": {
+    "n": 21,
+    "raw": 35,
+    "mean": 0.47619047619047616,
+    "se": 0.1062128953485498,
+    "lower": 0.30147026334211174,
+    "upper": 0.6509106890388405,
+    "p": 0.000003677185233752489
+   },
+   "rbull": {
+    "n": 21,
+    "raw": 35,
+    "mean": -0.17183341269841274,
+    "se": 0.1318010327390911,
+    "lower": -0.3886461115542176,
+    "upper": 0.044979286157392134,
+    "p": 0.9038377091670909
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-08-03"
+  },
+  "level:sup:buy": {
+   "n": 13,
+   "raw": 15,
+   "score": 0.36538461538461536,
+   "lower": 0.18735948771403332,
+   "upper": 0.5897960942998755,
+   "rx": {
+    "n": 12,
+    "raw": 14,
+    "mean": -0.11427083333333334,
+    "se": 0.12071443363184904,
+    "lower": -0.312846076657725,
+    "upper": 0.08430440999105833,
+    "p": 0.8280841138663942
+   },
+   "rr": {
+    "n": 12,
+    "raw": 14,
+    "mean": -0.06760833333333334,
+    "se": 0.12148321851206656,
+    "lower": -0.26744822778568283,
+    "upper": 0.13223156111901613,
+    "p": 0.7110737770397816
+   },
+   "rwin": {
+    "n": 12,
+    "raw": 14,
+    "mean": 0.375,
+    "se": 0.13933010725567818,
+    "lower": 0.14580197356440938,
+    "upper": 0.6041980264355906,
+    "p": 0.003557157103154296
+   },
+   "rbull": {
+    "n": 12,
+    "raw": 14,
+    "mean": -0.11427083333333334,
+    "se": 0.12071443363184904,
+    "lower": -0.312846076657725,
+    "upper": 0.08430440999105833,
+    "p": 0.8280841138663942
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "R",
+   "status": "eval",
+   "since": "2026-08-06"
+  },
+  "level:stop:sell": {
+   "n": 0,
+   "raw": 0,
+   "score": null,
+   "lower": null,
+   "upper": null,
+   "rx": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rr": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rwin": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbull": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "acerto",
+   "status": "eval",
+   "since": "2026-10-09"
+  },
+  "level:res:sell": {
+   "n": 0,
+   "raw": 0,
+   "score": null,
+   "lower": null,
+   "upper": null,
+   "rx": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rr": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rwin": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbull": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "rbear": {
+    "n": 0,
+    "raw": 0,
+    "mean": null,
+    "se": null,
+    "lower": null,
+    "upper": null,
+    "p": null
+   },
+   "bh": false,
+   "crit": "acerto",
+   "status": "eval",
+   "since": "2026-10-09"
+  }
+ },
+ "versions": [
+  {
+   "n": 1,
+   "date": "2026-07-14",
+   "sessions": 1,
+   "weights": {
+    "tech": 0.35,
+    "fund": 0.25,
+    "market": 0.2,
+    "history": 0.2
+   },
+   "approved": [],
+   "eliminated": []
+  },
+  {
+   "n": 2,
+   "date": "2026-07-21",
+   "sessions": 6,
+   "weights": {
+    "tech": 0.35,
+    "fund": 0.25,
+    "market": 0.2,
+    "history": 0.2
+   },
+   "approved": [],
+   "eliminated": []
+  },
+  {
+   "n": 3,
+   "date": "2026-07-28",
+   "sessions": 11,
+   "weights": {
+    "tech": 0.3435,
+    "fund": 0.2685,
+    "market": 0.1824,
+    "history": 0.2056
+   },
+   "approved": [],
+   "eliminated": []
+  },
+  {
+   "n": 4,
+   "date": "2026-08-04",
+   "sessions": 16,
+   "weights": {
+    "tech": 0.3348,
+    "fund": 0.2747,
+    "market": 0.1829,
+    "history": 0.2075
+   },
+   "approved": [],
+   "eliminated": []
+  },
+  {
+   "n": 5,
+   "date": "2026-08-11",
+   "sessions": 21,
+   "weights": {
+    "tech": 0.3329,
+    "fund": 0.275,
+    "market": 0.1906,
+    "history": 0.2015
+   },
+   "approved": [],
+   "eliminated": []
+  },
+  {
+   "n": 6,
+   "date": "2026-08-18",
+   "sessions": 26,
+   "weights": {
+    "tech": 0.3528,
+    "fund": 0.2688,
+    "market": 0.2038,
+    "history": 0.1746
+   },
+   "approved": [],
+   "eliminated": [
+    "level:res:buy"
+   ]
+  },
+  {
+   "n": 7,
+   "date": "2026-08-25",
+   "sessions": 31,
+   "weights": {
+    "tech": 0.3651,
+    "fund": 0.2641,
+    "market": 0.2115,
+    "history": 0.1593
+   },
+   "approved": [],
+   "eliminated": [
+    "level:res:buy"
+   ]
+  },
+  {
+   "n": 8,
+   "date": "2026-09-01",
+   "sessions": 36,
+   "weights": {
+    "tech": 0.3653,
+    "fund": 0.2606,
+    "market": 0.2223,
+    "history": 0.1518
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy"
+   ]
+  },
+  {
+   "n": 9,
+   "date": "2026-09-09",
+   "sessions": 41,
+   "weights": {
+    "tech": 0.3704,
+    "fund": 0.258,
+    "market": 0.2221,
+    "history": 0.1495
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy"
+   ]
+  },
+  {
+   "n": 10,
+   "date": "2026-09-16",
+   "sessions": 46,
+   "weights": {
+    "tech": 0.3829,
+    "fund": 0.256,
+    "market": 0.2139,
+    "history": 0.1471
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy"
+   ]
+  },
+  {
+   "n": 11,
+   "date": "2026-09-23",
+   "sessions": 51,
+   "weights": {
+    "tech": 0.3935,
+    "fund": 0.2545,
+    "market": 0.203,
+    "history": 0.149
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy"
+   ]
+  },
+  {
+   "n": 12,
+   "date": "2026-09-30",
+   "sessions": 56,
+   "weights": {
+    "tech": 0.4133,
+    "fund": 0.2534,
+    "market": 0.1869,
+    "history": 0.1464
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 13,
+   "date": "2026-10-07",
+   "sessions": 61,
+   "weights": {
+    "tech": 0.4315,
+    "fund": 0.2525,
+    "market": 0.1746,
+    "history": 0.1414
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 14,
+   "date": "2026-10-14",
+   "sessions": 66,
+   "weights": {
+    "tech": 0.4455,
+    "fund": 0.2519,
+    "market": 0.1683,
+    "history": 0.1343
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 15,
+   "date": "2026-10-21",
+   "sessions": 71,
+   "weights": {
+    "tech": 0.453,
+    "fund": 0.2514,
+    "market": 0.1666,
+    "history": 0.129
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 16,
+   "date": "2026-10-28",
+   "sessions": 76,
+   "weights": {
+    "tech": 0.4603,
+    "fund": 0.2511,
+    "market": 0.1624,
+    "history": 0.1263
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "dec:sell:sell",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 17,
+   "date": "2026-11-04",
+   "sessions": 81,
+   "weights": {
+    "tech": 0.4664,
+    "fund": 0.2508,
+    "market": 0.156,
+    "history": 0.1268
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "dec:sell:sell",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 18,
+   "date": "2026-11-11",
+   "sessions": 86,
+   "weights": {
+    "tech": 0.4671,
+    "fund": 0.2506,
+    "market": 0.1521,
+    "history": 0.1302
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "dec:sell:sell",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  },
+  {
+   "n": 19,
+   "date": "2026-11-18",
+   "sessions": 91,
+   "weights": {
+    "tech": 0.4618,
+    "fund": 0.2537,
+    "market": 0.1504,
+    "history": 0.134
+   },
+   "approved": [
+    "dec:wait:wait",
+    "level:res:wait",
+    "level:sup:wait"
+   ],
+   "eliminated": [
+    "dec:buy-part:buy",
+    "dec:buy:buy",
+    "dec:sell:sell",
+    "level:res:buy",
+    "sig:pullback10:buy"
+   ]
+  }
+ ],
+ "criteria": {
+  "ok": false,
+  "items": [
+   {
+    "key": "sessions",
+    "ok": true,
+    "text": "94 de 60 pregões de diário (60 reconstruídos + 34 ao vivo)"
+   },
+   {
+    "key": "approved",
+    "ok": true,
+    "text": "3 de 3+ lógicas aprovadas"
+   },
+   {
+    "key": "actionable",
+    "ok": false,
+    "text": "0 de 2+ aprovadas que mandam comprar ou vender"
+   },
+   {
+    "key": "strong",
+    "ok": true,
+    "text": "3 de 3 aprovadas com margem (30+ dias; operar: excesso em R positivo e aprovado na correção de testes múltiplos; esperar: ≥ 60% e limite pessimista ≥ 50%)"
+   },
+   {
+    "key": "regime",
+    "ok": true,
+    "text": "nenhuma aprovada falha no regime de baixa"
+   },
+   {
+    "key": "stable",
+    "ok": true,
+    "text": "4 de 4 retreinos seguidos sem mudança"
+   }
+  ],
+  "bullOnly": false
+ },
+ "compare": {
+  "current": {
+   "n": 84,
+   "raw": 2731,
+   "score": 0.5718052151390326,
+   "lower": 0.4821205030031753,
+   "upper": 0.6570079617529644
+  },
+  "learned": {
+   "n": 84,
+   "raw": 1683,
+   "score": 0.6715591003126474,
+   "lower": 0.5830640325700954,
+   "upper": 0.749345726181096
+  }
+ },
+ "degraded": [],
+ "preview": {
+  "dec:buy-part:buy": {
+   "n": 80,
+   "raw": 598,
+   "score": 0.4635
+  },
+  "level:res:buy": {
+   "n": 121,
+   "raw": 207,
+   "score": 0.4709
+  },
+  "dec:buy:buy": {
+   "n": 53,
+   "raw": 487,
+   "score": 0.4438
+  },
+  "level:sup:wait": {
+   "n": 214,
+   "raw": 771,
+   "score": 0.7651
+  },
+  "level:stop:sell": {
+   "n": 119,
+   "raw": 306,
+   "score": 0.3888
+  },
+  "level:res:wait": {
+   "n": 207,
+   "raw": 721,
+   "score": 0.7819
+  },
+  "dec:wait:wait": {
+   "n": 80,
+   "raw": 474,
+   "score": 0.7782
+  },
+  "sig:pullback10:buy": {
+   "n": 144,
+   "raw": 385,
+   "score": 0.4124
+  },
+  "sig:breakdown:sell": {
+   "n": 143,
+   "raw": 348,
+   "score": 0.4693
+  },
+  "dec:reduce:sell": {
+   "n": 71,
+   "raw": 374,
+   "score": 0.4027
+  },
+  "sig:lost200:sell": {
+   "n": 91,
+   "raw": 138,
+   "score": 0.487
+  },
+  "dec:sell:sell": {
+   "n": 37,
+   "raw": 129,
+   "score": 0.465
+  },
+  "sig:stretched:sell": {
+   "n": 42,
+   "raw": 57,
+   "score": 0.4881
+  },
+  "sig:dip:buy": {
+   "n": 35,
+   "raw": 69,
+   "score": 0.4655
+  },
+  "sig:reversal:buy": {
+   "n": 56,
+   "raw": 93,
+   "score": 0.3997
+  },
+  "sig:rally_down:sell": {
+   "n": 107,
+   "raw": 160,
+   "score": 0.4221
+  },
+  "level:sup:buy": {
+   "n": 29,
+   "raw": 35,
+   "score": 0.4971
+  },
+  "level:res:sell": {
+   "n": 6,
+   "raw": 6,
+   "score": 0.25
+  }
+ },
+ "backfill": {
+  "from": "2026-07-14",
+  "to": "2026-10-06",
+  "days": 60,
+  "realStart": "2026-10-07",
+  "at": "2026-10-09T09:54:26.169Z",
+  "note": "Pregões reconstruídos sem fundamentos antigos, com regras criadas depois do período."
+ },
+ "edge": {
+  "blocked": {
+   "n": 51,
+   "raw": 72,
+   "mean": -0.26941732026143794,
+   "se": 0.15537387979671852,
+   "lower": -0.5250073525270399,
+   "upper": -0.01382728799583599,
+   "p": 0.9585404404591171
+  },
+  "passed": {
+   "n": 71,
+   "raw": 626,
+   "mean": -0.21692896287765892,
+   "se": 0.05902539173499749,
+   "lower": -0.3140257322817298,
+   "upper": -0.11983219347358805,
+   "p": 0.999881127285452
+  },
+  "grades": {
+   "A": {
+    "n": 64,
+    "raw": 242,
+    "mean": -0.3576936284722223,
+    "se": 0.08776640058395672,
+    "lower": -0.5020693574328311,
+    "upper": -0.21331789951161348,
+    "p": 0.999977032063829
+   },
+   "B": {
+    "n": 54,
+    "raw": 88,
+    "mean": -0.12754382716049384,
+    "se": 0.13778485014963965,
+    "lower": -0.35419990565665105,
+    "upper": 0.0991122513356634,
+    "p": 0.8226922992452306
+   },
+   "C": {
+    "n": 70,
+    "raw": 296,
+    "mean": -0.0389479283046552,
+    "se": 0.09931604966831127,
+    "lower": -0.20232283000902723,
+    "upper": 0.12442697339971685,
+    "p": 0.6525305868484887
+   },
+   "D": {
+    "n": 51,
+    "raw": 72,
+    "mean": -0.26941732026143794,
+    "se": 0.15537387979671852,
+    "lower": -0.5250073525270399,
+    "upper": -0.01382728799583599,
+    "p": 0.9585404404591171
+   }
+  }
+ },
+ "weightAcc": null,
+ "weightIc": {
+  "tech": {
+   "n": 926,
+   "ic": -0.030951834321915703
+  },
+  "fund": {
+   "n": 74,
+   "ic": -0.06908350423911062
+  },
+  "market": {
+   "n": 926,
+   "ic": -0.16237482893950728
+  },
+  "history": {
+   "n": 926,
+   "ic": -0.18714786302500253
+  }
+ },
+ "weightMethod": "correlação",
+ "universe": {
+  "n": 42,
+  "held": 0,
+  "lists": 0,
+  "note": "sem SUPABASE_SERVICE_ROLE_KEY: só os ativos do Pêndulo"
+ },
+ "updatedAt": "2026-11-24T06:29:11.700Z"
+}

@@ -1,0 +1,9 @@
+node_modules
+coverage
+.DS_Store
+.vercel
+.env*
+__pycache__
+*.pyc
+dist
+.ui-audit/

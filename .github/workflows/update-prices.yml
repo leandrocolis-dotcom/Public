@@ -1,0 +1,60 @@
+name: Atualizar preços
+
+# Roda no GitHub (gratuito), baixa o histórico do Yahoo Finance e commita data/prices.json, data/flow.json e data/ohlc.json.
+# A Vercel publica sozinha a cada commit. Horários em UTC.
+# As cotações intradiárias NÃO dependem deste workflow: vêm ao vivo da função /api/quotes.
+# Este histórico é a base (e a reserva se a função falhar); por isso a cada 30 min e não a cada 5
+# (5 min geraria ~90 deploys por pregão, perto do limite de 100/dia da Vercel Hobby).
+on:
+  schedule:
+    # a cada 30 min no pregão foi desligado em 26/11/2026 (cota de minutos do GitHub; as cotações do dia vêm ao vivo)
+    - cron: "20 21 * * 1-5" # depois do fechamento e antes das 18:00 de NY (a sessão da noite dos futuros ainda não abriu)
+  workflow_dispatch: # botão "Run workflow" na aba Actions, para rodar na hora
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Baixar preços e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+      - name: Gerar data/prices.json, data/flow.json e data/ohlc.json
+        run: python scripts/update_prices.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      # contínuos XX=F do Yahoo congelam/saltam no vencimento: usa o contrato vigente (assets/futures.js)
+      - name: Rolagem de futuros (contrato vigente em flow.json e prices.json)
+        run: 'node scripts/fut-adjust.mjs || echo "rolagem indisponivel - mantem os continuos do Yahoo"'
+      - name: Fundamentos da aba Valor (data/fundamentals.json), só no fechamento ou manual
+        if: github.event.schedule == '20 21 * * 1-5' || github.event_name == 'workflow_dispatch'
+        run: 'python scripts/update_fundamentals.py || echo "fundamentos indisponiveis - mantem o arquivo anterior"'
+      - name: Manchetes FT e Economist (data/news.json)
+        run: 'node scripts/update-news.mjs || echo "noticias indisponiveis - segue sem elas"'
+      - name: Validar os dados antes de publicar (erro aqui = nada é publicado)
+        run: node scripts/verify-data.mjs --today "$(TZ=America/New_York date +%F)"
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/; then
+            echo "Sem preços novos (mercado fechado ou sem negócios). Nada a publicar."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/prices.json data/flow.json data/ohlc.json data/news.json data/fundamentals.json
+          git commit -m "chore(dados): atualiza preços [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

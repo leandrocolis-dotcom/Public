@@ -1,0 +1,40 @@
+name: Balanços tech (data/earnings.json)
+
+# Dias úteis (UTC): antes da abertura (datas confirmadas no dia e resultados da noite) e depois da base histórica
+# (22:05), para a corrida/reação usar o pregão do dia. Nasdaq (calendário, consenso, surpresas) -> data/earnings.json.
+on:
+  schedule:
+    - cron: "25 11,22 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-earnings
+  cancel-in-progress: false
+
+jobs:
+  earnings:
+    name: Atualizar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Balanços tech
+        run: node scripts/update-earnings.mjs
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/earnings.json && [ -z "$(git ls-files --others --exclude-standard data/earnings.json)" ]; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/earnings.json
+          git commit -m "chore(balanços): agenda de balanços tech [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

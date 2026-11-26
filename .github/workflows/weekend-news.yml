@@ -1,0 +1,41 @@
+name: Notícias do fim de semana
+
+# Guarda as manchetes do fechamento de sexta à abertura de segunda (data/news-weekend.json)
+# para o "🗓 Resumo do fds" da aba News. A cada 6 h no fim de semana (eram 3 h até 26/11/2026) (horários em UTC).
+on:
+  schedule:
+    - cron: "15 21,23 * * 5" # sexta, depois do fechamento
+    - cron: "15 */6 * * 6,0" # sábado e domingo
+    - cron: "15 6,13 * * 1" # segunda, até a abertura
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekend-news
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Guardar manchetes do fim de semana
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/weekend-news.mjs
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/news-weekend.json; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/news-weekend.json
+          git commit -m "chore(dados): notícias do fim de semana [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

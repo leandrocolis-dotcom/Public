@@ -1,0 +1,47 @@
+name: Estudo retroativo (aprendizado)
+
+# Toda semana (sábado, 12:10 UTC) refaz o estudo retroativo de 10 anos com os ativos do Pêndulo + carteira e
+# watchlists da nuvem (segredo SUPABASE_SERVICE_ROLE_KEY) e publica data/model-retro.json e
+# docs/ESTUDO-RETROATIVO.md. É prévia: não mexe no modelo em treino. Ver docs/ROADMAP-APRENDIZADO.md.
+on:
+  schedule:
+    - cron: "10 12 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: retro-study
+  cancel-in-progress: false
+
+jobs:
+  study:
+    name: Rodar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Estudo retroativo
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/retro-study.mjs
+      - name: Estudo setorial (rotação + lógicas nos 46 ETFs setoriais)
+        run: |
+          node scripts/sector-study.mjs
+          node scripts/retro-study.mjs --out=setores --only=XLK,XLC,XLY,XLP,XLE,XLF,XLV,XLI,XLB,XLRE,XLU,SMH,SOXX,IGV,KRE,KBE,XBI,IHI,ITB,XRT,XOP,OIH,ITA,JETS,IYT,PAVE,TAN,ICLN,LIT,URA,GDX,COPX,GDXJ,REMX,MOO,IXN,IXG,IXJ,IXC,MXI,EXI,RXI,KXI,JXI,IXP,REET
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/model-retro.json docs/ESTUDO-RETROATIVO.md data/model-retro-setores.json docs/ESTUDO-RETROATIVO-SETORES.md data/sector-study.json; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/model-retro.json docs/ESTUDO-RETROATIVO.md data/model-retro-setores.json docs/ESTUDO-RETROATIVO-SETORES.md data/sector-study.json
+          git commit -m "chore(modelo): estudo retroativo semanal [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

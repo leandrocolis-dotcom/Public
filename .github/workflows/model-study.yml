@@ -1,0 +1,84 @@
+name: Estudo do modelo único (F28+)
+
+# Roda sob demanda os estudos da Fase 8 de docs/ROADMAP-APRENDIZADO.md (docs/MODELO-UNICO.md) com dados do Yahoo
+# (10 anos) e publica o resultado. Não mexe no modelo em treino nem na aba Decisões.
+on:
+  workflow_dispatch:
+    inputs:
+      study:
+        description: "Estudo a rodar"
+        type: choice
+        default: ratchet
+        options:
+          - ratchet
+          - sctr
+          - satellite
+          - riskweight
+          - brazil
+          - money
+          - pendulum
+          - backdrop
+          - backdrop-hp8
+          - weekend
+
+permissions:
+  contents: write
+
+concurrency:
+  group: model-study
+  cancel-in-progress: false
+
+jobs:
+  study:
+    name: Rodar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: F28 catraca + MM200 mensal
+        if: ${{ inputs.study == 'ratchet' }}
+        run: node scripts/ratchet-study.mjs
+      - name: F29 SCTR × momentum 12-1
+        if: ${{ inputs.study == 'sctr' }}
+        run: node scripts/sctr-study.mjs
+      - name: F30 satélite × SPY + MM200 mensal
+        if: ${{ inputs.study == 'satellite' }}
+        run: node scripts/satellite-study.mjs
+      - name: F31 risco igual × pesos iguais
+        if: ${{ inputs.study == 'riskweight' }}
+        run: node scripts/risk-weight-study.mjs
+      - name: F33 Brasil com imposto
+        if: ${{ inputs.study == 'brazil' }}
+        run: node scripts/brazil-study.mjs
+      - name: D3 volatilidade-alvo, alavancado com filtro, tendência entre classes
+        if: ${{ inputs.study == 'money' }}
+        run: node scripts/money-study.mjs
+      - name: P1 Pêndulo 2.0 × atual × MM200
+        if: ${{ inputs.study == 'pendulum' }}
+        run: node scripts/pendulum-study.mjs
+      - name: J3 pano de fundo MM200 + crédito (HP6, HP7)
+        if: ${{ inputs.study == 'backdrop' }}
+        run: node scripts/backdrop-study.mjs
+      - name: HP8 pano de fundo só pela MM200
+        if: ${{ inputs.study == 'backdrop-hp8' }}
+        run: node scripts/backdrop-study.mjs --hp8
+      - name: Pêndulo no fim de semana (cripto × segunda do SPY)
+        if: ${{ inputs.study == 'weekend' }}
+        run: node scripts/weekend-study.mjs
+      - name: Formatar relatórios (prettier do projeto)
+        run: npx --yes prettier@3 --write "docs/ESTUDO-*.md" || true
+      - name: Commitar se mudou
+        run: |
+          git add -A data docs
+          if git diff --cached --quiet; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git commit -m "chore(modelo): estudo ${{ inputs.study }} [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

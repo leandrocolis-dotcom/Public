@@ -1,0 +1,39 @@
+name: Base histórica (data/hist)
+
+# Todo pregão, depois do fechamento (22:05 UTC), antes do treino do modelo (22:50): grava o dia em data/hist.
+on:
+  schedule:
+    - cron: "5 22 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-hist
+  cancel-in-progress: false
+
+jobs:
+  hist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Atualizar base
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/update-hist.mjs
+      - name: Matriz de retornos (correlação com a carteira)
+        run: node scripts/build-returns.mjs
+      - name: Commitar se mudou
+        run: |
+          git add data/hist data/returns.json
+          if git diff --cached --quiet; then echo "Nada novo."; exit 0; fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git commit -m "chore(hist): pregão do dia na base histórica [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

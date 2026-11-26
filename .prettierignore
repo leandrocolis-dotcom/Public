@@ -1,0 +1,13 @@
+node_modules
+coverage
+vendor
+fonts
+data/*.json
+package-lock.json
+data/hist
+supabase/functions/quotes-feed/quotes.bundle.js
+supabase/functions/push/push.bundle.js
+dist
+.claude
+docs/ESTUDO-ASSERTIVIDADE-PENDULO.md
+docs/ESTUDO-PESOS-PENDULO.md

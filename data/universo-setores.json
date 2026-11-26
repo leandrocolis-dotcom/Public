@@ -1,0 +1,1235 @@
+{
+ "source": "Lista do usuário 'Universo de Setores — Vencedores Relativos e ETFs (US-listed)', 09/10/2026. Estudo interno; não é recomendação.",
+ "blocks": {
+  "MKT": "Mercado amplo",
+  "RATES": "Juros / renda fixa",
+  "AI": "Inteligência artificial",
+  "TECH": "Tecnologia",
+  "COMM": "Comunicação",
+  "DISC": "Consumo discricionário",
+  "STAP": "Consumo básico",
+  "HLTH": "Saúde",
+  "FIN": "Financeiro",
+  "IND": "Industrial",
+  "MAT": "Materiais",
+  "ENGY": "Energia",
+  "UTIL": "Utilities",
+  "RE": "Imobiliário",
+  "CMDTY": "Commodities",
+  "CRYPTO": "Cripto"
+ },
+ "labels": {
+  "MKT.US.LARGE": {
+   "ETF": [
+    "SPY",
+    "VOO",
+    "RSP",
+    "QQQ"
+   ],
+   "LEV": [
+    "SPXL",
+    "UPRO",
+    "SSO",
+    "TQQQ",
+    "QLD"
+   ],
+   "INV": [
+    "SPXS",
+    "SDS",
+    "SH",
+    "SQQQ",
+    "PSQ"
+   ]
+  },
+  "MKT.US.SMALL": {
+   "ETF": [
+    "IWM",
+    "IJR"
+   ],
+   "LEV": [
+    "TNA",
+    "UWM"
+   ],
+   "INV": [
+    "TZA",
+    "TWM",
+    "RWM"
+   ]
+  },
+  "MKT.US.DOW": {
+   "ETF": [
+    "DIA"
+   ],
+   "LEV": [
+    "UDOW"
+   ],
+   "INV": [
+    "SDOW",
+    "DOG"
+   ]
+  },
+  "MKT.INTL.DM": {
+   "ETF": [
+    "VEA",
+    "VGK",
+    "EWJ",
+    "DXJ"
+   ],
+   "LEV": [
+    "EURL"
+   ]
+  },
+  "MKT.INTL.EM": {
+   "ETF": [
+    "EEM",
+    "IEMG"
+   ],
+   "LEV": [
+    "EDC"
+   ],
+   "INV": [
+    "EDZ"
+   ]
+  },
+  "MKT.INTL.CHINA": {
+   "ETF": [
+    "FXI",
+    "KWEB"
+   ],
+   "LEV": [
+    "YINN",
+    "CWEB"
+   ],
+   "INV": [
+    "YANG"
+   ],
+   "SINGLE": [
+    "BABA",
+    "PDD"
+   ]
+  },
+  "MKT.INTL.BRAZIL": {
+   "ETF": [
+    "EWZ",
+    "EWZS"
+   ],
+   "LEV": [
+    "BRZU"
+   ],
+   "SINGLE": [
+    "NU",
+    "ITUB",
+    "MELI"
+   ]
+  },
+  "MKT.INTL.INDIA": {
+   "ETF": [
+    "INDA"
+   ],
+   "LEV": [
+    "INDL"
+   ],
+   "SINGLE": [
+    "IBN",
+    "HDB",
+    "INFY"
+   ]
+  },
+  "RATES.UST.CASH": {
+   "ETF": [
+    "SGOV",
+    "BIL",
+    "SHV",
+    "USFR",
+    "TFLO"
+   ]
+  },
+  "RATES.UST.SHORT": {
+   "ETF": [
+    "SHY",
+    "VGSH"
+   ]
+  },
+  "RATES.UST.MID": {
+   "ETF": [
+    "IEI",
+    "IEF"
+   ],
+   "LEV": [
+    "UST",
+    "TYD"
+   ],
+   "INV": [
+    "PST",
+    "TYO"
+   ]
+  },
+  "RATES.UST.LONG": {
+   "ETF": [
+    "TLT",
+    "EDV",
+    "ZROZ"
+   ],
+   "LEV": [
+    "TMF",
+    "UBT"
+   ],
+   "INV": [
+    "TMV",
+    "TBT",
+    "TBF"
+   ]
+  },
+  "RATES.TIPS": {
+   "ETF": [
+    "TIP",
+    "SCHP",
+    "STIP"
+   ]
+  },
+  "RATES.IG": {
+   "ETF": [
+    "LQD",
+    "VCIT",
+    "VCSH"
+   ]
+  },
+  "RATES.HY": {
+   "ETF": [
+    "HYG",
+    "JNK",
+    "USHY",
+    "JAAA"
+   ],
+   "INV": [
+    "SJB"
+   ]
+  },
+  "RATES.FLOAT": {
+   "ETF": [
+    "FLOT",
+    "BKLN",
+    "SRLN"
+   ]
+  },
+  "RATES.MUNI": {
+   "ETF": [
+    "MUB",
+    "VTEB"
+   ]
+  },
+  "RATES.MBS": {
+   "ETF": [
+    "MBB",
+    "VMBS"
+   ]
+  },
+  "RATES.EM": {
+   "ETF": [
+    "EMB",
+    "EMLC"
+   ]
+  },
+  "RATES.AGG": {
+   "ETF": [
+    "AGG",
+    "BND",
+    "BNDX"
+   ]
+  },
+  "AI.BROAD": {
+   "ETF": [
+    "AIQ",
+    "BOTZ",
+    "IGPT",
+    "ARTY",
+    "IVES",
+    "WTAI"
+   ],
+   "LEV": [
+    "AIBU",
+    "FNGU"
+   ],
+   "INV": [
+    "AIBD"
+   ]
+  },
+  "AI.SEMI.COMPUTE": {
+   "ETF": [
+    "SMH",
+    "SOXX",
+    "SOXQ",
+    "PSI"
+   ],
+   "LEV": [
+    "SOXL",
+    "USD",
+    "NVDL",
+    "NVDU",
+    "AMUU",
+    "AVL"
+   ],
+   "INV": [
+    "SOXS",
+    "SSG",
+    "NVDD"
+   ],
+   "SINGLE": [
+    "NVDA",
+    "AVGO",
+    "AMD",
+    "MRVL"
+   ]
+  },
+  "AI.SEMI.FOUNDRY": {
+   "LEV": [
+    "TSMX"
+   ],
+   "SINGLE": [
+    "TSM",
+    "INTC"
+   ]
+  },
+  "AI.SEMI.EQUIP": {
+   "SINGLE": [
+    "ASML",
+    "AMAT",
+    "LRCX",
+    "KLAC"
+   ]
+  },
+  "AI.SEMI.MEMORY": {
+   "LEV": [
+    "MUU"
+   ],
+   "SINGLE": [
+    "MU",
+    "SNDK",
+    "WDC",
+    "STX"
+   ]
+  },
+  "AI.NET.OPTICS": {
+   "LEV": [
+    "LITG"
+   ],
+   "SINGLE": [
+    "ANET",
+    "CRDO",
+    "ALAB",
+    "CIEN",
+    "COHR",
+    "LITE"
+   ]
+  },
+  "AI.INFRA.SERVERS": {
+   "SINGLE": [
+    "DELL",
+    "SMCI",
+    "HPE"
+   ]
+  },
+  "AI.INFRA.NEOCLOUD": {
+   "ETF": [
+    "DTCR",
+    "SRVR"
+   ],
+   "LEV": [
+    "NEBX"
+   ],
+   "SINGLE": [
+    "CRWV",
+    "NBIS",
+    "IREN",
+    "EQIX",
+    "DLR"
+   ]
+  },
+  "AI.CLOUD.HYPERSCALER": {
+   "ETF": [
+    "SKYY",
+    "CLOU",
+    "WCLD"
+   ],
+   "LEV": [
+    "CLDL",
+    "SKYU",
+    "MSFU",
+    "AMZU",
+    "GGLL",
+    "METU"
+   ],
+   "INV": [
+    "MSFD",
+    "AMZD",
+    "GGLS"
+   ],
+   "SINGLE": [
+    "MSFT",
+    "AMZN",
+    "GOOGL",
+    "ORCL",
+    "META"
+   ]
+  },
+  "AI.SOFTWARE.PLATFORM": {
+   "ETF": [
+    "IGV"
+   ],
+   "LEV": [
+    "PLTU"
+   ],
+   "SINGLE": [
+    "PLTR",
+    "NOW",
+    "SNOW",
+    "MDB",
+    "DDOG",
+    "CRM"
+   ]
+  },
+  "AI.CYBER": {
+   "ETF": [
+    "CIBR",
+    "HACK",
+    "BUG",
+    "IHAK"
+   ],
+   "LEV": [
+    "UCYB"
+   ],
+   "SINGLE": [
+    "CRWD",
+    "PANW",
+    "ZS",
+    "NET",
+    "FTNT"
+   ]
+  },
+  "AI.EDGE.DEVICES": {
+   "LEV": [
+    "AAPU"
+   ],
+   "SINGLE": [
+    "AAPL",
+    "QCOM",
+    "ARM"
+   ]
+  },
+  "AI.IND.POWER": {
+   "SINGLE": [
+    "CEG",
+    "VST",
+    "TLN",
+    "NRG",
+    "GEV"
+   ]
+  },
+  "AI.IND.NUCLEAR": {
+   "ETF": [
+    "NLR",
+    "URA",
+    "URNM",
+    "NUKZ"
+   ],
+   "SINGLE": [
+    "CEG",
+    "CCJ",
+    "BWXT",
+    "OKLO",
+    "SMR"
+   ]
+  },
+  "AI.IND.GRID": {
+   "ETF": [
+    "GRID"
+   ],
+   "SINGLE": [
+    "VRT",
+    "ETN",
+    "GEV",
+    "PWR",
+    "MOD"
+   ]
+  },
+  "AI.IND.BUILD": {
+   "LEV": [
+    "STLL"
+   ],
+   "SINGLE": [
+    "PWR",
+    "EME",
+    "STRL",
+    "FIX"
+   ]
+  },
+  "AI.ROBOTICS": {
+   "ETF": [
+    "BOTZ",
+    "ROBO",
+    "ARKQ"
+   ],
+   "LEV": [
+    "TSLL"
+   ],
+   "INV": [
+    "TSLQ"
+   ],
+   "SINGLE": [
+    "TSLA",
+    "ISRG",
+    "SYM",
+    "ROK",
+    "TER"
+   ]
+  },
+  "AI.QUANTUM": {
+   "ETF": [
+    "QTUM"
+   ],
+   "SINGLE": [
+    "IONQ",
+    "RGTI",
+    "QBTS"
+   ]
+  },
+  "TECH.BROAD": {
+   "ETF": [
+    "XLK",
+    "VGT"
+   ],
+   "LEV": [
+    "TECL",
+    "ROM"
+   ],
+   "INV": [
+    "TECS",
+    "REW"
+   ]
+  },
+  "COMM.BROAD": {
+   "ETF": [
+    "XLC"
+   ],
+   "LEV": [
+    "LTL"
+   ],
+   "SINGLE": [
+    "META",
+    "GOOGL",
+    "NFLX"
+   ]
+  },
+  "COMM.MEDIA": {
+   "SINGLE": [
+    "NFLX",
+    "SPOT",
+    "DIS"
+   ]
+  },
+  "COMM.TELECOM": {
+   "ETF": [
+    "IYZ"
+   ],
+   "SINGLE": [
+    "TMUS",
+    "VZ",
+    "T"
+   ]
+  },
+  "DISC.BROAD": {
+   "ETF": [
+    "XLY"
+   ],
+   "LEV": [
+    "WANT",
+    "UCC"
+   ],
+   "INV": [
+    "SCC"
+   ],
+   "SINGLE": [
+    "AMZN",
+    "TSLA",
+    "HD"
+   ]
+  },
+  "DISC.RETAIL": {
+   "ETF": [
+    "XRT"
+   ],
+   "LEV": [
+    "RETL"
+   ],
+   "SINGLE": [
+    "TJX",
+    "ORLY",
+    "AZO"
+   ]
+  },
+  "DISC.ECOMMERCE": {
+   "ETF": [
+    "IBUY"
+   ],
+   "SINGLE": [
+    "AMZN",
+    "MELI",
+    "SHOP"
+   ]
+  },
+  "DISC.TRAVEL": {
+   "ETF": [
+    "PEJ"
+   ],
+   "SINGLE": [
+    "BKNG",
+    "RCL",
+    "MAR",
+    "UBER"
+   ]
+  },
+  "DISC.HOME": {
+   "ETF": [
+    "ITB",
+    "XHB"
+   ],
+   "LEV": [
+    "NAIL"
+   ],
+   "SINGLE": [
+    "DHI",
+    "LEN",
+    "NVR",
+    "HD",
+    "LOW"
+   ]
+  },
+  "DISC.AUTO": {
+   "ETF": [
+    "CARZ"
+   ],
+   "SINGLE": [
+    "TSLA",
+    "GM",
+    "RACE"
+   ]
+  },
+  "STAP.BROAD": {
+   "ETF": [
+    "XLP"
+   ],
+   "LEV": [
+    "UGE"
+   ],
+   "INV": [
+    "SZK"
+   ],
+   "SINGLE": [
+    "COST",
+    "WMT",
+    "PG"
+   ]
+  },
+  "STAP.RETAIL": {
+   "SINGLE": [
+    "COST",
+    "WMT",
+    "BJ",
+    "KR"
+   ]
+  },
+  "STAP.FOOD": {
+   "ETF": [
+    "PBJ"
+   ],
+   "SINGLE": [
+    "MDLZ",
+    "HSY",
+    "GIS"
+   ]
+  },
+  "STAP.BEV": {
+   "SINGLE": [
+    "KO",
+    "MNST",
+    "PEP"
+   ]
+  },
+  "STAP.TOBACCO": {
+   "SINGLE": [
+    "PM",
+    "MO"
+   ]
+  },
+  "STAP.RESTAURANT": {
+   "SINGLE": [
+    "MCD",
+    "TXRH",
+    "CMG",
+    "CAVA",
+    "DPZ"
+   ]
+  },
+  "STAP.AGRI": {
+   "ETF": [
+    "MOO"
+   ],
+   "SINGLE": [
+    "DE",
+    "CTVA",
+    "ADM",
+    "NTR"
+   ]
+  },
+  "HLTH.BROAD": {
+   "ETF": [
+    "XLV"
+   ],
+   "LEV": [
+    "CURE",
+    "RXL"
+   ],
+   "INV": [
+    "RXD"
+   ]
+  },
+  "HLTH.PHARMA": {
+   "ETF": [
+    "XPH",
+    "IHE",
+    "PJP"
+   ],
+   "LEV": [
+    "PILL"
+   ],
+   "SINGLE": [
+    "LLY",
+    "ABBV",
+    "JNJ",
+    "AZN",
+    "MRK"
+   ]
+  },
+  "HLTH.OBESITY": {
+   "SINGLE": [
+    "LLY",
+    "NVO",
+    "VKTX"
+   ]
+  },
+  "HLTH.BIOTECH": {
+   "ETF": [
+    "XBI",
+    "IBB"
+   ],
+   "LEV": [
+    "LABU",
+    "BIB"
+   ],
+   "INV": [
+    "LABD",
+    "BIS"
+   ],
+   "SINGLE": [
+    "VRTX",
+    "GILD",
+    "ARGX",
+    "AMGN",
+    "REGN"
+   ]
+  },
+  "HLTH.MEDTECH": {
+   "ETF": [
+    "IHI"
+   ],
+   "SINGLE": [
+    "ISRG",
+    "BSX",
+    "SYK",
+    "ABT"
+   ]
+  },
+  "HLTH.MANAGED": {
+   "ETF": [
+    "IHF"
+   ],
+   "SINGLE": [
+    "CI",
+    "ELV",
+    "UNH"
+   ]
+  },
+  "FIN.BROAD": {
+   "ETF": [
+    "XLF"
+   ],
+   "LEV": [
+    "FAS",
+    "UYG"
+   ],
+   "INV": [
+    "FAZ",
+    "SKF",
+    "SEF"
+   ]
+  },
+  "FIN.BANKS.LARGE": {
+   "ETF": [
+    "KBE",
+    "KBWB"
+   ],
+   "SINGLE": [
+    "JPM",
+    "GS",
+    "MS",
+    "BAC"
+   ]
+  },
+  "FIN.BANKS.REGIONAL": {
+   "ETF": [
+    "KRE"
+   ],
+   "LEV": [
+    "DPST"
+   ],
+   "SINGLE": [
+    "PNC",
+    "USB",
+    "HBAN"
+   ]
+  },
+  "FIN.BROKERS": {
+   "ETF": [
+    "IAI"
+   ],
+   "SINGLE": [
+    "IBKR",
+    "HOOD",
+    "SCHW"
+   ]
+  },
+  "FIN.EXCHANGES": {
+   "SINGLE": [
+    "CME",
+    "ICE",
+    "NDAQ",
+    "SPGI",
+    "MCO"
+   ]
+  },
+  "FIN.INSURANCE": {
+   "ETF": [
+    "KIE"
+   ],
+   "SINGLE": [
+    "PGR",
+    "CB",
+    "AJG",
+    "MMC"
+   ]
+  },
+  "FIN.PAYMENTS": {
+   "ETF": [
+    "IPAY"
+   ],
+   "SINGLE": [
+    "V",
+    "MA",
+    "AXP"
+   ]
+  },
+  "FIN.ALTMGR": {
+   "ETF": [
+    "PSP"
+   ],
+   "SINGLE": [
+    "KKR",
+    "BX",
+    "APO",
+    "ARES"
+   ]
+  },
+  "FIN.FINTECH": {
+   "ETF": [
+    "ARKF"
+   ],
+   "SINGLE": [
+    "NU",
+    "HOOD",
+    "SOFI",
+    "COIN"
+   ]
+  },
+  "IND.BROAD": {
+   "ETF": [
+    "XLI"
+   ],
+   "LEV": [
+    "DUSL",
+    "UXI"
+   ],
+   "INV": [
+    "SIJ"
+   ],
+   "SINGLE": [
+    "GE",
+    "CAT",
+    "ETN"
+   ]
+  },
+  "IND.AERODEF": {
+   "ETF": [
+    "ITA",
+    "XAR",
+    "PPA",
+    "SHLD"
+   ],
+   "LEV": [
+    "DFEN"
+   ],
+   "SINGLE": [
+    "GE",
+    "HWM",
+    "RTX",
+    "GD",
+    "LMT"
+   ]
+  },
+  "IND.MACHINERY": {
+   "SINGLE": [
+    "CAT",
+    "DE",
+    "PH"
+   ]
+  },
+  "IND.TRANSPORT": {
+   "ETF": [
+    "IYT"
+   ],
+   "SINGLE": [
+    "UNP",
+    "CSX",
+    "ODFL"
+   ]
+  },
+  "IND.AIRLINES": {
+   "ETF": [
+    "JETS"
+   ],
+   "SINGLE": [
+    "DAL",
+    "UAL"
+   ]
+  },
+  "IND.SPACE": {
+   "ETF": [
+    "UFO",
+    "ARKX"
+   ],
+   "SINGLE": [
+    "RKLB",
+    "ASTS",
+    "LHX"
+   ]
+  },
+  "IND.WASTE": {
+   "SINGLE": [
+    "WM",
+    "RSG",
+    "WCN"
+   ]
+  },
+  "MAT.BROAD": {
+   "ETF": [
+    "XLB"
+   ],
+   "LEV": [
+    "UYM"
+   ],
+   "INV": [
+    "SMN"
+   ]
+  },
+  "MAT.GOLD": {
+   "ETF": [
+    "GDX",
+    "GDXJ"
+   ],
+   "LEV": [
+    "NUGT",
+    "JNUG"
+   ],
+   "INV": [
+    "DUST",
+    "JDST"
+   ],
+   "SINGLE": [
+    "NEM",
+    "AEM",
+    "WPM",
+    "FNV"
+   ]
+  },
+  "MAT.SILVER": {
+   "ETF": [
+    "SIL",
+    "SILJ"
+   ],
+   "SINGLE": [
+    "PAAS",
+    "AG"
+   ]
+  },
+  "MAT.COPPER": {
+   "ETF": [
+    "COPX",
+    "CPER"
+   ],
+   "SINGLE": [
+    "FCX",
+    "SCCO"
+   ]
+  },
+  "MAT.STEEL": {
+   "ETF": [
+    "SLX"
+   ],
+   "SINGLE": [
+    "NUE",
+    "STLD"
+   ]
+  },
+  "MAT.CHEM": {
+   "SINGLE": [
+    "LIN",
+    "SHW",
+    "APD"
+   ]
+  },
+  "ENGY.BROAD": {
+   "ETF": [
+    "XLE"
+   ],
+   "LEV": [
+    "ERX",
+    "DIG"
+   ],
+   "INV": [
+    "ERY",
+    "DUG"
+   ]
+  },
+  "ENGY.INTEGRATED": {
+   "SINGLE": [
+    "XOM",
+    "CVX",
+    "SHEL"
+   ]
+  },
+  "ENGY.EP": {
+   "ETF": [
+    "XOP"
+   ],
+   "LEV": [
+    "GUSH"
+   ],
+   "INV": [
+    "DRIP"
+   ],
+   "SINGLE": [
+    "COP",
+    "EOG",
+    "FANG"
+   ]
+  },
+  "ENGY.SERVICES": {
+   "ETF": [
+    "OIH"
+   ],
+   "SINGLE": [
+    "SLB",
+    "BKR"
+   ]
+  },
+  "ENGY.MIDSTREAM": {
+   "ETF": [
+    "AMLP",
+    "MLPX"
+   ],
+   "SINGLE": [
+    "WMB",
+    "KMI",
+    "ET"
+   ]
+  },
+  "ENGY.LNG": {
+   "SINGLE": [
+    "LNG",
+    "VG"
+   ]
+  },
+  "ENGY.CLEAN": {
+   "ETF": [
+    "ICLN",
+    "TAN"
+   ],
+   "SINGLE": [
+    "FSLR",
+    "NEE"
+   ]
+  },
+  "UTIL.BROAD": {
+   "ETF": [
+    "XLU"
+   ],
+   "LEV": [
+    "UTSL",
+    "UPW"
+   ],
+   "INV": [
+    "SDP"
+   ],
+   "SINGLE": [
+    "CEG",
+    "VST",
+    "NEE",
+    "SO"
+   ]
+  },
+  "RE.BROAD": {
+   "ETF": [
+    "XLRE",
+    "VNQ"
+   ],
+   "LEV": [
+    "DRN",
+    "URE"
+   ],
+   "INV": [
+    "DRV",
+    "SRS",
+    "REK"
+   ]
+  },
+  "RE.HEALTHCARE": {
+   "SINGLE": [
+    "WELL",
+    "VTR"
+   ]
+  },
+  "RE.INDUSTRIAL": {
+   "SINGLE": [
+    "PLD",
+    "EGP"
+   ]
+  },
+  "RE.TOWERS": {
+   "SINGLE": [
+    "AMT",
+    "EQIX",
+    "DLR"
+   ]
+  },
+  "CMDTY.BROAD": {
+   "ETF": [
+    "DBC",
+    "PDBC"
+   ]
+  },
+  "CMDTY.GOLD": {
+   "ETF": [
+    "GLD",
+    "IAU",
+    "GLDM"
+   ],
+   "LEV": [
+    "UGL"
+   ],
+   "INV": [
+    "GLL"
+   ]
+  },
+  "CMDTY.SILVER": {
+   "ETF": [
+    "SLV"
+   ],
+   "LEV": [
+    "AGQ"
+   ],
+   "INV": [
+    "ZSL"
+   ]
+  },
+  "CMDTY.OIL": {
+   "ETF": [
+    "USO",
+    "BNO"
+   ],
+   "LEV": [
+    "UCO"
+   ],
+   "INV": [
+    "SCO"
+   ]
+  },
+  "CMDTY.NATGAS": {
+   "ETF": [
+    "UNG"
+   ],
+   "LEV": [
+    "BOIL"
+   ],
+   "INV": [
+    "KOLD"
+   ]
+  },
+  "CMDTY.AGRI": {
+   "ETF": [
+    "DBA",
+    "CORN",
+    "WEAT",
+    "SOYB"
+   ]
+  },
+  "CRYPTO.BTC": {
+   "ETF": [
+    "IBIT",
+    "FBTC"
+   ],
+   "LEV": [
+    "BITX",
+    "BITU"
+   ],
+   "INV": [
+    "SBIT",
+    "BITI"
+   ]
+  },
+  "CRYPTO.ETH": {
+   "ETF": [
+    "ETHA"
+   ],
+   "LEV": [
+    "ETHU"
+   ],
+   "INV": [
+    "ETHD"
+   ]
+  },
+  "CRYPTO.EQUITY": {
+   "ETF": [
+    "BKCH",
+    "WGMI"
+   ],
+   "LEV": [
+    "CONL",
+    "MSTU"
+   ],
+   "SINGLE": [
+    "COIN",
+    "MSTR",
+    "HOOD"
+   ]
+  }
+ }
+}

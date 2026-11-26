@@ -1,0 +1,40 @@
+name: Curva de juros do Brasil
+
+# Dias úteis (UTC): de manhã (ajuste oficial do DI1 do pregão anterior) e depois do fechamento da B3 (taxa do dia).
+# B3 (DI1) + Tesouro Transparente (Tesouro Prefixado, só para o passado sem DI1) → data/br-curve.json;
+# NTN-B (curva real, Tesouro IPCA+) → data/br-real.json.
+on:
+  # agenda desligada em 26/11/2026: tela Juros congelada (Laboratório › Arquivo); rodar à mão se precisar
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-br-curve
+  cancel-in-progress: false
+
+jobs:
+  curve:
+    name: Atualizar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Curva do Brasil
+        run: node scripts/update-br-curve.mjs
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/br-curve.json data/br-real.json && [ -z "$(git ls-files --others --exclude-standard data/br-curve.json data/br-real.json)" ]; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/br-curve.json data/br-real.json
+          git commit -m "chore(juros): curva de juros do Brasil [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

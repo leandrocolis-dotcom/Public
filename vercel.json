@@ -1,0 +1,136 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "ignoreCommand": "node scripts/vercel-ignore.mjs",
+  "git": {
+    "deploymentEnabled": {
+      "claude/**": false,
+      "feat/**": false,
+      "fix/**": false,
+      "chore/**": false,
+      "docs/**": false,
+      "refactor/**": false,
+      "master": false
+    }
+  },
+  "framework": null,
+  "buildCommand": "node scripts/build.mjs",
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/dist/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
+        }
+      ]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/icons/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(vendor|fonts)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/quotes.js": {
+      "maxDuration": 30
+    },
+    "api/history.js": {
+      "maxDuration": 30
+    },
+    "api/intraday.js": {
+      "maxDuration": 30
+    },
+    "api/news.js": {
+      "maxDuration": 30
+    },
+    "api/yields.js": {
+      "maxDuration": 30
+    },
+    "api/verify.js": {
+      "maxDuration": 30
+    },
+    "api/analyze.js": {
+      "maxDuration": 30,
+      "includeFiles": "data/hist/**"
+    },
+    "api/push-alerts.js": {
+      "maxDuration": 30
+    }
+  }
+}

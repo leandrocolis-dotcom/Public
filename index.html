@@ -1,0 +1,328 @@
+<!doctype html>
+<html
+  lang="pt-BR"
+  data-theme="midnight"
+  data-mode="dark"
+  data-cb="0"
+  data-density="comfortable"
+  data-motion="auto"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Pêndulo</title>
+    <meta
+      name="description"
+      content="Regime macro, fluxo por região e setor, sinais de entrada com veto do modelo, carteira com diário de operações e análise por ativo. Material educacional."
+    />
+    <meta name="theme-color" content="#070a12" />
+    <link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Pêndulo" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <script>
+      // Aplica o tema salvo antes de pintar a página (evita o "flash" de tema errado).
+      try {
+        var u = JSON.parse(localStorage.getItem("pendulo.ui") || "{}");
+        var themes = {
+          midnight: "dark",
+          graphite: "dark",
+          ember: "dark",
+          terminal: "dark",
+          paper: "light",
+          mist: "light",
+        };
+        var t =
+          u.theme === "auto"
+            ? matchMedia("(prefers-color-scheme: dark)").matches
+              ? "midnight"
+              : "paper"
+            : u.theme;
+        if (themes[t]) {
+          var h = document.documentElement;
+          h.dataset.theme = t;
+          h.dataset.mode = themes[t];
+        }
+        if (u.cb) document.documentElement.dataset.cb = "1";
+        if (u.nav === "top" || u.nav === "bottom") document.documentElement.dataset.nav = u.nav;
+        if (u.fs) document.documentElement.style.setProperty("--fs", u.fs);
+        if (u.zoom && u.zoom != 1) {
+          document.documentElement.style.zoom = u.zoom;
+          document.documentElement.style.setProperty("--zoom", u.zoom);
+        }
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="assets/themes.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="modulepreload" href="assets/analysis-context.js" />
+    <link rel="modulepreload" href="assets/analysis-data.js" />
+    <link rel="modulepreload" href="assets/analysis-view.js" />
+    <link rel="modulepreload" href="assets/asset-news.js" />
+    <link rel="modulepreload" href="assets/asset-pop.js" />
+    <link rel="modulepreload" href="assets/bars-hub.js" />
+    <link rel="modulepreload" href="assets/bond-yield.js" />
+    <link rel="modulepreload" href="assets/br-flow.js" />
+    <link rel="modulepreload" href="assets/br-universe.js" />
+    <link rel="modulepreload" href="assets/br-views.js" />
+    <link rel="modulepreload" href="assets/br.js" />
+    <link rel="modulepreload" href="assets/btg-sync.js" />
+    <link rel="modulepreload" href="assets/btg.js" />
+    <link rel="modulepreload" href="assets/calendar-view.js" />
+    <link rel="modulepreload" href="assets/calendar.js" />
+    <link rel="modulepreload" href="assets/champions.js" />
+    <link rel="modulepreload" href="assets/chart-compare.js" />
+    <link rel="modulepreload" href="assets/charts.js" />
+    <link rel="modulepreload" href="assets/checks-center.js" />
+    <link rel="modulepreload" href="assets/checks.js" />
+    <link rel="modulepreload" href="assets/cloud-sync.js" />
+    <link rel="modulepreload" href="assets/cloud.js" />
+    <link rel="modulepreload" href="assets/command.js" />
+    <link rel="modulepreload" href="assets/contexts.js" />
+    <link rel="modulepreload" href="assets/correl.js" />
+    <link rel="modulepreload" href="assets/dash-extra.js" />
+    <link rel="modulepreload" href="assets/dash-layout.js" />
+    <link rel="modulepreload" href="assets/dash.js" />
+    <link rel="modulepreload" href="assets/decision.js" />
+    <link rel="modulepreload" href="assets/desk.js" />
+    <link rel="modulepreload" href="assets/dismiss.js" />
+    <link rel="modulepreload" href="assets/drawers.js" />
+    <link rel="modulepreload" href="assets/earnings-view.js" />
+    <link rel="modulepreload" href="assets/earnings.js" />
+    <link rel="modulepreload" href="assets/edge.js" />
+    <link rel="modulepreload" href="assets/engine.js" />
+    <link rel="modulepreload" href="assets/etf-fund.js" />
+    <link rel="modulepreload" href="assets/events.js" />
+    <link rel="modulepreload" href="assets/fa-glossary.js" />
+    <link rel="modulepreload" href="assets/fa.js" />
+    <link rel="modulepreload" href="assets/fear-greed.js" />
+    <link rel="modulepreload" href="assets/fed-view.js" />
+    <link rel="modulepreload" href="assets/fed.js" />
+    <link rel="modulepreload" href="assets/feeds.js" />
+    <link rel="modulepreload" href="assets/fixed-income-view.js" />
+    <link rel="modulepreload" href="assets/fixed-income.js" />
+    <link rel="modulepreload" href="assets/flash.js" />
+    <link rel="modulepreload" href="assets/flow-engine.js" />
+    <link rel="modulepreload" href="assets/flow-portfolio.js" />
+    <link rel="modulepreload" href="assets/flow-summary.js" />
+    <link rel="modulepreload" href="assets/flow-universe.js" />
+    <link rel="modulepreload" href="assets/flow-view.js" />
+    <link rel="modulepreload" href="assets/fold.js" />
+    <link rel="modulepreload" href="assets/format.js" />
+    <link rel="modulepreload" href="assets/futures.js" />
+    <link rel="modulepreload" href="assets/help.js" />
+    <link rel="modulepreload" href="assets/home-view.js" />
+    <link rel="modulepreload" href="assets/info-tips.js" />
+    <link rel="modulepreload" href="assets/instrument-view.js" />
+    <link rel="modulepreload" href="assets/integrated.js" />
+    <link rel="modulepreload" href="assets/journal-view.js" />
+    <link rel="modulepreload" href="assets/journal.js" />
+    <link rel="modulepreload" href="assets/leaders-view.js" />
+    <link rel="modulepreload" href="assets/leaders.js" />
+    <link rel="modulepreload" href="assets/learn-view.js" />
+    <link rel="modulepreload" href="assets/learner.js" />
+    <link rel="modulepreload" href="assets/level-alerts.js" />
+    <link rel="modulepreload" href="assets/live-feed.js" />
+    <link rel="modulepreload" href="assets/live.js" />
+    <link rel="modulepreload" href="assets/local-view.js" />
+    <link rel="modulepreload" href="assets/macro-alerts.js" />
+    <link rel="modulepreload" href="assets/macro-view.js" />
+    <link rel="modulepreload" href="assets/macro.js" />
+    <link rel="modulepreload" href="assets/market.js" />
+    <link rel="modulepreload" href="assets/marquee.js" />
+    <link rel="modulepreload" href="assets/mesa-view.js" />
+    <link rel="modulepreload" href="assets/mkt-regime-alerts.js" />
+    <link rel="modulepreload" href="assets/mkt-regime-watch.js" />
+    <link rel="modulepreload" href="assets/model-status.js" />
+    <link rel="modulepreload" href="assets/momentum-study.js" />
+    <link rel="modulepreload" href="assets/morph.js" />
+    <link rel="modulepreload" href="assets/motion.js" />
+    <link rel="modulepreload" href="assets/net.js" />
+    <link rel="modulepreload" href="assets/news-impact.js" />
+    <link rel="modulepreload" href="assets/news-view.js" />
+    <link rel="modulepreload" href="assets/news.js" />
+    <link rel="modulepreload" href="assets/notif-center.js" />
+    <link rel="modulepreload" href="assets/notif-log.js" />
+    <link rel="modulepreload" href="assets/notif-prefs.js" />
+    <link rel="modulepreload" href="assets/notif-topics.js" />
+    <link rel="modulepreload" href="assets/offmarket.js" />
+    <link rel="modulepreload" href="assets/offshore-perf.js" />
+    <link rel="modulepreload" href="assets/opps-dash.js" />
+    <link rel="modulepreload" href="assets/pend-float.js" />
+    <link rel="modulepreload" href="assets/pend-touch.js" />
+    <link rel="modulepreload" href="assets/pf-history.js" />
+    <link rel="modulepreload" href="assets/pillar-view.js" />
+    <link rel="modulepreload" href="assets/port-bias.js" />
+    <link rel="modulepreload" href="assets/port-pendulum.js" />
+    <link rel="modulepreload" href="assets/portfolio-view.js" />
+    <link rel="modulepreload" href="assets/portfolio.js" />
+    <link rel="modulepreload" href="assets/pro-chart.js" />
+    <link rel="modulepreload" href="assets/push-config.js" />
+    <link rel="modulepreload" href="assets/push.js" />
+    <link rel="modulepreload" href="assets/pwa.js" />
+    <link rel="modulepreload" href="assets/quant-view.js" />
+    <link rel="modulepreload" href="assets/quant.js" />
+    <link rel="modulepreload" href="assets/quote-hub.js" />
+    <link rel="modulepreload" href="assets/rates-view.js" />
+    <link rel="modulepreload" href="assets/rates.js" />
+    <link rel="modulepreload" href="assets/rebalance-models.js" />
+    <link rel="modulepreload" href="assets/rebalance.js" />
+    <link rel="modulepreload" href="assets/refresh.js" />
+    <link rel="modulepreload" href="assets/regime-history-view.js" />
+    <link rel="modulepreload" href="assets/regime-history.js" />
+    <link rel="modulepreload" href="assets/regime-reversal.js" />
+    <link rel="modulepreload" href="assets/regime-rules.js" />
+    <link rel="modulepreload" href="assets/regime-strength.js" />
+    <link rel="modulepreload" href="assets/regime-watch.js" />
+    <link rel="modulepreload" href="assets/regime-zones.js" />
+    <link rel="modulepreload" href="assets/reversal-view.js" />
+    <link rel="modulepreload" href="assets/risk-view.js" />
+    <link rel="modulepreload" href="assets/risk.js" />
+    <link rel="modulepreload" href="assets/rot-intraday.js" />
+    <link rel="modulepreload" href="assets/screener-view.js" />
+    <link rel="modulepreload" href="assets/screener.js" />
+    <link rel="modulepreload" href="assets/search-view.js" />
+    <link rel="modulepreload" href="assets/search.js" />
+    <link rel="modulepreload" href="assets/sectors.js" />
+    <link rel="modulepreload" href="assets/sessions.js" />
+    <link rel="modulepreload" href="assets/settings-sync.js" />
+    <link rel="modulepreload" href="assets/settings-view.js" />
+    <link rel="modulepreload" href="assets/signal-center.js" />
+    <link rel="modulepreload" href="assets/signals.js" />
+    <link rel="modulepreload" href="assets/sim-view.js" />
+    <link rel="modulepreload" href="assets/simulator.js" />
+    <link rel="modulepreload" href="assets/site-update.js" />
+    <link rel="modulepreload" href="assets/speed-learn.js" />
+    <link rel="modulepreload" href="assets/speed-live.js" />
+    <link rel="modulepreload" href="assets/speed-view.js" />
+    <link rel="modulepreload" href="assets/state.js" />
+    <link rel="modulepreload" href="assets/status-issues.js" />
+    <link rel="modulepreload" href="assets/structure-cost.js" />
+    <link rel="modulepreload" href="assets/ta-chart.js" />
+    <link rel="modulepreload" href="assets/ta-data.js" />
+    <link rel="modulepreload" href="assets/ta-glossary.js" />
+    <link rel="modulepreload" href="assets/ta-signals.js" />
+    <link rel="modulepreload" href="assets/ta-view.js" />
+    <link rel="modulepreload" href="assets/ta.js" />
+    <link rel="modulepreload" href="assets/table-scroll.js" />
+    <link rel="modulepreload" href="assets/table-tools.js" />
+    <link rel="modulepreload" href="assets/taxonomy.js" />
+    <link rel="modulepreload" href="assets/telemetry.js" />
+    <link rel="modulepreload" href="assets/theme-names.js" />
+    <link rel="modulepreload" href="assets/theme.js" />
+    <link rel="modulepreload" href="assets/trades.js" />
+    <link rel="modulepreload" href="assets/translate.js" />
+    <link rel="modulepreload" href="assets/trim.js" />
+    <link rel="modulepreload" href="assets/ui.js" />
+    <link rel="modulepreload" href="assets/universe.js" />
+    <link rel="modulepreload" href="assets/value-view.js" />
+    <link rel="modulepreload" href="assets/views.js" />
+    <link rel="modulepreload" href="assets/watch-view.js" />
+    <link rel="modulepreload" href="assets/watchlist.js" />
+    <link rel="modulepreload" href="assets/weekend-pulse.js" />
+    <link rel="modulepreload" href="assets/weekend.js" />
+    <link rel="modulepreload" href="assets/widgets.js" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="rail" aria-label="Navegação principal">
+        <div class="brand" id="brand"></div>
+        <nav class="tabs" id="tabs" role="tablist" aria-label="Seções"></nav>
+        <div class="rail-foot">
+          <button class="btn ghost" data-tab="settings" data-gear title="Configurações">
+            <span class="lb">Configurações</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <header class="top">
+          <div class="top-in">
+            <button
+              class="btn ghost icon-btn rail-tg"
+              data-rail-toggle
+              title="Recolher menu ( [ )"
+              aria-label="Recolher menu"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M9 4v16" />
+              </svg>
+            </button>
+            <span class="brand-m" id="brandM" aria-hidden="true"></span>
+            <h1 class="page" id="pageTitle">Pêndulo</h1>
+            <div id="freshness" class="fresh" role="status" aria-live="polite"></div>
+            <button id="auditPill" class="audit-pill" data-tab="checks" hidden></button>
+            <div class="top-ctl">
+              <div id="mktSwitch" class="mkt-sw" role="group" aria-label="Modo de mercado"></div>
+              <div class="zoom-ctl" role="group" aria-label="Zoom da tela">
+                <button data-zoom="-1" title="Diminuir zoom (−)" aria-label="Diminuir zoom">
+                  −
+                </button>
+                <button data-zoom="0" id="zoomVal" title="Voltar a 100% (0)" aria-label="Zoom 100%">
+                  100%
+                </button>
+                <button data-zoom="1" title="Aumentar zoom (+)" aria-label="Aumentar zoom">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn ghost icon-btn"
+                data-action="search"
+                title="Buscar ativo (/)"
+                aria-label="Buscar ativo"
+              ></button>
+              <button
+                class="btn ghost icon-btn"
+                data-action="bell"
+                title="Sinais e notificações"
+                aria-label="Sinais e notificações"
+              >
+                <span id="bellCount" class="bell-count" hidden></span>
+              </button>
+              <button
+                class="btn ghost icon-btn"
+                data-tab="settings"
+                data-gear
+                title="Configurações"
+                aria-label="Configurações"
+              ></button>
+              <button
+                class="btn"
+                data-action="reload"
+                title="Recarregar dados (R)"
+                aria-label="Recarregar"
+              >
+                <span class="lb">Recarregar</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div id="banner" class="banner" hidden></div>
+        <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+        <main id="view" tabindex="-1"></main>
+        <footer class="foot">
+          Material educacional; não constitui recomendação de investimento. Fluxo inferido por
+          preço, não por captação. Fonte dos preços: Yahoo Finance (gratuita, sem garantia).
+          Backtests sem custos, impostos, spread ou funding.
+        </footer>
+      </div>
+    </div>
+
+    <nav class="dock" id="dock" aria-label="Navegação"></nav>
+
+    <aside id="drawer" class="drawer" hidden aria-modal="true" role="dialog">
+      <div class="drawer-bg" data-action="close"></div>
+      <div class="drawer-box">
+        <button class="x" data-action="close" aria-label="Fechar">×</button>
+        <div id="drawerBody"></div>
+      </div>
+    </aside>
+
+    <script src="vendor/chart.umd.min.js"></script>
+    <script type="module" src="assets/app.js"></script>
+  </body>
+</html>

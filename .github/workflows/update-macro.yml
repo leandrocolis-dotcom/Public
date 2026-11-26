@@ -1,0 +1,40 @@
+name: Contexto macro
+
+# Dias úteis, 2 vezes (UTC; eram 4 até 26/11/2026): depois das divulgações das 8:30/10:00 ET e no fechamento.
+# FRED (dados oficiais), Forex Factory (projeções), manchetes do app e Yahoo → data/macro.json e data/macro-releases.json.
+on:
+  schedule:
+    - cron: "17 14,21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-macro
+  cancel-in-progress: false
+
+jobs:
+  macro:
+    name: Atualizar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Contexto macro
+        run: node scripts/update-macro.mjs
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/macro.json data/macro-releases.json && [ -z "$(git ls-files --others --exclude-standard data/macro*.json)" ]; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/macro.json data/macro-releases.json
+          git commit -m "chore(macro): contexto macro [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

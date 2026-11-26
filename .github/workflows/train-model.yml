@@ -1,0 +1,66 @@
+name: Treinar modelo (Simulador)
+
+# Todo pregão, depois do fechamento e da atualização de preços (22:20 UTC): grava o diário fora da amostra
+# (data/model-journal.json) e o estado do modelo em treino (data/model.json). Ver assets/learner.js.
+# Ativos: os do Pêndulo + carteira e watchlists da nuvem (segredo SUPABASE_SERVICE_ROLE_KEY; sem ele, só o Pêndulo).
+on:
+  schedule:
+    - cron: "50 22 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: train-model
+  cancel-in-progress: false
+
+jobs:
+  train:
+    name: Treinar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Treinar (diário + modelo)
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/train-model.mjs
+      - name: Velocidade do fluxo (diário próprio com pré/pregão/pós + estudo retroativo de 2 anos)
+        continue-on-error: true
+        run: |
+          node scripts/train-speed.mjs
+          node scripts/speed-study.mjs
+      - name: Diário do pêndulo por janela + pano de fundo (J5, modo sombra)
+        continue-on-error: true
+        run: node scripts/backdrop-journal.mjs
+      - name: Assertividade do pêndulo (nota de 1 dia a cada 5 min × SPY, diário que só cresce; modo sombra)
+        continue-on-error: true
+        run: |
+          node scripts/pend-accuracy-study.mjs
+          node scripts/pend-backtest-study.mjs
+      - name: Foto do momentum 12-1 (estudo F35, só exibição)
+        continue-on-error: true
+        run: node scripts/momentum-universe-study.mjs --today
+      - name: Fundamentos por data (incremental) e pesos dos pilares (teste múltiplo)
+        continue-on-error: true
+        run: |
+          node scripts/fetch-fund-hist.mjs
+          node --max-old-space-size=6000 scripts/pillar-study.mjs
+          node scripts/model-backtest.mjs
+          node --max-old-space-size=6000 scripts/quant-backtest.mjs
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/model.json data/model-journal.json data/momentum-universe-study.json data/pillar-weights.json data/fund-hist.json data/model-backtest.json data/macro-hist.json data/quant-backtest.json data/speed-journal.json data/speed-model.json data/speed-study.json data/backdrop-journal.json data/pend-accuracy.json data/pend-accuracy-journal.json docs/ESTUDO-ASSERTIVIDADE-PENDULO.md data/pend-backtest.json docs/ESTUDO-PESOS-PENDULO.md && [ -z "$(git ls-files --others --exclude-standard data/)" ]; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/model.json data/model-journal.json data/momentum-universe-study.json data/pillar-weights.json data/fund-hist.json data/model-backtest.json data/macro-hist.json data/quant-backtest.json data/speed-journal.json data/speed-model.json data/speed-study.json data/backdrop-journal.json data/pend-accuracy.json data/pend-accuracy-journal.json docs/ESTUDO-ASSERTIVIDADE-PENDULO.md data/pend-backtest.json docs/ESTUDO-PESOS-PENDULO.md
+          git commit -m "chore(modelo): treino diário do Simulador [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

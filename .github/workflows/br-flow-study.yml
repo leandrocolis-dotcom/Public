@@ -1,0 +1,40 @@
+name: Estudo do Fluxo Onshore (B3)
+
+# Toda sexta, depois do fechamento da B3 (22:37 UTC), refaz o "Fluxo agora" da tela Mercados › Onshore › Fluxo em cada
+# hora dos últimos ~60 pregões (barras de 5 min do Yahoo) e mede o que veio depois; grava data/br-flow-study.json
+# (assertividade na tela + curva de volume do pregão usada no volume relativo). Ver scripts/br-flow-study.mjs.
+on:
+  # agenda desligada em 26/11/2026: Onshore congelado (sem trabalho novo); rodar à mão se precisar
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: br-flow-study
+  cancel-in-progress: false
+
+jobs:
+  study:
+    name: Rodar e publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Estudo
+        run: node scripts/br-flow-study.mjs
+      - name: Commitar se mudou
+        run: |
+          if git diff --quiet -- data/br-flow-study.json && [ -z "$(git ls-files --others --exclude-standard data/br-flow-study.json)" ]; then
+            echo "Nada novo."
+            exit 0
+          fi
+          git config user.name "pendulo-bot"
+          git config user.email "pendulo-bot@users.noreply.github.com"
+          git add data/br-flow-study.json
+          git commit -m "chore(fluxo-br): estudo de assertividade do Fluxo Onshore"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
