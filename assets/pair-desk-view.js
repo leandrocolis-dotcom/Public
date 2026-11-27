@@ -43,12 +43,12 @@ function priceBar(r) {
         ? seg(sc.avg, sc.stop, "keep") + seg(sc.stop, sc.price, "open")
         : seg(sc.avg, sc.price, "open")
       : seg(sc.price, sc.avg, "loss");
-  const near = Math.abs(sc.avg - sc.price) < 16; // rótulos colados: o médio fica só na linha de texto
+  const near = Math.abs(sc.avg - sc.price) < 26; // rótulos colados: o médio fica só na linha de texto
   const aria = `Médio ${px(r.avg)}, agora ${px(r.price)}${fin(stop) ? `, trava ${px(stop)}` : ""}`;
   return `<div class="pd-bar${fin(sc.stop) ? " has-stop" : ""}" role="img" aria-label="${esc(aria)}"><div class="pd-track">${fill}
     <i class="pd-avg" style="left:${sc.avg}%"></i>${near ? "" : `<span class="pd-tag avg" style="left:${sc.avg}%">médio ${px(r.avg)}</span>`}
     ${fin(sc.stop) ? `<i class="pd-stop" style="left:${sc.stop}%"></i><span class="pd-tag stop" style="left:${sc.stop}%">trava ${px(stop)}</span>` : ""}
-    <i class="pd-now" style="left:${sc.price}%"></i><span class="pd-tag now" style="left:${sc.price}%">${px(r.price)}</span></div></div>`; // prettier-ignore
+    <i class="pd-now" style="left:${sc.price}%"></i><span class="pd-tag now${sc.price > 75 ? " end" : sc.price < 25 ? " start" : ""}" style="left:${sc.price}%">agora <b>${px(r.price)}</b></span></div></div>`; // prettier-ignore
 }
 
 function legRow(r, base) {

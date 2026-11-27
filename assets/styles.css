@@ -11783,7 +11783,7 @@ html[data-nav="bottom"] main {
 }
 /* régua de preço: médio (fio), trava (entalhe), agora (agulha) */
 .pd-bar {
-  padding: 22px 24px 26px;
+  padding: 22px 24px 32px;
 }
 .pd-bar:not(.has-stop) {
   padding-top: 10px;
@@ -11821,11 +11821,15 @@ html[data-nav="bottom"] main {
   background: var(--text-2);
 }
 .pd-now {
-  top: -8px;
-  height: 26px;
-  width: 3px;
-  border-radius: 2px;
+  z-index: 2;
+  top: -5px;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--bg);
+  border-radius: 50%;
   background: var(--text);
+  box-shadow: 0 0 0 2px var(--text);
+  transition: left 0.6s var(--ease-out, ease-out);
 }
 .pd-stop {
   top: -2px;
@@ -11855,9 +11859,20 @@ html[data-nav="bottom"] main {
   color: var(--text-3);
 }
 .pd-tag.now {
-  top: 20px;
-  color: var(--text);
-  font-weight: 700;
+  z-index: 2;
+  top: 22px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 12px;
+  transition: left 0.6s var(--ease-out, ease-out);
+}
+.pd-tag.now.end {
+  transform: translateX(calc(-100% + 12px));
+}
+.pd-tag.now.start {
+  transform: translateX(-12px);
 }
 .pd-tag.stop {
   top: -26px;
