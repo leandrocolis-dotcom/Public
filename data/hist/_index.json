@@ -3216,8 +3216,8 @@
    "currency": "USD"
   },
   "ROKU": {
-   "last": "2026-11-06",
-   "n": 507,
+   "last": "2026-11-09",
+   "n": 508,
    "currency": "USD"
   },
   "ROL": {
@@ -4691,7 +4691,7 @@
    "currency": "USD"
   }
  },
- "updated_at": "2026-11-27T01:08:56.790Z",
+ "updated_at": "2026-11-27T03:57:22.543Z",
  "n": 938,
  "errors": [
   "CLDL: gráfico HTTP 404",
