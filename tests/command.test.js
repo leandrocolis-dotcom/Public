@@ -5,7 +5,7 @@ const NAMES = {
   dash: "Painel",
   portfolio: "Carteira",
   news: "News",
-  entry: "Quando entrar",
+  trig: "Agora",
   flow: "Mapa de fluxo",
 };
 
@@ -14,7 +14,7 @@ describe("barra de comandos", () => {
     expect(parseCommand("port")).toEqual({ type: "tab", tab: "portfolio" }));
   it("ignora aba inexistente", () => expect(parseCommand("CAL", ["dash"])).toBeNull());
   it("ticker + função", () =>
-    expect(parseCommand(" spy  ta ")).toEqual({ type: "asset", sym: "SPY", go: "ta" }));
+    expect(parseCommand(" spy  ta ")).toEqual({ type: "asset", sym: "SPY", go: "page" }));
   it("ticker com sufixo", () =>
     expect(parseCommand("PETR4.SA DES")).toEqual({ type: "asset", sym: "PETR4.SA", go: "page" }));
   it("texto livre não é comando", () => expect(parseCommand("apple inc")).toBeNull());

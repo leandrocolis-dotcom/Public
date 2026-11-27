@@ -1,7 +1,11 @@
-// Aba Screener: filtros rápidos, grupo, faixa de RSI e ordenação sobre o universo do app.
+// Gatilhos › Scanner de volatilidade: filtros rápidos em σ, grupo, faixa de RSI e ordenação sobre o universo do app.
 import { esc, num } from "./format.js";
-import { PRESETS, SORTS, groupsOf, presetCounts, screen } from "./screener.js";
+import { PRESETS, SCAN, SORTS, groupsOf, presetCounts, screen } from "./screener.js";
 
+const zc = (x) =>
+  x == null || !Number.isFinite(x)
+    ? "–"
+    : `<span class="${Math.abs(x) >= 2 ? (x > 0 ? "up" : "down") : ""}">${x >= 0 ? "+" : "−"}${num(Math.abs(x), 1)}σ</span>`;
 const pc = (x) =>
   x == null || !Number.isFinite(x)
     ? "–"
@@ -13,23 +17,23 @@ export function viewScreener({ assets, f, progress }) {
     return `<div class="card empty">Carregando o universo de mercado (${progress?.have ?? 0} de ${progress?.n ?? "…"} ativos)…</div>`;
   const counts = presetCounts(assets);
   const list = screen(assets, f);
-  const presets = Object.entries(PRESETS)
+  const presets = SCAN.map((k) => [k, PRESETS[k]])
     .map(([k, p]) => `<button data-scr="preset" data-val="${k}" aria-pressed="${(f.preset ?? "all") === k}">${esc(p.label)} <span class="muted">${counts[k]}</span></button>`)
     .join(""); // prettier-ignore
   const groups = groupsOf(assets)
     .map((g) => `<option ${g === (f.group ?? "Todos") ? "selected" : ""}>${esc(g)}</option>`)
     .join("");
   const sorts = Object.entries(SORTS)
-    .map(([k, s]) => `<option value="${k}" ${k === (f.sort ?? "momentum") ? "selected" : ""}>${esc(s.label)}</option>`)
+    .map(([k, s]) => `<option value="${k}" ${k === (f.sort ?? "absZ") ? "selected" : ""}>${esc(s.label)}</option>`)
     .join(""); // prettier-ignore
   const rows = list
     .map(
       (a) => `<tr><td><button class="linklike" data-sr-open="${esc(a.code)}">${esc(a.code)}</button></td><td>${esc(a.name)}</td><td class="muted">${esc(a.group)}</td>
-      <td class="num">${num(a.price, 2)}</td><td class="num">${pc(a.r1d)}</td><td class="num">${pc(a.r1m)}</td><td class="num">${pc(a.r3m)}</td><td class="num">${pc(a.ytd)}</td>
-      <td class="num">${num(a.rsi, 0)}</td><td class="num">${pc(a.price / a.ma200 - 1)}</td><td class="num">${pc(a.fromHigh)}</td><td class="num">${num(a.momentum ?? NaN, 0)}</td><td class="num">${a.relVol ? `${num(a.relVol, 1)}x` : "–"}</td></tr>`,
+      <td class="num">${num(a.price, 2)}</td><td class="num">${pc(a.r1d)}</td><td class="num">${zc(a.z1)}</td><td class="num">${a.vol20 ? `${num(a.vol20 * 100, 1)}%` : "–"}</td><td class="num">${zc(a.rangeZ)}</td>
+      <td class="num">${zc(a.stretch)}</td><td class="num">${a.relVol ? `${num(a.relVol, 1)}x` : "–"}</td><td class="num">${pc(a.r5d)}</td><td class="num">${num(a.rsi, 0)}</td><td class="num">${pc(a.price / a.ma200 - 1)}</td></tr>`,
     )
     .join(""); // prettier-ignore
-  return `<section class="card"><h2>Screener</h2>
+  return `<section class="card"><h2>Scanner de volatilidade</h2>
     <div class="scr-presets seg" role="group" aria-label="Filtro rápido">${presets}</div>
     <div class="scr-controls">
       <label>Grupo <select data-scr-in="group">${groups}</select></label>
@@ -39,8 +43,8 @@ export function viewScreener({ assets, f, progress }) {
       <button class="btn ghost" data-scr="dir" data-val="${f.dir === "asc" ? "desc" : "asc"}">${f.dir === "asc" ? "↑ crescente" : "↓ decrescente"}</button>
       <button class="btn ghost" data-scr="reset">Limpar</button>
     </div>
-    <p class="muted">${list.length} de ${assets.filter((a) => a.ok).length} ativos${progress?.loading ? ` (carregando: ${progress.have} de ${progress.n})` : ""}. Universo: S&P 500 do Quant Aberto + todos os rótulos de setores + campeões, com preço ao vivo (atualiza a cada minuto com a aba aberta). Filtros ⚡ = intraday. Clique no código para abrir o ativo. Use também os comandos: SCR na barra (Ctrl+K).</p>
-    <div class="table-wrap"><table class="cal-table scr-table"><thead><tr><th>Código</th><th>Nome</th><th>Grupo</th><th>Preço</th><th>Dia</th><th>1M</th><th>3M</th><th>Ano</th><th>RSI</th><th>vs MM200</th><th>Dist. máx.</th><th>Mom.</th><th>Vol./média</th></tr></thead>
+    <p class="muted">${list.length} de ${assets.filter((a) => a.ok).length} ativos${progress?.loading ? ` (carregando: ${progress.have} de ${progress.n})` : ""}. σ = oscilação diária típica do próprio ativo (20 pregões): “+2,5σ” é um dia 2,5 vezes maior que o normal dele, o que compara ações calmas com alavancados. Amplitude = máxima − mínima do dia. Universo: S&P 500, rótulos de setores e campeões, com preço ao vivo. Filtros ⚡ = intraday. Isto acha volatilidade; não é gatilho de entrada (veja Agora). Comando: SCAN (Ctrl+K).</p>
+    <div class="table-wrap"><table class="cal-table scr-table"><thead><tr><th>Código</th><th>Nome</th><th>Grupo</th><th>Preço</th><th>Dia</th><th>Dia σ</th><th>σ diário</th><th>Amplitude σ</th><th>vs MM20 σ</th><th>Vol./média</th><th>5D</th><th>RSI</th><th>vs MM200</th></tr></thead>
     <tbody>${rows || `<tr><td colspan="13" class="muted">Nenhum ativo passa nesse filtro.</td></tr>`}</tbody></table></div>
   </section>`;
 }

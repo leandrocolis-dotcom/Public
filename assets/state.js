@@ -22,14 +22,10 @@ export const TABS = [
   ["rebal", "Rebalancear"],
   ["phist", "Histórico"],
   ["rfix", "Renda fixa BR"],
-  ["signals", "Sinais de hoje"],
-  ["entry", "Quando entrar"],
-  ["screener", "Screener"],
-  ["analysis", "Análise por ativo"],
-  ["value", "Valor"],
-  ["sim", "Simulador"],
+  ["trig", "Agora"],
+  ["screener", "Scanner"],
+  ["sim", "Placar"],
   ["checks", "Verificação"],
-  ["mesa", "Mesa"],
   ["archive", "Arquivo"],
   ["settings", "Configurações"],
 ];
@@ -57,9 +53,18 @@ export const GROUPS = [
   { id: "home", label: "Início", q: "O que olhar hoje?", tabs: ["home"] },
   { id: "market", label: "Mercados", q: "Como estão os mercados agora? Offshore (EUA e mundo) e Onshore (Brasil), com as mesmas sete telas.", tabs: MARKETS.flatMap((m) => m.tabs), segs: MARKETS },
   { id: "wallet", label: "Carteira", q: "Como estão os meus investimentos?", tabs: ["portfolio", "journal", "risk", "rebal", "phist", "rfix"] },
-  { id: "opps", label: "Oportunidades", q: "Onde entrar e quando?", tabs: ["signals", "entry", "screener", "analysis", "value"] },
-  { id: "lab", label: "Laboratório", q: "As regras funcionam? Os dados estão certos?", tabs: ["sim", "checks", "archive", "mesa"] },
+  { id: "opps", label: "Gatilhos", q: "Tem gatilho com evidência agora? Só o que passou no teste fora da amostra.", tabs: ["trig", "screener", "sim", "archive"] },
 ]; // prettier-ignore
+
+/** Abas removidas em 21/11/2026 (Oportunidades e Laboratório viraram Gatilhos): links e prefs antigos caem aqui. */
+export const TAB_ALIAS = {
+  signals: "trig",
+  entry: "trig",
+  analysis: "trig",
+  value: "trig",
+  mesa: "trig",
+  lab: "sim",
+};
 
 /** Uma frase por aba: para que serve (aparece sob as sub-abas e no mapa do Início). */
 export const TAB_INFO = {
@@ -94,20 +99,14 @@ export const TAB_INFO = {
     "Suas operações reais (entrada, tamanho pelo risco, stop, motivo, saída) e o placar: as suas decisões ganham do SPY?",
   risk: "Quanto a carteira pode cair, concentração e correlação entre as posições.",
   rebal: "Quanto comprar ou vender de cada ativo para voltar aos pesos-alvo.",
+  trig: "Só os gatilhos que passaram no teste: proteção das posições alavancadas, repique depois de queda muito rápida, filtro de alavancagem e o que NÃO fazer, cada um com o placar ao vivo.",
   phist:
     "Posição histórica: escolha a data e veja posições, valor de mercado e rentabilidade da carteira naquele dia (uma foto do BTG por dia).",
   rfix: "Compara CDB, LCI, LCA, Tesouro, CRI/CRA, debêntures, fundo DI e poupança no mesmo valor e prazo: bruto, impostos e líquido.",
-  signals:
-    "Painel do que cada análise indica hoje (Quant, ProPicks, Decisão do trader, Screener, Campeões) e as decisões da sua lista.",
-  entry:
-    "Radar técnico de um ativo: tendência, suportes e se o momento é de entrar, entrar em partes ou aguardar.",
   screener:
-    "Filtra o mercado inteiro (S&P 500, setores e campeões) por tendência, RSI, distância da máxima e momentum.",
-  analysis: "Nota de 0 a 100 por ticker: técnico, momentum, fundamentos e analistas.",
-  value: "Caro ou barato? Valuation de índices, setores e renda fixa.",
-  sim: "Testa as regras no passado e acompanha o modelo em modo sombra (Aprendizado).",
+    "Scanner de volatilidade do mercado inteiro: amplitude (ATR%), gap, volume fora do normal, esticado contra a MM20 e movimentos fortes de hoje.",
+  sim: "Placar fora da amostra de cada gatilho (diário ao vivo) e o teste das regras no passado.",
   checks: "Confere se as cotações e cálculos estão corretos e atualizados.",
-  mesa: "Monte uma tela com até 4 painéis lado a lado (para monitor grande).",
   archive:
     "Telas congeladas (sem trabalho novo desde 18/11/2026): fora das sub-abas, mas abrem daqui, pela busca e pelos links.",
   settings: "Conta, carteira, aparência, atualização e avisos.",
@@ -118,16 +117,7 @@ export const TAB_INFO = {
  * sub-abas, mas continuam na seção de origem (título, ?tab=, comandos e avisos seguem valendo). A Visão geral do
  * Onshore fica à vista: é o monitor do IBOV pedido pelo usuário.
  */
-export const ARCHIVE = [
-  "rates",
-  "brmacro",
-  "brrates",
-  "brnews",
-  "brcal",
-  "brflow",
-  "brwatch",
-  "mesa",
-];
+export const ARCHIVE = ["rates", "brmacro", "brrates", "brnews", "brcal", "brflow", "brwatch"];
 /** Abas visíveis numa lista de sub-abas: sem as do Arquivo, salvo a que está aberta. */
 export const visibleTabs = (list, current = null) =>
   list.filter((id) => !ARCHIVE.includes(id) || id === current);
@@ -179,6 +169,7 @@ if ((storedPrefs.prefsV ?? 0) < 5)
 // v6: navegação em 5 seções; todo mundo passa uma vez pelo Início (mapa novo do app).
 if ((storedPrefs.prefsV ?? 0) < 6) Object.assign(storedPrefs, { tab: "home", prefsV: 6 });
 // Aba salva que não existe mais (ex.: Pares, removida em 11/2026) volta para o Início.
+if (TAB_ALIAS[storedPrefs.tab]) storedPrefs.tab = TAB_ALIAS[storedPrefs.tab];
 if (storedPrefs.tab && !TABS.some(([id]) => id === storedPrefs.tab)) storedPrefs.tab = "home";
 
 export const state = {

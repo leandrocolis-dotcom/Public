@@ -99,20 +99,6 @@ export function runCommand(c) {
     return true;
   }
   const sym = c.sym;
-  if (c.go === "ta") {
-    const code = Object.keys(ASSETS).find((k) => ASSETS[k].yahoo === sym || k === sym);
-    if (code) {
-      closeDrawer();
-      state.prefs.taSel = code;
-      state.prefs.tab = "entry";
-      savePrefs();
-      hooks.render();
-      return true;
-    }
-    toast(`${sym} fora do radar técnico; abrindo a página do ativo.`, "warn");
-    openAssetPage(sym);
-    return true;
-  }
   if (c.go === "analysis") {
     ensureAnalysis([sym]).then(() => openAnalysis(sym));
     return true;

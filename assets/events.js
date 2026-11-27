@@ -39,7 +39,7 @@ import {
 import { BR_FLOW_PREFS } from "./br-flow.js";
 import { openAssetPage } from "./search-view.js";
 import { openRegimeHistory, selectRegimeWindow } from "./regime-history-view.js";
-import { GROUPS, hooks, savePrefs, state, store } from "./state.js";
+import { GROUPS, TAB_ALIAS, hooks, savePrefs, state, store } from "./state.js";
 import { toast } from "./widgets.js";
 import { closeDrawer, openDrawer } from "./charts.js";
 import { openAsset, openManual } from "./drawers.js";
@@ -323,7 +323,7 @@ export function initEvents(h) {
     } else if (d.tab) {
       if (state.playing) toggleReplay();
       if (d.tab === "settings" && d.sub) state.prefs.setTab = d.sub;
-      state.prefs.tab = d.tab;
+      state.prefs.tab = TAB_ALIAS[d.tab] ?? d.tab;
       savePrefs();
       render();
     } else if (d.fh || d.fsize || d.group) {

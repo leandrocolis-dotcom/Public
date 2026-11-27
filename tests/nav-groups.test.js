@@ -3,9 +3,9 @@ import { GROUPS, TABS, TAB_INFO, groupOf } from "../assets/state.js";
 import { firstSteps } from "../assets/home-view.js";
 
 describe("navegação em seções", () => {
-  it("cada aba (menos Configurações) está em exatamente uma seção e tem explicação", () => {
+  it("cada aba (menos Configurações e Verificação) está em exatamente uma seção e tem explicação", () => {
     for (const [id] of TABS) {
-      if (id === "settings") {
+      if (id === "settings" || id === "checks") {
         expect(groupOf(id)).toBeNull();
         continue;
       }
@@ -23,7 +23,7 @@ describe("primeiros passos", () => {
   });
 });
 
-describe("Laboratório › Arquivo (telas congeladas)", async () => {
+describe("Gatilhos › Arquivo (telas congeladas)", async () => {
   const { ARCHIVE, GROUPS, TABS, TAB_INFO, visibleTabs } = await import("../assets/state.js");
   const { subNavHtml } = await import("../assets/ui.js");
   const { viewArchive } = await import("../assets/views.js");

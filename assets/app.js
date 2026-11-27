@@ -18,7 +18,6 @@ import { ASSETS } from "./universe.js";
 import { ago, esc, fmtDT, fmtTime, setDecimalSep } from "./format.js";
 import { applyLiveToFlow, applyLiveToPrices, lateQuotes, nyDate } from "./live.js";
 import { valuePortfolio, withNight } from "./portfolio.js";
-import { afterEntry, initEntry } from "./ta-view.js";
 import { initUi, reloadUi, renderNav, subNavHtml } from "./ui.js";
 import { enhance, initSpotlight } from "./motion.js";
 import { FLOW_ASSETS } from "./flow-universe.js";
@@ -33,6 +32,7 @@ import { REPLAY_DAYS, drawFlowDynamic, drawRotation, rotPlaying } from "./flow-v
 import {
   GROUPS,
   TABS,
+  TAB_ALIAS,
   TAB_INFO,
   groupOf,
   hooks,
@@ -68,7 +68,6 @@ import { initSearch } from "./search-view.js";
 import { initHelp } from "./help.js";
 import { initInfoTips } from "./info-tips.js";
 import { initScreener } from "./screener-view.js";
-import { initMesa } from "./mesa-view.js";
 import { initRebalance } from "./rebalance.js";
 import { openHolding } from "./portfolio-view.js";
 import { openFlowAsset } from "./flow-view.js";
@@ -211,7 +210,7 @@ let lastViewKey = null;
 // último HTML desenhado na área principal: redesenho com o mesmo resultado não mexe no DOM (Fase 3)
 let lastHtml = null;
 // abas com <canvas> redesenhado depois do HTML (gráficos e mapa): sempre passam pelo caminho completo
-const CANVAS_TABS = new Set(["entry", "flow", "brflow"]);
+const CANVAS_TABS = new Set(["flow", "brflow"]);
 const FLOW_TABS = new Set(["flow", "brflow"]);
 
 // Redesenho pedido pelas cargas em segundo plano (cotações, varredura, análises, matriz de retornos…): as rajadas
@@ -326,8 +325,7 @@ function render(opts) {
     bell.hidden = n === 0;
   }
   // "enter": a aba (ou o ativo aberto) mudou; só então a página anima a entrada. Atualização de dados só destaca o que mudou.
-  const viewKey =
-    state.prefs.tab + (state.prefs.tab === "entry" ? `:${state.prefs.taSel ?? ""}` : "");
+  const viewKey = state.prefs.tab;
   const enter = viewKey !== lastViewKey;
   // painel lateral e popup de notícia pertencem à aba anterior
   if (enter && lastViewKey && !document.getElementById("drawer")?.hidden) closeDrawer();
@@ -357,7 +355,6 @@ function render(opts) {
   else view.innerHTML = html;
   restore?.();
   centerSubtab(view, enter);
-  if (state.prefs.tab === "entry") afterEntry(taCtx());
   drawFlowTab();
   // trocar de aba sempre abre no topo (a rolagem da aba anterior não vale para outro conteúdo)
   if (enter) window.scrollTo({ top: 0, behavior: "instant" });
@@ -932,7 +929,7 @@ function toggleReplay() {
 }
 
 const { settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfCtx } = makeContexts({ render });
-const VIEWS = makeViews({ settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfCtx });
+const VIEWS = makeViews({ settingsCtx, dashCtx, flowCtx, brFlowCtx, pfCtx });
 /**
  * Botão ⟳ do pêndulo (Início): atualiza SÓ o pêndulo, na hora. Busca as cotações das razões de risco e as barras
  * de 5 min furando o cache de 60 s da borda; o resto do app segue no ciclo normal.
@@ -994,7 +991,7 @@ function openTarget(url) {
   } catch {
     return;
   }
-  const t = q.get("tab");
+  const t = TAB_ALIAS[q.get("tab")] ?? q.get("tab");
   if (t && TABS.some(([id]) => id === t)) state.prefs.tab = t;
   // aviso de liderança: abre a Rotação relativa no grupo, na janela Hoje, com o tema em foco
   const rot = q.get("rot");
@@ -1064,7 +1061,7 @@ navigator.serviceWorker?.addEventListener("message", (e) => {
   openTarget(e.data.url);
   showNote({ title: e.data.title, body: e.data.body, at: Date.now() });
 });
-const syncLog = () => readLog().then(() => state.prefs.tab === "signals" && state.snap && render());
+const syncLog = () => readLog().then(() => state.prefs.tab === "trig" && state.snap && render());
 syncLog();
 document.addEventListener("visibilitychange", () => !document.hidden && syncLog());
 initAnalysis();
@@ -1076,7 +1073,6 @@ initSearch();
 initHelp();
 initInfoTips();
 initScreener({ state, savePrefs, render });
-initMesa({ state, savePrefs, render });
 initRebalance();
 initTableTools();
 watchTables();
@@ -1112,7 +1108,6 @@ pushStatus().then((st) => {
   refreshPush();
 });
 startMarketRegimeWatch();
-initEntry(taCtx);
 setAutoReload();
 setTimeout(refreshNight, 3000);
 load();

@@ -10216,6 +10216,25 @@ html[data-nav="bottom"] main {
   font-variant-numeric: tabular-nums;
 }
 
+/* Gatilhos › Agora */
+.trig-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+}
+.trig-grid .card ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+.trig-lever {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-size: 1.15em;
+}
 /* Radar de virada do regime (assets/reversal-view.js): cartão na Início, faixa no topo e selo na pílula */
 .rv {
   display: flex;

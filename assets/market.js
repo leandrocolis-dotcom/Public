@@ -52,10 +52,25 @@ export function marketMetrics(sym, h, info = {}, q = null) {
   const [r1m, r3m, r6m] = [ret(s, 21), ret(s, 63), ret(s, 126)];
   const rsi = rsi14(s);
   const prev = live?.pc > 0 ? live.pc : s.at(-2);
+  // volatilidade: oscilação diária típica (σ de 20 pregões) e movimentos medidos nela
+  const rets = [];
+  for (let i = s.length - 21; i < s.length - 1; i++) rets.push(s[i] / s[i - 1] - 1);
+  const rm = mean(rets);
+  const vol20 = Math.sqrt(rets.reduce((a, x) => a + (x - rm) ** 2, 0) / (rets.length - 1));
+  const ma20 = mean(s.slice(-20));
+  const r1d = prev > 0 ? p / prev - 1 : null;
+  // abaixo de 0,3% ao dia (caixa, T-bills) o σ é ruído: sem medida em σ
+  const sig = (x) => (x != null && vol20 >= 0.003 ? x / vol20 : null);
   return Object.assign(out, {
+    vol20,
+    z1: sig(r1d),
+    rangeZ: live?.dh > 0 && live?.dl > 0 && prev > 0 ? sig((live.dh - live.dl) / prev) : null,
+    vsMa20: p / ma20 - 1,
+    stretch: sig(p / ma20 - 1),
+    r5d: ret(s, 5),
     price: p,
     live: !!live,
-    r1d: prev > 0 ? p / prev - 1 : null,
+    r1d,
     prevAboveMa200: prev > ma200,
     relVol: live?.v > 0 && live?.av > 0 ? live.v / live.av : null,
     dayHigh: live?.dh ?? null,

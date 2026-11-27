@@ -1,13 +1,11 @@
 // Mapa aba -> tela (cada aba chama a sua view com o contexto de contexts.js).
 import { viewWatch } from "./watch-view.js";
 import { viewRates } from "./rates-view.js";
-import { regimeBannerHtml } from "./regime-watch.js";
 import { marketAssets, marketProgress, watchMarket } from "./market.js";
 import { esc } from "./format.js";
 import { withManual } from "./btg.js";
-import { viewPortfolio, viewSignals } from "./portfolio-view.js";
-import { viewDesk } from "./desk.js";
-import { viewEntry } from "./ta-view.js";
+import { viewPortfolio } from "./portfolio-view.js";
+import { viewTriggers } from "./triggers-view.js";
 import { viewSettings } from "./settings-view.js";
 import { viewDash } from "./dash.js";
 import { viewMacro } from "./macro-view.js";
@@ -20,7 +18,6 @@ import { viewCalendar } from "./calendar-view.js";
 import { loadEarnings } from "./feeds.js";
 import { viewRisk } from "./risk-view.js";
 import { viewScreener } from "./screener-view.js";
-import { viewMesa } from "./mesa-view.js";
 import { portfolioRisk } from "./risk.js";
 import { portfolioBias } from "./port-bias.js";
 import { captureRatios, portfolioPendulum } from "./port-pendulum.js";
@@ -35,8 +32,6 @@ import { viewFixedIncome } from "./fixed-income-view.js";
 import { structureCost } from "./structure-cost.js";
 import { an, ensureAnalysis } from "./analysis-data.js";
 import { viewFlow } from "./flow-view.js";
-import { viewValue } from "./value-view.js";
-import { viewAnalysis } from "./analysis-view.js";
 import { viewSim } from "./sim-view.js";
 import { ARCHIVE, TABS, TAB_INFO, hooks, marketOf, state } from "./state.js";
 import { viewChecks } from "./checks-center.js";
@@ -147,14 +142,13 @@ export function viewArchive() {
     const label = side ? `${side.flag} ${side.label} › ${name[id]}` : name[id];
     return `<li><button class="home-link" data-tab="${id}">${esc(label)}</button><span class="muted small">${esc(TAB_INFO[id].replace(/^(Offshore|Onshore) · /, ""))}</span></li>`;
   }).join("");
-  return `<section class="card"><h2>Arquivo</h2><p class="muted">Telas congeladas desde 18/11/2026 (sem trabalho novo, ver docs/ROADMAP-DINHEIRO.md). Saíram das sub-abas para a navegação mostrar só o que serve ao objetivo; continuam funcionando e abrem por aqui, pela busca (<kbd>/</kbd>) ou pelos atalhos (ex.: JUROS, MESA, BRMACRO).</p><ul class="archive-list">${rows}</ul></section>`;
+  return `<section class="card"><h2>Arquivo</h2><p class="muted">Telas congeladas desde 18/11/2026 (sem trabalho novo, ver docs/ROADMAP-DINHEIRO.md). Saíram das sub-abas para a navegação mostrar só o que serve ao objetivo; continuam funcionando e abrem por aqui, pela busca (<kbd>/</kbd>) ou pelos atalhos (ex.: JUROS, BRMACRO).</p><ul class="archive-list">${rows}</ul></section>`;
 }
 
 /** Mapa aba -> função que devolve o HTML. As funções de contexto vêm do app (evita dependência circular). */
-export function makeViews({ settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfCtx }) {
+export function makeViews({ settingsCtx, dashCtx, flowCtx, brFlowCtx, pfCtx }) {
   const views = {
     archive: viewArchive,
-    mesa: () => viewMesa(state.prefs.mesa, (id) => (id === "mesa" ? "" : views[id]())),
     home: () =>
       viewHome({
         hasPortfolio: !!state.portfolio?.holdings?.length,
@@ -208,7 +202,6 @@ export function makeViews({ settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfC
     brcal: () =>
       viewBrCalendar({ cal: state.brCal, min: state.prefs.brCalMin, kind: state.prefs.brCalKind }),
     brflow: () => viewBrFlow(brFlowCtx()),
-    entry: () => viewEntry(taCtx()),
     portfolio: () =>
       viewPortfolio({
         ...pfCtx(),
@@ -222,6 +215,7 @@ export function makeViews({ settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfC
         sigOpen: state.pfSigOpen,
       }),
     rebal: viewRebalance,
+    trig: viewTriggers,
     phist: () =>
       viewPortfolioHistory({
         daily: state.brokerDaily,
@@ -231,7 +225,6 @@ export function makeViews({ settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfC
         perf: state.offPerf,
       }),
     rfix: viewFixedIncome,
-    signals: () => regimeBannerHtml() + viewDesk(viewSignals(pfCtx())),
     sim: viewSim,
     news: () =>
       viewNews({
@@ -274,10 +267,8 @@ export function makeViews({ settingsCtx, dashCtx, taCtx, flowCtx, brFlowCtx, pfC
       state.flow
         ? viewFlow(flowCtx())
         : `<div class="card empty">${state.flowError ? `Dados do mapa de fluxo indisponíveis (${esc(state.flowError)}).` : "Carregando o mapa de fluxo…"}</div>`,
-    analysis: viewAnalysis,
     watch: viewWatch,
     brwatch: viewWatch,
-    value: () => viewValue({ fund: state.fund, prices: state.prices, error: state.fundError }),
     checks: viewChecks,
     settings: () => viewSettings(settingsCtx()),
   };

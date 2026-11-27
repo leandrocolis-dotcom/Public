@@ -1,5 +1,5 @@
 // Barra de comandos (estilo Bloomberg): mnemônicos curtos levam a abas ou a funções de um ativo.
-// Puro, para testar. Ex.: "PORT" -> Carteira; "SPY TA" -> Quando entrar no SPY; "AAPL AN" -> Análise.
+// Puro, para testar. Ex.: "PORT" -> Carteira; "SPY TA" -> página do ativo SPY; "AAPL AN" -> Análise.
 
 /** Mnemônicos de aba: chave digitada -> id da aba (ver TABS em state.js). */
 export const TAB_CMDS = {
@@ -10,20 +10,16 @@ export const TAB_CMDS = {
   BRCAL: "brcal", COPOM: "brcal", BRFLOW: "brflow", BRFLUXO: "brflow",
   PORT: "portfolio", CART: "portfolio", CARTEIRA: "portfolio",
   REB: "rebal", REBAL: "rebal", RF: "rfix", CDB: "rfix", LCI: "rfix", LCA: "rfix",
-  AN: "analysis", ANALISE: "analysis",
-  DEC: "signals", SIG: "signals", SINAIS: "signals",
-  SIM: "sim",
+  GAT: "trig", GATILHOS: "trig", AGORA: "trig", DEC: "trig", SIG: "trig", SINAIS: "trig",
+  SIM: "sim", PLACAR: "sim",
   NEWS: "news", N: "news", TOP: "news",
-  RADAR: "entry", TA: "entry",
   FLOW: "flow", MAPA: "flow", HEAT: "flow",
-  VAL: "value", VALOR: "value",
   CHK: "checks", VER: "checks",
   CFG: "settings", SET: "settings",
   CAL: "calendar", ECO: "calendar", AGENDA: "calendar",
   RISK: "risk", RISCO: "risk",
   DIARIO: "journal", JOURNAL: "journal", DIÁRIO: "journal",
-  SCR: "screener", EQS: "screener", FILTRO: "screener",
-  MESA: "mesa", DESK: "mesa", LP: "mesa",
+  SCR: "screener", EQS: "screener", FILTRO: "screener", SCAN: "screener", VOL: "screener",
   JUROS: "rates", RATES: "rates", CURVA: "rates", BRJUROS: "brrates", BRCURVA: "brrates",
   WATCH: "watch", WL: "watch", BRWATCH: "brwatch", NOTICIAS: "news",
 }; // prettier-ignore
@@ -32,7 +28,7 @@ export const TAB_CMDS = {
 export const ASSET_CMDS = {
   DES: { go: "page", label: "Página do ativo" },
   GP: { go: "page", label: "Gráfico e página do ativo" },
-  TA: { go: "ta", label: "Quando entrar (análise gráfica)" },
+  TA: { go: "page", label: "Gráfico e níveis (página do ativo)" },
   AN: { go: "analysis", label: "Análise integrada" },
 }; // prettier-ignore
 

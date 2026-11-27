@@ -586,7 +586,7 @@ export function viewDesk(extra = "") {
     ${l.champ ? `${champCardHtml()}${champFilterHtml(state.prefs.champFilter ?? "all")}` : ""}
     ${form(state.deskEdit ? l : null)}
     <div class="desk-head"><h2>${esc(l.name)} <span class="muted small">(${filtering ? `${shown.length} de ${l.syms.length}` : l.syms.length})</span></h2>
-      <span class="desk-acts">${l.fixed ? "" : `<button class="btn" data-desk-edit>Editar</button>`}<button class="btn" data-desk-refresh>${desk.loading ? "Atualizando…" : "Atualizar"}</button><button class="btn" data-tab="entry">Radar técnico do universo</button></span></div>
+      <span class="desk-acts">${l.fixed ? "" : `<button class="btn" data-desk-edit>Editar</button>`}<button class="btn" data-desk-refresh>${desk.loading ? "Atualizando…" : "Atualizar"}</button></span></div>
     ${
       l.syms.length
         ? `${metrics(rows, flt)}${filterBar(rows, cf)}<div class="tw"><table class="desk-tbl"><thead><tr>${order.map((id) => `<th class="desk-th${COL_BY[id].num ? " num" : ""}" data-desk-col="${id}" title="Arraste para trocar a coluna de lugar">⠿ ${COL_BY[id].th()}</th>`).join("")}</tr></thead><tbody>${

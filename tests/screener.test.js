@@ -11,7 +11,10 @@ const A = [
 
 describe("screener", () => {
   it("presets", () => {
-    expect(screen(A, { preset: "uptrend" }).map((a) => a.code)).toEqual(["SPY", "GLD"]);
+    expect(screen(A, { preset: "uptrend", sort: "momentum" }).map((a) => a.code)).toEqual([
+      "SPY",
+      "GLD",
+    ]);
     expect(screen(A, { preset: "oversold" }).map((a) => a.code)).toEqual(["TLT"]);
     expect(screen(A, { preset: "pullback" }).map((a) => a.code)).toEqual(["GLD"]);
   });
@@ -23,6 +26,17 @@ describe("screener", () => {
       "GLD",
       "SPY",
     ]);
+  });
+  it("volatilidade em σ", () => {
+    const B = [
+      { code: "A", group: "x", ok: true, rsi: 50, z1: 2.4, vol20: 0.01, stretch: 3 },
+      { code: "B", group: "x", ok: true, rsi: 50, z1: -3, vol20: 0.04, stretch: -1 },
+      { code: "C", group: "x", ok: true, rsi: 50, z1: 0.5, vol20: 0.02, stretch: 0 },
+    ];
+    expect(screen(B).map((a) => a.code)).toEqual(["B", "A", "C"]);
+    expect(screen(B, { preset: "moveZ" }).map((a) => a.code)).toEqual(["B", "A"]);
+    expect(screen(B, { preset: "stretchUp" }).map((a) => a.code)).toEqual(["A"]);
+    expect(screen(B, { preset: "hiVol" }).map((a) => a.code)).toEqual(["B"]);
   });
   it("ignora ativos sem histórico e conta presets", () => {
     expect(screen(A)).toHaveLength(3);

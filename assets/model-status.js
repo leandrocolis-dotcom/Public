@@ -27,7 +27,7 @@ export async function loadModel(force = false) {
     learn.at = Date.now();
     learn.loading = false;
   }
-  if (["sim", "signals"].includes(state.prefs.tab)) hooks.render();
+  if (["sim", "trig"].includes(state.prefs.tab)) hooks.render();
 }
 
 const dateBR = (iso) => (iso ? iso.split("-").reverse().join("/") : "–");

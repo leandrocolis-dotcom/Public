@@ -50,9 +50,9 @@ export function firstSteps({ hasPortfolio, pushState, seenSignals }) {
     },
     {
       done: seenSignals,
-      title: "Veja os sinais de hoje",
-      text: "Onde há ponto de entrada agora e o histórico de acerto de cada regra.",
-      btn: `<button class="btn" data-tab="signals">Abrir Sinais de hoje</button>`,
+      title: "Veja os gatilhos de agora",
+      text: "Só o que passou no teste: proteção das posições, repique, filtro de alavancagem e o que não fazer.",
+      btn: `<button class="btn" data-tab="trig">Abrir Gatilhos</button>`,
     },
     {
       done: pushState === "on",
@@ -964,7 +964,7 @@ function stepsCard(steps) {
       .join("")}</ol></section>`;
 }
 
-const SEC_ICO = { market: "◍", wallet: "◫", opps: "◎", lab: "⌬" };
+const SEC_ICO = { market: "◍", wallet: "◫", opps: "◎" };
 
 function shortcutsHtml() {
   const first = (g) => (g.segs ? g.segs[0].tabs[0] : g.tabs[0]);
@@ -978,7 +978,7 @@ function shortcutsHtml() {
     ["watch", "Watchlist"],
     ["journal", "Diário"],
     ["risk", "Risco"],
-    ["screener", "Screener"],
+    ["screener", "Scanner"],
     ["macro", "Macro"],
     ["local", "Brasil"],
   ]

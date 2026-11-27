@@ -58,6 +58,9 @@ const baseOf = (s, d, p = null) => {
 };
 
 let journal = await read("data/speed-journal.json", []);
+/** Repiques (rev-pf) ainda abertos, para a tela Gatilhos › Agora (o app não baixa o diário inteiro). */
+const openRebounds = (j) =>
+  j.filter((e) => e.c === "rev-pf" && !e.out && !e.bf).map(({ s, d, p, g, rel }) => ({ s, d, p, g, rel })); // prettier-ignore
 const prev = await read("data/speed-model.json", {});
 const entries = [];
 
@@ -99,7 +102,7 @@ console.log(`sessões: ${Object.keys(series).length} ativos com barras (${missin
 const { list, added } = appendJournal(journal, entries, (s) => bars[s]?.dates);
 const mktOf = marketMeanOf(Object.fromEntries(syms.map((s) => [s, bars[s]])));
 journal = settleJournal(list.slice(-MAX), (s) => bars[s], 5, { mktOf });
-const model = { ...speedModel(journal, prev, today), sessions: [...new Set(journal.filter((e) => !e.bf).map((e) => e.d))].length, universe: { daily: syms.length, session: sessSyms.length }, minN: RULES.minN }; // prettier-ignore
+const model = { ...speedModel(journal, prev, today), sessions: [...new Set(journal.filter((e) => !e.bf).map((e) => e.d))].length, universe: { daily: syms.length, session: sessSyms.length }, minN: RULES.minN, open: openRebounds(journal) }; // prettier-ignore
 console.log(`diário da velocidade: +${added} gatilhos, ${journal.length} no total, ${journal.filter((e) => Number.isFinite(e.xR)).length} fechados`); // prettier-ignore
 for (const [k, l] of Object.entries(model.logics))
   console.log(` ${k.padEnd(22)} ${l.status.padEnd(10)} dias ${String(l.x.n).padStart(3)} excesso ${l.x.mean ?? "–"}R · prévia ${l.preview.mean ?? "–"}R (${l.preview.n} dias)`); // prettier-ignore

@@ -751,7 +751,7 @@ export function viewDash(ctx) {
   const vc = ctx.fund ? valueCards(ctx.fund, ctx.prices) : [];
   const vby = Object.fromEntries(vc.map((c) => [c.id, c.label]));
   const valueItem = vc.length
-    ? `<button class="sb-item" data-tab="value"><span class="l">Valor</span><b>SPY ${esc((vby.SPY ?? "–").toLowerCase())}</b><span class="dim">Treasuries ${esc((vby.TLT ?? "–").toLowerCase())} · HY ${esc((vby.HYG ?? "–").toLowerCase())}</span></button>`
+    ? `<div class="sb-item"><span class="l">Valor</span><b>SPY ${esc((vby.SPY ?? "–").toLowerCase())}</b><span class="dim">Treasuries ${esc((vby.TLT ?? "–").toLowerCase())} · HY ${esc((vby.HYG ?? "–").toLowerCase())}</span></div>`
     : "";
   const hBtns = Object.keys(DASH_H)
     .map((k) => `<button data-dash-h="${k}" aria-pressed="${k === hk}">${k.toUpperCase()}</button>`)
