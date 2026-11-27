@@ -1,7 +1,7 @@
 // Carteira › Duplas L/S: painel de controle das duplas long × short (motor em assets/pair-desk.js).
 import { DESK_DEFAULTS, deskState } from "./pair-desk.js";
 import { DEFAULT_FEE, MAX_PAIRS, detectPairs, legFrom } from "./pairs.js";
-import { withManual } from "./btg.js";
+import { btgButton, positionsAsOf, withManual } from "./btg.js";
 import { quoteOf } from "./asset-pop.js";
 import { zoneOf } from "./regime-zones.js";
 import { esc, num } from "./format.js";
@@ -34,7 +34,7 @@ function pairCard(p, d, i, account) {
   const legs = st.rows
     .map(
       (r) =>
-        `<tr data-hold="${esc(r.sym)}" tabindex="0"><td><b>${esc(r.sym)}</b> <span class="muted small">${r.lev > 0 ? "+" : "−"}${num(Math.abs(r.lev), r.lev % 1 ? 1 : 0)}x</span></td><td class="num">${num(r.qty, r.qty % 1 ? 2 : 0)}</td><td class="num">${num(r.price, 2)}</td><td class="num">${num(r.avg, 2)}</td><td class="num">${pct(r.move)}</td><td class="num">${usd(r.pl)}</td><td class="num">${usd(r.expo)}</td></tr>`,
+        `<tr data-hold="${esc(r.sym)}" tabindex="0"><td><b>${esc(r.sym)}</b> <button class="pf-edit" data-action="hold-edit" data-hold-sym="${esc(r.sym)}" title="Editar quantidade e preço médio" aria-label="Editar posição de ${esc(r.sym)}">✎</button> <span class="muted small">${r.lev > 0 ? "+" : "−"}${num(Math.abs(r.lev), r.lev % 1 ? 1 : 0)}x</span></td><td class="num">${num(r.qty, r.qty % 1 ? 2 : 0)}</td><td class="num">${num(r.price, 2)}</td><td class="num">${num(r.avg, 2)}</td><td class="num">${pct(r.move)}</td><td class="num">${usd(r.pl)}</td><td class="num">${usd(r.expo)}</td></tr>`,
     ) // prettier-ignore
     .join("");
   const e = exit.plan;
@@ -76,6 +76,12 @@ export function viewPairDesk({ score = null, move = null } = {}) {
     })),
     { account, cash, score, move, cfg: c },
   );
+  // quantidades = foto do BTG + ajustes do ✎; preço = cotação ao vivo do app (não o da foto)
+  const fmt = (iso) => (iso ? new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "–"); // prettier-ignore
+  const posAt = positionsAsOf(broker);
+  const srcTxt = broker
+    ? `Quantidades: foto do BTG de ${fmt(broker.asOf ?? broker.summary?.asOf)}${posAt && posAt !== (broker.asOf ?? broker.summary?.asOf) ? ` (exterior ativo a ativo de ${fmt(posAt)})` : ""}${broker.manual ? " + ajustes do ✎" : ""}. Preços: ao vivo. Comprou ou vendeu? Corrija no ✎ da ponta.` // prettier-ignore
+    : "Quantidades da Carteira; preços ao vivo.";
   const zone = fin(score) ? zoneOf(score) : null;
   const regimeTxt = fin(score)
     ? `Pêndulo <b>${score >= 0 ? "+" : "−"}${num(Math.abs(score), 0)}</b> (${esc(zone?.label ?? "")})${fin(move) ? ` · 1h ${move >= 0 ? "▲" : "▼"} ${num(Math.abs(move), 0)}` : ""}` // prettier-ignore
@@ -85,7 +91,7 @@ export function viewPairDesk({ score = null, move = null } = {}) {
     : "";
   const m = d.money;
   const cashTxt = fin(cash)
-    ? `Caixa <b>${usd(cash)}</b> (${plain(m.share, 1)} da conta) · reserva-alvo ${usd(m.want)} · ${m.short > 0 ? `<span class="down">faltam ${usd(m.short)}</span>` : `livre para comprar ${usd(m.free)}`}` // prettier-ignore
+    ? `Caixa <b>${usd(cash)}</b> <button class="pf-edit" data-action="btg-cash-edit" title="Editar caixa" aria-label="Editar caixa em dólar">✎</button> (${plain(m.share, 1)} da conta) · reserva-alvo ${usd(m.want)} · ${m.short > 0 ? `<span class="down">faltam ${usd(m.short)}</span>` : `livre para comprar ${usd(m.free)}`}` // prettier-ignore
     : "Caixa: sem foto do BTG (compras não são sugeridas)";
   const syms = Object.keys(held).sort();
   const opts = (sel) => syms.map((s) => `<option${s === sel ? " selected" : ""}>${esc(s)}</option>`).join(""); // prettier-ignore
@@ -100,7 +106,8 @@ export function viewPairDesk({ score = null, move = null } = {}) {
       : `<p class="muted">Nenhuma dupla na carteira. Monte as duas pontas (ex.: SOXL × SOXS, SNDU × SNDQ, UVIX × SVIX) ou escolha abaixo.</p>`; // prettier-ignore
   return `<section class="pd">
     <section class="card pr">
-      <h2>⇅ Duplas long × short</h2>
+      <div class="pd-head"><h2>⇅ Duplas long × short</h2>${btgButton(state.btgSync)}</div>
+      <div class="pd-txt">${srcTxt}</div>
       <div class="pd-txt">${regimeTxt} · ${cashTxt} · conta ${usd(account)}</div>
       ${turn}
       <div class="pr-cfg small">

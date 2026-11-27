@@ -11568,3 +11568,13 @@ html[data-nav="bottom"] main {
   line-height: 1.45;
   color: var(--text-2);
 }
+.pd-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pd-head h2 {
+  margin: 0;
+}
