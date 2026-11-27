@@ -4,7 +4,7 @@ import {
   DEFAULT_TARGETS,
   MAX_PAIRS,
   detectPairs,
-  levOf,
+  legFrom,
   pairState,
   pairVol,
   parseTargets,
@@ -15,6 +15,7 @@ import { quoteOf } from "./asset-pop.js";
 import { an } from "./analysis-data.js";
 import { esc, num } from "./format.js";
 import { hooks, savePrefs, state } from "./state.js";
+import { refreshPush } from "./push.js";
 
 const usd = (x) => `${x < 0 ? "−" : ""}US$ ${num(Math.abs(x), 0)}`;
 const pct = (x, d = 2) =>
@@ -37,10 +38,7 @@ function pairsOf(held) {
   return state.prefs.pairs ? mine : detectPairs(Object.keys(held));
 }
 
-function legOf(r) {
-  const q = quoteOf(r.sym);
-  return { sym: r.sym, name: r.name ?? q?.n ?? "", qty: r.qty, avg: r.avg, price: r.price, pc: q?.pc > 0 ? q.pc : null, lev: levOf(r.sym, r.name ?? q?.n) }; // prettier-ignore
-}
+const legOf = (r) => legFrom(r, quoteOf(r.sym));
 
 function pairCard([a, b], held, equity, o, i) {
   const legs = [legOf(held[a]), legOf(held[b])];
@@ -130,6 +128,7 @@ export function pairsClick(e) {
     state.prefs.pairs = [...cur, [a, b]].slice(0, MAX_PAIRS);
   }
   savePrefs();
+  refreshPush(); // o servidor de avisos usa os mesmos pares, alvos e custo
   hooks.render();
 }
 
@@ -142,5 +141,6 @@ export function pairsChange(e) {
     state.prefs.pairFee = f / 100;
   } else return;
   savePrefs();
+  refreshPush();
   hooks.render();
 }

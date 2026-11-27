@@ -14,6 +14,8 @@ import { quietNow } from "../../assets/weekend.js";
 import { leaderAlertText } from "../../assets/leaders.js";
 import { nyDate } from "../../assets/live.js";
 import { trimAlerts } from "../../assets/trim.js";
+import { pairAlerts } from "../../assets/pairs.js";
+import { valuePortfolio } from "../../assets/portfolio.js";
 
 /**
  * Candidatos a liderança de confiança alta (api/intraday?leaders=1): vale para todos, com ou sem carteira.
@@ -297,6 +299,12 @@ export function alertsFor({
           ...a,
           title: topicTitle("trim", a.title),
         }))),
+    // par long × short bateu o alvo em % da carteira (Gatilhos › Agora): quanto vender da ponta vencedora
+    ...(prefs.pairhit === false || !holdings?.length
+      ? []
+      : pairAlerts(valuePortfolio(holdings, quotes), quotes, prefs.pairCfg ?? {}, {
+          day: nyDate(nowSec ?? Date.now() / 1000),
+        }).map((a) => ({ ...a, title: topicTitle("pair", a.title) }))),
     // regime primeiro: é o aviso de proteger o que já está ganho
     ...(prefs.sig === false || prefs.regime === false
       ? []

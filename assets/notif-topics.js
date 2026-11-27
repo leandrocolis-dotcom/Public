@@ -10,6 +10,7 @@ export const TOPIC = {
   rev: "🔄 VIRADA DO REGIME",
   leaders: "🚀 LIDERANÇA",
   trim: "⚖️ AJUSTE DA CARTEIRA",
+  pair: "⇅ PAR LONG × SHORT",
   more: "📋 RESUMO",
   app: "🔔 PÊNDULO",
 };

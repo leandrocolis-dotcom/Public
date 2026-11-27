@@ -7,6 +7,7 @@ export const NOTIF_KINDS = [
   ["universe", "Oportunidades do universo", "Entradas em ETFs fora da carteira."],
   ["levels", "Níveis da carteira", "Preço perto de resistência, suporte ou stop de um ativo seu."],
   ["macro", "Calendário macro", "Assim que sai o dado (EUA, Europa, Reino Unido, Japão, China, Brasil): valor divulgado x expectativa. Alto impacto sempre; médio só quando sua carteira tem ativo na região, com 💼 e os ativos atingidos."],
+  ["pairhit", "Alvo dos pares", "Par long × short (Gatilhos › Agora) bateu um alvo em % da carteira: quantas cotas vender da ponta vencedora para embolsar o alvo líquido do custo. 1 aviso por par e alvo por dia."],
   ["trim", "Ajuste da carteira", "Posição que você marcou no termômetro bull/bear: aviso quando a marcada para reduzir ganha tração de alta (ou volta ao preço médio) e quando a marcada para aumentar recua."],
   ["mktregime", "Regime do mercado", "Pêndulo da Início trocando de faixa (defesa forte, defesa, neutro, risco, risco forte) ou ganhando tração rumo à fronteira: avisa na hora, a qualquer hora em que haja bolsa ou futuro negociando."],
   ["reversal", "Virada do regime", "Radar de virada do pêndulo (pré, pregão, pós e noite pelos futuros): ⚠ quando o regime começa a virar depois de um movimento e ‼ quando a virada se confirma (metade da perna devolvida, médias cruzadas, blocos e SPY juntos); avisa também quando a virada não confirmou."],

@@ -167,3 +167,62 @@ export function targetOdds(t, sigma) {
   const p = upperTail(z);
   return { z, p, every: p > 0 ? Math.max(1, Math.round(1 / p)) : Infinity };
 }
+
+/** Ponta do par a partir da linha da carteira avaliada (valuePortfolio) e da cotação (pc = fechamento anterior). */
+export const legFrom = (r, q) => ({
+  sym: r.sym,
+  name: r.name ?? q?.n ?? "",
+  qty: r.qty,
+  avg: r.avg,
+  price: r.price,
+  pc: q?.pc > 0 ? q.pc : null,
+  lev: levOf(r.sym, r.name ?? q?.n),
+});
+
+const pctLabel = (t) => `${String(Math.round(t * 1000) / 10).replace(".", ",")}%`;
+const money = (x) => `US$ ${Math.round(x).toLocaleString("pt-BR")}`;
+
+/**
+ * Avisos de alvo batido (push e app). val = valuePortfolio(...); cfg = { pairs, targets, fee, base }.
+ * Um aviso por par com o MAIOR alvo batido no dia (os menores vão em `covers`, para não chegarem depois).
+ */
+export function pairAlerts(val, quotes = {}, cfg = {}, { day = "" } = {}) {
+  const equity = val?.total ?? 0;
+  if (!(equity > 0)) return [];
+  const held = Object.fromEntries((val.rows ?? []).filter((r) => r.qty > 0).map((r) => [r.sym, r]));
+  const targets = cfg.targets?.length ? cfg.targets : DEFAULT_TARGETS;
+  const fee = Number.isFinite(cfg.fee) ? cfg.fee : DEFAULT_FEE;
+  const base = cfg.base === "cost" ? "cost" : "day";
+  const pairs = (cfg.pairs ?? detectPairs(Object.keys(held))).filter(
+    ([a, b]) => held[a] && held[b],
+  );
+  const out = [];
+  for (const [a, b] of pairs) {
+    const st = pairState([legFrom(held[a], quotes[a]), legFrom(held[b], quotes[b])], { equity, fee, base }); // prettier-ignore
+    const hits = targetsFor(st, targets, { equity, fee }).filter((t) => t.hit);
+    if (!hits.length) continue;
+    const top = hits.at(-1);
+    const p = top.plan;
+    const keyOf = (t) => `pair:${a}-${b}:${t.t}:${base}:${day}`;
+    out.push({
+      key: keyOf(top),
+      covers: hits.slice(0, -1).map(keyOf),
+      title: `${a} × ${b} bateu ${pctLabel(top.t)} da carteira`,
+      body: `Vender ${p.shares} ${p.sym} (≈ ${money(p.notional)}) embolsa ${money(p.realized)} líquido (custo ${money(p.cost)}). Par ${base === "day" ? "hoje" : "desde o médio"}: ${st.grossPct >= 0 ? "+" : "−"}${pctLabel(Math.abs(st.grossPct))}.`, // prettier-ignore
+      tag: `pair-${a}-${b}`,
+      url: "./?tab=trig",
+    });
+  }
+  return out;
+}
+
+/** O que o servidor de avisos precisa saber dos pares (pares escolhidos, alvos, custo e base). */
+export const pairCfg = (prefs = {}) => {
+  const t = parseTargets(prefs.pairTargets ?? "");
+  return {
+    pairs: prefs.pairs ?? null,
+    targets: t.length ? t : DEFAULT_TARGETS,
+    fee: Number.isFinite(prefs.pairFee) ? prefs.pairFee : DEFAULT_FEE,
+    base: prefs.pairBase === "cost" ? "cost" : "day",
+  };
+};

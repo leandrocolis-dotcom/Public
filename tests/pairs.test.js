@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   detectPairs,
   levOf,
+  pairAlerts,
+  pairCfg,
   pairState,
   pairVol,
   parseTargets,
@@ -102,5 +104,28 @@ describe("pares long × short", () => {
     expect(targetOdds(0.01, 0.01).every).toBe(6); // 1σ ≈ 16%
     expect(targetOdds(0.02, 0.01).every).toBe(44); // 2σ ≈ 2,3%
     expect(targetOdds(0.01, null)).toBeNull();
+  });
+  it("aviso de push: maior alvo batido do dia, com os menores cobertos", async () => {
+    const { valuePortfolio } = await import("../assets/portfolio.js");
+    const quotes = { SOXL: { p: 36, pc: 30 }, SOXS: { p: 50, pc: 60 }, AAPL: { p: 200, pc: 200 } };
+    const val = valuePortfolio(
+      [
+        { sym: "SOXL", qty: 1000, avg: 25 },
+        { sym: "SOXS", qty: 500, avg: 70 },
+        { sym: "AAPL", qty: 100, avg: 150 },
+      ],
+      quotes,
+    );
+    // carteira 36.000 + 25.000 + 20.000 = 81.000; par +1.000 hoje ≈ 1,23%
+    const cfg = pairCfg({ pairTargets: "0,5; 1; 2", pairFee: 0.01 });
+    const [a, ...rest] = pairAlerts(val, quotes, cfg, { day: "2026-11-27" });
+    expect(rest).toHaveLength(0);
+    expect(a.key).toBe("pair:SOXL-SOXS:0.01:day:2026-11-27");
+    expect(a.covers).toEqual(["pair:SOXL-SOXS:0.005:day:2026-11-27"]);
+    expect(a.title).toBe("SOXL × SOXS bateu 1% da carteira");
+    expect(a.body).toMatch(/^Vender \d+ SOXL/);
+    expect(a.url).toBe("./?tab=trig");
+    // sem alvo batido, nada
+    expect(pairAlerts(val, quotes, pairCfg({ pairTargets: "5" }), { day: "x" })).toEqual([]);
   });
 });

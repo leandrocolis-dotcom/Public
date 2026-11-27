@@ -1,6 +1,7 @@
 // Notificações push de verdade: o servidor avisa o aparelho mesmo com o app fechado (celular, Mac e, pelo
 // iPhone, o Apple Watch). Aqui ficam só a inscrição deste aparelho e o envio dela para a nuvem.
 import { anyNotifOn, pushKinds } from "./notif-prefs.js";
+import { pairCfg } from "./pairs.js";
 import { VAPID_PUBLIC_KEY } from "./push-config.js";
 import * as cloud from "./cloud.js";
 import { state } from "./state.js";
@@ -71,6 +72,7 @@ export const pushPrefs = () => ({
     ? { trimPicks: state.prefs.trimPicks }
     : {}),
   ...(state.prefs.newsTags ? { newsTags: state.prefs.newsTags } : {}),
+  pairCfg: pairCfg(state.prefs),
 });
 
 const label = () => {
