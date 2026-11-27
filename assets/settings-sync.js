@@ -14,6 +14,11 @@ export const WHOLE = [
   "localLayout",
   "homeLayout",
   "railHidden",
+  // Long & Short (docs/long-short/MAPEAMENTO.md): parâmetros alterados, plano do dia, pares e cadastro de ativos
+  "pendulo.ls.params",
+  "pendulo.ls.plan",
+  "pendulo.ls.pairs",
+  "pendulo.ls.assets",
 ];
 /** Objetos sincronizados campo a campo, com os campos que ficam só no aparelho. */
 export const FIELDS = {

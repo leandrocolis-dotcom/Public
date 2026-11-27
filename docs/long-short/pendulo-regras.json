@@ -1,0 +1,681 @@
+{
+  "schema_version": 4,
+  "nome": "Pendulo - regras long/short ETFs alavancados",
+  "atualizado_em": "2026-11-27",
+  "fuso_regras": "America/New_York",
+  "parametros": {
+    "risco_por_ponta_pct_capital": 0.5,
+    "perda_diaria_max_pct_capital": 2.0,
+    "perda_semanal_max_pct_capital": 5.0,
+    "drawdown_suspensao_pct": 15.0,
+    "perdas_seguidas_pausa": 3,
+    "pausa_perdas_min": 30,
+    "stop_inicial_atr_intraday": 1.5,
+    "faixa_abertura_min": 15,
+    "volume_confirmacao_mult": 1.5,
+    "gap_max_atr": 1.5,
+    "cruzamentos_vwap_lateral": 4,
+    "reducao_ponta_perdedora": [0.33, 0.5],
+    "pyramiding_lote_max_vs_anterior": 0.5,
+    "pyramiding_max_aumentos_dia": 2,
+    "pyramiding_r_minimo": 1.0,
+    "pyramiding_corte_horario": "15:00",
+    "parcial_r": 2.0,
+    "esticado_r": 3.0,
+    "devolucao_reduzir_pct": 50,
+    "devolucao_zerar_pct": 75,
+    "intervalo_ajuste_min": 10,
+    "reentrada_apos_stop_min": 15,
+    "exposicao_bruta_max_x_capital": 2.0,
+    "exposicao_liquida_max_x_capital": 1.5,
+    "concentracao_max_pct_capital": 25,
+    "evento_tamanho_mult": 0.5,
+    "evento_espera_min": 30,
+    "overnight_checagem_horario": "15:45",
+    "overnight_vix_max": 25,
+    "overnight_atr_percentil_max": 80,
+    "overnight_tamanho_max_vs_intraday": 0.5,
+    "overnight_prazo_max_pregoes": {
+      "3x": 5,
+      "2x": 10
+    },
+    "decaimento_gap_max_pp": 3.0,
+    "esticado_atr_d": 1.0,
+    "atr_intra_candle_min": 15,
+    "atr_periodo": 14,
+    "candle_coleta_min": 5,
+    "pre_tamanho_mult": 0.5,
+    "spread_max_pct": 0.3,
+    "reducao_ponta_perdedora_limiar_r": -0.75,
+    "overnight_checagem_pos_horario": "19:45",
+    "limite_venda_estendida_mult": 0.995,
+    "dedupe_alerta_min": 15,
+    "balanco_pos_reduzir_para": 0.25,
+    "teto_risco_r": 4,
+    "cotacao_max_s_regular": 10,
+    "cotacao_max_s_estendida": 30,
+    "max_entradas_dia": 6,
+    "max_stops_ativo_dia": 2,
+    "max_alertas_risco_ignorados_30min": 2,
+    "correlacao_min_par": 0.5,
+    "janela_beta_corr_pregoes": 60,
+    "limite_cobertura_estendida_mult": 1.005,
+    "etf_divergencia_alerta_pp": 25,
+    "desvio_direcional_max_x_capital": 0.25,
+    "aluguel_base_dias": 360
+  },
+  "metricas": {
+    "mercado": {
+      "vwap": "sum(tipico*vol)/sum(vol) desde 09:30",
+      "vwap_estendida": "idem desde 04:00",
+      "atr_intra": "ATR(14) candles 15m do subjacente",
+      "atr_d": "ATR(14) diario",
+      "vies": "alta se S>MM20 e MM20-MM20[5]>0; baixa se oposto; senao neutro",
+      "pmh_pml": "max/min 04:00-09:30",
+      "or_max_min": "max/min 09:30-09:45",
+      "gap_atr": "(S - fechamento_regular_anterior)/atr_d",
+      "cruzamentos_vwap": "n de candles 5m que mudaram de lado da VWAP",
+      "vol_rel": "vol candle / media candles da faixa de abertura",
+      "rompimento": "fechamento 5m fora da faixa com vol_rel>=1.5"
+    },
+    "posicao": {
+      "valor": "q*P",
+      "exp_aj": "q*P*L*tipo*dir",
+      "pnl": "dir*(P-pm)*q",
+      "pnl_r": "pnl/R",
+      "dist_stop": "P*L*stop_inicial_atr_intraday*atr_intra/S",
+      "stop_sugerido": "P - dir*dist_stop",
+      "risco_aberto": "max(0, dir*(pm-stop_atual)*q)",
+      "lado_vwap": "a favor se (S-vwap)*tipo*dir>0",
+      "spread_pct": "(ask-bid)/((ask+bid)/2)*100",
+      "concentracao_pct": "valor/capital*100",
+      "decaimento_pp": "(L*tipo*ret_subj_desde_entrada - ret_etf_desde_entrada)*100",
+      "hwm": "melhor preco a favor desde a ultima mudanca de preco medio",
+      "devolucao_pct": "dir*(hwm-P)/(dir*(hwm-pm))*100 se dir*(hwm-pm)>0",
+      "stop_vigente": "dir=+1: max(stop_atual, P-dist_stop); dir=-1: min(stop_atual, P+dist_stop)",
+      "pnl_liquido": "pnl - corretagem - taxas - aluguel",
+      "idade_cotacao_s": "agora - quote_ts",
+      "aluguel_dia": "valor_vendido * taxa_aa / aluguel_base_dias (so dir=-1)"
+    },
+    "par": {
+      "pnl_par_r": "pnl_r_long + pnl_r_short",
+      "devolucao_par_pct": "(max_pnl_par_dia - pnl_par)/max_pnl_par_dia*100",
+      "exp_liq_par": "exp_aj_long + exp_aj_short",
+      "exp_bruta_par": "abs(exp_aj_long)+abs(exp_aj_short)",
+      "mesmo_subjacente": "subjacentes iguais e tipos opostos -> alerta estrutural",
+      "exp_beta": "exp_aj * beta_60d (vs SPY)",
+      "correlacao_60d": "corr(retornos diarios subjacentes, 60)",
+      "exp_beta_efetiva_par": "soma(exp_aj*beta_60d) das duas pontas",
+      "desvio_direcional": "abs(exp_beta_efetiva_par(com ordem proposta)/capital - exposicao_direcional_planejada)"
+    },
+    "carteira": {
+      "R": "capital*risco_por_ponta_pct_capital/100 (x0.5 se perda semanal estourou)",
+      "pnl_dia": "sum(dir*(P-P_ref)*q) + realizado_dia",
+      "limite_restante": "capital*perda_diaria_max_pct_capital/100 + pnl_dia",
+      "exp_bruta": "sum(abs(exp_aj))",
+      "exp_liq": "sum(exp_aj)",
+      "risco_aberto_total_r": "sum(risco_aberto)/R",
+      "drawdown_pct": "(capital_atual/pico_capital - 1)*100",
+      "status_travas": "verde/amarelo(>80% de algum limite)/vermelho",
+      "teto_risco": "min(teto_risco_r*R, limite_restante)",
+      "pnl_brl_diario": "soma dos fluxos convertidos pelo cambio do dia de cada fluxo"
+    }
+  },
+  "alertas": [
+    {
+      "id": "PRE-01",
+      "grupo": "pre_mercado",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "usuario_abrindo_ordem && hora_et>='04:00' && plano_dia==null",
+      "mensagem": "Sem plano, sem trade. Preencha o plano do dia."
+    },
+    {
+      "id": "PRE-02",
+      "grupo": "pre_mercado",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "evento_hoje == true",
+      "mensagem": "Dia de evento: tamanho 50%, nada até 30 min após."
+    },
+    {
+      "id": "PRE-03",
+      "grupo": "pre_mercado",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "sessao=='PRE' && abs(gap_atr) > gap_max_atr",
+      "mensagem": "Gap grande: entrada só depois da faixa de abertura."
+    },
+    {
+      "id": "CAL-01",
+      "grupo": "calendario",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "calendario_validado==false || feriado || fechamento_antecipado",
+      "mensagem": "Sessão especial: janelas recalculadas. Compras bloqueadas até validar."
+    },
+    {
+      "id": "SES-01",
+      "grupo": "sessao",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "sessao in ['PRE','POS'] && (ordem_mercado || qtd > tamanho_sessao)",
+      "mensagem": "Sessão estendida: só limitada, tamanho 50%."
+    },
+    {
+      "id": "SES-02",
+      "grupo": "sessao",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "spread_pct > spread_max_pct",
+      "mensagem": "Spread de {x}% em {ativo}: sem entradas agora."
+    },
+    {
+      "id": "SES-03",
+      "grupo": "sessao",
+      "prioridade": "critico",
+      "bloqueia": false,
+      "condicao": "sessao in ['PRE','POS'] && preco_cruzou_stop",
+      "mensagem": "Stop atingido fora do pregão: zere {ativo} ({lado}) com limitada a {limite}."
+    },
+    {
+      "id": "EXE-01",
+      "grupo": "execucao",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "idade_cotacao_s > limite_sessao || bid==null || ask==null || bid>ask || dado<=0",
+      "mensagem": "Preço não confiável em {ativo}: entradas bloqueadas."
+    },
+    {
+      "id": "EXE-02",
+      "grupo": "execucao",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "qtd_registrada < qtd_sugerida",
+      "mensagem": "Execução parcial: residual de {q} {ativo}. Registre ou cancele."
+    },
+    {
+      "id": "ETF-01",
+      "grupo": "etf",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "abs(ret_etf_dia - L*tipo*ret_subj_dia)*100 > etf_divergencia_alerta_pp || evento_corporativo_calendario",
+      "mensagem": "Possível evento corporativo em {ativo}: ordens suspensas. Confirme o fator; o app não altera a carteira sozinho."
+    },
+    {
+      "id": "SHR-01",
+      "grupo": "short",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "(dir==-1 && usuario_aumentando && !aluguel_confirmado) || recall_registrado",
+      "mensagem": "Short sem aluguel: abertura bloqueada. Com recall: COMPRAR PARA COBRIR {q} {ativo} agora (sem intervalo)."
+    },
+    {
+      "id": "INT-01",
+      "grupo": "intradiario",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "hora >= '09:30' && hora < '09:45' && usuario_abrindo_ordem",
+      "mensagem": "Faixa de abertura em formação. Só observe."
+    },
+    {
+      "id": "INT-02",
+      "grupo": "intradiario",
+      "prioridade": "info",
+      "bloqueia": false,
+      "condicao": "rompimento_faixa_abertura && volume >= volume_confirmacao_mult * media_faixa && lado_vwap_correto",
+      "mensagem": "Rompimento confirmado em {ativo}. Gatilho do plano liberado."
+    },
+    {
+      "id": "INT-03",
+      "grupo": "intradiario",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "cruzamentos_vwap_dia >= cruzamentos_vwap_lateral",
+      "mensagem": "Dia lateral: sem aumentos. Decaimento trabalhando contra."
+    },
+    {
+      "id": "PAR-01",
+      "grupo": "par",
+      "prioridade": "atencao",
+      "bloqueia": "pyramiding (correlacao) / entradas e aumentos (desvio)",
+      "condicao": "correlacao_60d < correlacao_min_par || desvio_direcional > desvio_direcional_max_x_capital",
+      "mensagem": "Par fora do planejado ({motivo}): reequilibre ou revise o plano."
+    },
+    {
+      "id": "DEC-01",
+      "grupo": "decisao",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "pnl_r(A) >= 1 && pnl_r(B) <= -0.5",
+      "mensagem": "Mercado confirmou {A}. {lado} {q} de {B} e suba o stop de {A}."
+    },
+    {
+      "id": "DEC-02",
+      "grupo": "decisao",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "usuario_aumentando(ponta) && pnl_ponta < 0",
+      "mensagem": "Preço médio para baixo é proibido."
+    },
+    {
+      "id": "DEC-03",
+      "grupo": "decisao",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "usuario_aumentando(ponta) && !todos(gatilhos_pyramiding)",
+      "mensagem": "Aumento bloqueado: {limite que travou}."
+    },
+    {
+      "id": "DEC-04",
+      "grupo": "decisao",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "pnl_r_ponta >= parcial_r && !parcial_realizada",
+      "mensagem": "{lado} {q} de {ativo} (1/3) e suba o stop."
+    },
+    {
+      "id": "DEC-05",
+      "grupo": "decisao",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "pnl_r_ponta >= esticado_r || abs(S - S_entrada)/atr_d >= esticado_atr_d",
+      "mensagem": "Movimento esticado: {lado} {q} de {ativo}."
+    },
+    {
+      "id": "DEC-06",
+      "grupo": "decisao",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "devolucao_pct >= devolucao_reduzir_pct && devolucao_pct < devolucao_zerar_pct",
+      "mensagem": "Devolveu metade do movimento: {lado} {q} de {ativo}."
+    },
+    {
+      "id": "DEC-07",
+      "grupo": "decisao",
+      "prioridade": "critico",
+      "bloqueia": false,
+      "condicao": "devolucao_pct >= devolucao_zerar_pct || preco_atingiu_stop",
+      "mensagem": "Zere {ativo} ({lado} {q}). Regra, não opinião."
+    },
+    {
+      "id": "DEC-08",
+      "grupo": "decisao",
+      "prioridade": "atencao",
+      "bloqueia": false,
+      "condicao": "minutos_desde_ultimo_aumento_ou_parcial(ponta) < intervalo_ajuste_min",
+      "mensagem": "Espere {mm:ss}. Uma mudança por vez."
+    },
+    {
+      "id": "RSK-01",
+      "grupo": "risco",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "pnl_dia_pct_capital <= -perda_diaria_max_pct_capital",
+      "mensagem": "Limite diário atingido. Zere tudo e feche o app."
+    },
+    {
+      "id": "RSK-02",
+      "grupo": "risco",
+      "prioridade": "critico",
+      "bloqueia": true,
+      "condicao": "perdas_seguidas_dia >= perdas_seguidas_pausa",
+      "mensagem": "Pausa de 30 min. Revise o diário antes de voltar."
+    },
+    {
+      "id": "RSK-03",
+      "grupo": "risco",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "exposicao_bruta > exposicao_bruta_max_x_capital * capital || abs(exposicao_liquida) > exposicao_liquida_max_x_capital * capital",
+      "mensagem": "Exposição acima do limite: {lado} {q} de {ativo}."
+    },
+    {
+      "id": "RSK-04",
+      "grupo": "risco",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "risco_aberto_total + risco_ordem > teto_risco",
+      "mensagem": "Risco total no teto ({x}R): só reduções."
+    },
+    {
+      "id": "BEH-01",
+      "grupo": "comportamento",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "alertas_risco_ignorados_30min >= max_alertas_risco_ignorados_30min",
+      "mensagem": "Padrão impulsivo: entradas bloqueadas até amanhã."
+    },
+    {
+      "id": "BEH-02",
+      "grupo": "comportamento",
+      "prioridade": "critico",
+      "bloqueia": "compras",
+      "condicao": "entradas_dia >= max_entradas_dia || stops_ativo_dia >= max_stops_ativo_dia",
+      "mensagem": "Limite de tentativas: {ativo ou todos} bloqueado até amanhã."
+    },
+    {
+      "id": "POS-01",
+      "grupo": "fechamento",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "hora_et>='15:30' && posicao_aberta && balanco_pos_hoje",
+      "mensagem": "Balanço no pós: zere ou reduza {ativo} a 25% antes das 16:00."
+    },
+    {
+      "id": "EOD-01",
+      "grupo": "fechamento",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "hora >= overnight_checagem_horario && posicoes_abertas > 0",
+      "mensagem": "Checagem de overnight: {n} de 5 filtros atendidos. Se não for 5, zere."
+    },
+    {
+      "id": "EOD-02",
+      "grupo": "fechamento",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "hora_et>=overnight_checagem_pos_horario && posicoes_abertas>0",
+      "mensagem": "Fim do pós: {n} de 5 filtros. Se não for 5, zere agora com limitada."
+    },
+    {
+      "id": "SWG-01",
+      "grupo": "swing",
+      "prioridade": "acao",
+      "bloqueia": false,
+      "condicao": "decaimento_gap_pp > decaimento_gap_max_pp || pregoes_carregados > overnight_prazo_max_pregoes[alavancagem]",
+      "mensagem": "Decaimento ou prazo estourado em {ativo}: sair."
+    }
+  ],
+  "diario": {
+    "registrar_por_alerta": ["id", "timestamp", "ativo", "seguido (bool)", "pnl_r_resultante"],
+    "teste_2_semanas": "Comparar P&L e drawdown dos alertas seguidos vs ignorados."
+  },
+  "migracao": "v3->v4: estados de ordem manuais, id unico por registro, exposicao direcional planejada por par, aluguel apropriado por dia, recall manual, ETF-01 so alerta. Ordens v3 sem status: tratar residual aberto como ENVIADA e pedir confirmacao.",
+  "sessoes": [
+    {
+      "id": "PRE",
+      "inicio_et": "04:00",
+      "fim_et": "09:30",
+      "compras": "entradas do plano, 50% do tamanho, sem pyramiding",
+      "ordem": "limitada"
+    },
+    {
+      "id": "REGULAR",
+      "inicio_et": "09:30",
+      "fim_et": "16:00",
+      "compras": "todas, aumentos ate 15:00",
+      "ordem": "qualquer"
+    },
+    {
+      "id": "POS",
+      "inicio_et": "16:00",
+      "fim_et": "20:00",
+      "compras": "nenhuma",
+      "ordem": "limitada"
+    },
+    {
+      "id": "FECHADO",
+      "inicio_et": "20:00",
+      "fim_et": "04:00",
+      "compras": "nenhuma",
+      "ordem": "nenhuma"
+    }
+  ],
+  "fuso_exibicao": "America/Sao_Paulo",
+  "dia_trading": {
+    "reset_contadores_et": "04:00",
+    "preco_referencia": "ultimo preco do pos-mercado anterior"
+  },
+  "fontes": {
+    "Carteira": {
+      "le": ["ticker", "quantidade", "preco_medio", "entrada_ts", "lotes[]"],
+      "novos": [
+        "par_id",
+        "perna",
+        "stop_vigente",
+        "hwm",
+        "parcial_feita",
+        "custos_por_execucao",
+        "residual",
+        "aluguel_confirmado",
+        "taxa_aluguel_aa",
+        "ordens[]: id, status(SUGERIDA|ENVIADA|PARCIAL|EXECUTADA|CANCELADA|REJEITADA|EXPIRADA), qtd_sugerida, qtd_executada, preco_medio_exec",
+        "registros[]: id_unico (idempotencia)",
+        "recall_registrado",
+        "aluguel: taxa_aa, data_ref, fonte"
+      ]
+    },
+    "Precos": {
+      "le": ["last", "bid", "ask", "candles_5m(ohlcv, 04:00-20:00 ET)", "candles_1d"],
+      "novos": ["coletar subjacente de cada ETF", "coletar VIX", "quote_ts"],
+      "fallback_sem_volume": "VWAP vira TWAP e filtro de volume desliga; aviso 'VWAP aproximada'"
+    },
+    "Ativos": {
+      "le": ["ticker", "nome"],
+      "novos": ["alavancagem", "tipo(bull|bear)", "subjacente", "id_permanente", "beta_60d"]
+    },
+    "Calendario": {
+      "novos": [
+        "data",
+        "hora_et",
+        "evento",
+        "ativos_afetados",
+        "feriados NYSE",
+        "fechamentos antecipados"
+      ]
+    },
+    "Parametros": {
+      "novos": ["capital_trading", "demais parametros deste arquivo"]
+    },
+    "PlanoDia": {
+      "novos": [
+        "por par: vies, gatilho_entrada",
+        "capital_dia",
+        "por par: exposicao_direcional_planejada (beta-ajustada, x capital; 0=neutro)"
+      ]
+    },
+    "Cambio": {
+      "novos": ["data", "usd_brl", "fonte"]
+    }
+  },
+  "convencoes": {
+    "dir": "+1 comprado no ETF, -1 vendido a descoberto",
+    "tipo": "+1 bull, -1 bear",
+    "S": "preco subjacente",
+    "P": "preco ETF",
+    "L": "alavancagem"
+  },
+  "motor": {
+    "classificacao_cenario_exibicao": [
+      [9, "evento em <=30 min"],
+      [8, "ponta no stop ou devolucao>=75"],
+      [6, "ponta>=+3R ou subjacente>=1 atr_d desde entrada"],
+      [7, "devolucao 50-75"],
+      [1, "long>=+1R e short<=-0.5R"],
+      [2, "short>=+1R e long<=-0.5R"],
+      [4, "ambas<=-0.5R"],
+      [3, "ambas>0 e pnl_par>=+1R"],
+      [5, "cruzamentos_vwap>=4"],
+      [0, "MANTER"]
+    ],
+    "regra": "por posicao vale so a acao de maior prioridade; P0-P2 suspendem ENTRADAS e AUMENTOS no par; bloqueios por finalidade, nunca por lado: COMPRAR_PARA_COBRIR e VENDER para reduzir nunca bloqueados",
+    "prioridades": [
+      {
+        "p": "P0",
+        "cond": "RSK-01",
+        "acao": "ZERAR tudo"
+      },
+      {
+        "p": "P0",
+        "cond": "RSK-03",
+        "acao": "REDUZIR posicao de maior contribuicao ao excesso",
+        "qtd": "ceil(min necessario), <= q"
+      },
+      {
+        "p": "P0",
+        "cond": "RSK-04",
+        "acao": "bloqueia compras"
+      },
+      {
+        "p": "P1",
+        "cond": "stop, devolucao>=75, SES-03",
+        "acao": "ZERAR"
+      },
+      {
+        "p": "P2",
+        "cond": "evento<=30min",
+        "acao": "REDUZIR",
+        "f": 0.5
+      },
+      {
+        "p": "P3",
+        "cond": "vencedora>=+1R e perdedora<=-0.5R",
+        "acao": "REDUZIR perdedora; stop vencedora=pm",
+        "f": "1/3 se pnl_r>-0.75 senao 1/2"
+      },
+      {
+        "p": "P4",
+        "cond": "devolucao 50-75",
+        "acao": "REDUZIR",
+        "f": 0.5
+      },
+      {
+        "p": "P5",
+        "cond": "pnl_r>=2 sem parcial, >=3R, ou subj>=1 atr_d",
+        "acao": "REDUZIR parcial",
+        "f": 0.3333333333333333
+      },
+      {
+        "p": "P6",
+        "cond": "gatilhos_pyramiding",
+        "acao": "AUMENTAR"
+      },
+      {
+        "p": "P7",
+        "cond": "sem posicao e gatilho do plano",
+        "acao": "ENTRAR"
+      },
+      {
+        "p": "P8",
+        "acao": "MANTER"
+      }
+    ],
+    "formulas": {
+      "E_pos": "exp_liq + q*P*L*tipo*dir; exigir abs(E_pos)<=1.5*capital e bruta_pos<=2*capital",
+      "q_risco": "(teto_risco - risco_aberto_total)/dist_stop",
+      "entrada": "floor(min(R_sessao/dist_stop, conc*capital/P, q_bruta, q_liq, q_risco))",
+      "pyramiding": "d=dist_stop(P); s=P-dir*d; risco_atual=max(0,dir*(pm-stop_vigente)*q); floor(min((R-risco_atual)/d, 0.5*ultimo_lote, (conc*capital-valor)/P, q_bruta, q_liq, q_risco)); stop_vigente:=s",
+      "limite": "compra ask; venda bid; zeragem estendida: venda bid*0.995, cobertura ask*1.005"
+    },
+    "bloqueios_compra": [
+      "sessao POS ou FECHADO",
+      "pyramiding em PRE",
+      "hora>15:00 ET",
+      "spread>spread_max_pct",
+      "intervalo_ajuste_min nao cumprido",
+      "reentrada<15 min apos stop",
+      "plano vazio",
+      "trava de carteira ativa",
+      "preco nao confiavel (EXE-01)",
+      "calendario nao validado (CAL-01)",
+      "RSK-04",
+      "BEH-01/02",
+      "evento corporativo pendente (ETF-01)",
+      "short sem aluguel (SHR-01)",
+      "PAR-01: correlacao<min bloqueia pyramiding; desvio_direcional>max bloqueia entradas e aumentos"
+    ],
+    "nunca_bloqueados": ["P0", "P1", "P2", "P3", "P4"],
+    "atualizacao": "a cada preco coletado e a cada mudanca na Carteira; dedupe 15 min por alerta/posicao",
+    "lado_ordem": {
+      "REDUZIR": {
+        "+1": "VENDER",
+        "-1": "COMPRAR_PARA_COBRIR"
+      },
+      "AUMENTAR": {
+        "+1": "COMPRAR",
+        "-1": "VENDER_A_DESCOBERTO"
+      }
+    },
+    "arredondamento": {
+      "reducao_parcial": "q>1: max(1, floor(q*f)); q==1: P2-P4 zeram, P5 nada",
+      "exposicao": "ceil da quantidade minima, limitada a q",
+      "compras": "floor",
+      "dado_invalido": "nenhuma quantidade; EXE-01"
+    },
+    "cooldown_aplica_a": ["P5", "P6", "P7"],
+    "execucao": {
+      "estados": [
+        "SUGERIDA",
+        "ENVIADA",
+        "PARCIAL",
+        "EXECUTADA",
+        "CANCELADA",
+        "REJEITADA",
+        "EXPIRADA"
+      ],
+      "regras": [
+        "posicao/risco/exposicao so com qtd executada",
+        "PARCIAL exige status do saldo: aberto (bloqueia mesma finalidade) ou encerrado (libera recalculo)",
+        "registro com id_unico aplicado no maximo uma vez",
+        "alerta de stop nao e execucao"
+      ]
+    },
+    "eventos_corporativos": "ETF-01 e heuristica: so alerta e suspende ordens; ajuste de qtd/pm/stop/hwm so apos confirmacao do usuario com fonte; fracao em dinheiro = venda"
+  },
+  "tela": [
+    "1 Barra de status (relogio ET/BRT, sessao, proximo marco, semaforo, plano)",
+    "2 Metricas carteira (P&L dia, limite restante, exp bruta, exp liquida)",
+    "3 Ordens agora (acao, qtd, ativo, limite, stop, motivo; Executei/Ignorar)",
+    "4 Cards por par",
+    "5 Alertas",
+    "6 Diario do dia"
+  ],
+  "teste_exemplo": {
+    "insumos": {
+      "capital": 25000,
+      "SOXL": {
+        "P": 30.0,
+        "L": 3,
+        "tipo": 1,
+        "dir": 1,
+        "S": 250,
+        "atr_intra": 1.5
+      },
+      "SQQQ": {
+        "P": 20.0,
+        "L": 3,
+        "tipo": -1,
+        "dir": 1,
+        "S": 500,
+        "atr_intra": 2.5
+      },
+      "depois": {
+        "SOXL_P": 31.2,
+        "SQQQ_P": 19.7
+      }
+    },
+    "esperado": {
+      "q_SOXL": 154,
+      "stop_SOXL": 29.19,
+      "q_SQQQ": 277,
+      "stop_SQQQ": 19.55,
+      "pnl_r_SOXL": 1.48,
+      "pnl_r_SQQQ": -0.66,
+      "vender_SQQQ": 92,
+      "comprar_SOXL_pyr": 46,
+      "novo_stop_SOXL": 30.36,
+      "exp_liq_final": 7786.5,
+      "exp_bruta_final": 29653.5
+    }
+  },
+  "gatilhos_pyramiding": [
+    "pnl_r_ponta>=1",
+    "ponta oposta ja reduzida",
+    "rompimento novo vol_rel>=1.5 e lado_vwap a favor",
+    "lote<=0.5*ultimo",
+    "risco aberto da ponta apos ajuste<=R (sem credito de lucro)",
+    "aumentos_hoje<2, hora<15:00 (ou fechamento antecipado -1h), sessao REGULAR",
+    "correlacao_60d>=correlacao_min_par"
+  ]
+}

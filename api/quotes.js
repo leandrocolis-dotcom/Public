@@ -1,6 +1,6 @@
 // Vercel Function: cotações ao vivo do Yahoo Finance para o universo do site (gratuito, sem chave).
 // GET /api/quotes?night=AAA,BBB -> { fetched_at, night: { SÍMBOLO: { xp, regP } } } (sessão noturna 20:00–4:00 de NY)
-// GET /api/quotes[?extra=AAA,BBB][&only=1 (só os extras, até 180)] -> { fetched_at, version, market_state, quotes: { SÍMBOLO: {p, t, ms, v, av, pc, n?} }, missing, errors }
+// GET /api/quotes[?extra=AAA,BBB][&only=1 (só os extras, até 180)] -> { fetched_at, version, market_state, quotes: { SÍMBOLO: {p, t, ms, v, av, pc, b?, a?, n?} }, missing, errors }
 // Busca o universo do site + até 60 símbolos extras (os da carteira do usuário), validados por formato.
 import { ASSETS } from "../assets/universe.js";
 import { FLOW_ASSETS } from "../assets/flow-universe.js";
@@ -106,6 +106,16 @@ export function extendedHours(q) {
 }
 
 /**
+ * Melhor oferta (Long & Short: spread e preço limite; docs/long-short/MAPEAMENTO.md). b: bid, a: ask. Só quando
+ * os dois existem, são > 0 e b ≤ a: oferta ausente ou cruzada não entra (o app trata como preço não confiável).
+ */
+export function bidAsk(q) {
+  const b = q?.bid;
+  const a = q?.ask;
+  return b > 0 && a > 0 && b <= a ? { b, a } : {};
+}
+
+/**
  * Futuros: o contínuo do Yahoo (XX=F) congela ou salta perto do vencimento. Para cada XX=F pedido, busca
  * também o contrato vigente pelo calendário (assets/futures.js) e devolve a cotação dele sob o mesmo nome,
  * com fut = código do contrato (ex.: "HEZ26"). Sem cotação do contrato, fica o contínuo.
@@ -188,6 +198,7 @@ export async function fetchAll(symbols = SYMBOLS, extra = [], { deadline = null 
           av: q.averageDailyVolume10Day ?? null,
           pc: q.regularMarketPreviousClose ?? null,
           ...extendedHours(q),
+          ...bidAsk(q),
           ...(extraSet.has(q.symbol) ? { n: q.shortName ?? q.longName ?? null } : {}),
         };
       }

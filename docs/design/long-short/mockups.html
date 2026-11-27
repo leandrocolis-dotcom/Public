@@ -1,0 +1,3024 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Long &amp; Short · mockups</title>
+    <style>
+      @font-face {
+        font-family: "Instrument Serif";
+        src: url(../../../fonts/instrument-serif-400.woff2) format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        src: url(../../../fonts/instrument-sans-400.woff2) format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        src: url(../../../fonts/instrument-sans-500.woff2) format("woff2");
+        font-weight: 500;
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        src: url(../../../fonts/instrument-sans-600.woff2) format("woff2");
+        font-weight: 600;
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        src: url(../../../fonts/instrument-sans-700.woff2) format("woff2");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        src: url(../../../fonts/geist-mono-400.woff2) format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        src: url(../../../fonts/geist-mono-500.woff2) format("woff2");
+        font-weight: 500;
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        src: url(../../../fonts/geist-mono-600.woff2) format("woff2");
+        font-weight: 600;
+      }
+      :root {
+        --bg: #070a12;
+        --surface: #0f1524;
+        --surface-2: #151c2f;
+        --surface-3: #1c2540;
+        --line: #1f2a44;
+        --line-2: #2d3b5e;
+        --text: #e8edf8;
+        --text-2: #9aa7c2;
+        --text-3: #7986a3;
+        --accent: #8c9bff;
+        --accent-soft: #1b2250;
+        --on-accent: #0b1022;
+        --buy: #3ddc97;
+        --buy-soft: #0e2b26;
+        --sell: #ff7088;
+        --sell-soft: #331621;
+        --wait: #f5b94c;
+        --wait-soft: #33270f;
+        --tile-neutral: #1a2238;
+        --serif: "Instrument Serif", Georgia, serif;
+        --ui: "Instrument Sans", system-ui, sans-serif;
+        --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+        --r-sm: 8px;
+        --r: 14px;
+        --r-lg: 20px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #05070d;
+        color: var(--text);
+        font-family: var(--ui);
+        font-size: 14px;
+        line-height: 1.35;
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      .m {
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+      }
+      .buy {
+        color: var(--buy);
+      }
+      .sell {
+        color: var(--sell);
+      }
+      .board {
+        width: 1920px;
+        padding: 88px 96px 72px;
+      }
+      .hd h1 {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-size: 84px;
+        line-height: 1;
+        letter-spacing: -0.5px;
+      }
+      .hd p {
+        color: var(--text-2);
+        font-size: 20px;
+        margin-top: 10px;
+      }
+      .hd {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 28px;
+        margin-bottom: 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .legend {
+        display: flex;
+        gap: 22px;
+        font-size: 14px;
+        color: var(--text-2);
+      }
+      .legend span b {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        margin-right: 7px;
+        vertical-align: 0;
+      }
+      .row {
+        display: flex;
+        gap: 48px;
+        align-items: flex-start;
+        margin-bottom: 64px;
+      }
+      .tela {
+        flex: none;
+      }
+      .lbl {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        width: 390px;
+        min-height: 52px;
+      }
+      .tela.wide .lbl {
+        width: auto;
+      }
+      .lbl .n {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid var(--line-2);
+        display: grid;
+        place-items: center;
+        color: var(--accent);
+        font-size: 14px;
+        flex: none;
+      }
+      .lbl b {
+        display: block;
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .lbl small {
+        display: block;
+        color: var(--text-2);
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      /* telefone */
+      .phone {
+        width: 390px;
+        min-height: 844px;
+        background: var(--bg);
+        border: 1px solid var(--line-2);
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 30px 60px -30px #000;
+      }
+      .phone.fixed {
+        height: 844px;
+      }
+      .appbar {
+        height: 52px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 14px 22px 0;
+        font-size: 14px;
+        color: var(--text);
+      }
+      .appbar .crumb {
+        color: var(--text-2);
+      }
+      .appbar b {
+        font-weight: 600;
+      }
+      .scr {
+        padding: 4px 16px 24px;
+      }
+      .scr.dim {
+        filter: saturate(0.5);
+      }
+      .i {
+        width: 44px;
+        height: 44px;
+        margin: -12px -12px -12px -6px;
+        display: inline-grid;
+        place-items: center;
+        flex: none;
+        vertical-align: middle;
+      }
+      .i span {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 1.3px solid var(--accent);
+        color: var(--accent);
+        font: 600 11px/15px var(--mono);
+        text-align: center;
+        font-style: italic;
+      }
+      .i.on span {
+        background: var(--accent);
+        color: var(--on-accent);
+        box-shadow: 0 0 0 4px var(--accent-soft);
+      }
+
+      .status {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 8px 14px;
+        margin-bottom: 12px;
+      }
+      .st-r {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 30px;
+      }
+      .st-l {
+        color: var(--text-2);
+        font-size: 13px;
+        flex: 1;
+      }
+      .st-l b {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .st-r .clock {
+        flex: 1;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .sp {
+        flex: 1;
+      }
+      .pill {
+        font: 600 12px/1 var(--ui);
+        letter-spacing: 0.6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--surface-3);
+        color: var(--text);
+      }
+      .pill.reg {
+        color: var(--text);
+      }
+      .pill.pre {
+        background: var(--wait-soft);
+        color: var(--wait);
+      }
+      .chip {
+        font-size: 12.5px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--tile-neutral);
+        color: var(--text-2);
+        border: 1px solid var(--line);
+      }
+      .chip.crit {
+        background: var(--sell-soft);
+        color: var(--sell);
+        border-color: transparent;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .mc {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 10px 12px 11px;
+      }
+      .mc.wide {
+        grid-column: 1/-1;
+      }
+      .mc.focus {
+        border-color: var(--accent);
+      }
+      .mc-h {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12.5px;
+        color: var(--text-2);
+        min-height: 20px;
+      }
+      .mc-v {
+        font-size: 19px;
+        font-weight: 500;
+        margin-top: 4px;
+        white-space: nowrap;
+      }
+      .mc-v small {
+        font-size: 13px;
+        color: var(--text-2);
+        font-weight: 400;
+      }
+      .mc-s {
+        font-size: 12px;
+        color: var(--text-2);
+        margin-top: 4px;
+      }
+      .mc-s.buy {
+        color: var(--buy);
+      }
+      .mc-s.sell {
+        color: var(--sell);
+      }
+      .bar {
+        height: 5px;
+        background: var(--surface-3);
+        border-radius: 3px;
+        margin-top: 8px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--text-3);
+        border-radius: 3px;
+      }
+      .gauge {
+        position: relative;
+        height: 5px;
+        background: var(--surface-3);
+        border-radius: 3px;
+        margin-top: 8px;
+      }
+      .gauge .safe {
+        position: absolute;
+        left: 25%;
+        right: 25%;
+        top: 0;
+        bottom: 0;
+        background: var(--line-2);
+        border-radius: 3px;
+      }
+      .gauge .mid {
+        position: absolute;
+        left: 50%;
+        top: -3px;
+        bottom: -3px;
+        width: 1px;
+        background: var(--text-3);
+      }
+      .gauge i {
+        position: absolute;
+        top: -4px;
+        width: 3px;
+        height: 13px;
+        margin-left: -1.5px;
+        background: var(--text);
+        border-radius: 2px;
+      }
+      .metrics.row {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .metrics.row .mc {
+        padding: 9px 10px 10px;
+      }
+      .metrics.row .mc-h {
+        font-size: 12px;
+        align-items: flex-start;
+        min-height: 30px;
+      }
+
+      .sec {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 20px 2px 8px;
+        min-height: 24px;
+      }
+      .sec h2 {
+        font: 600 12px/1 var(--ui);
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: var(--text-2);
+        flex: 1;
+      }
+      .sec .cnt {
+        color: var(--text-3);
+        font-size: 12px;
+        margin-right: auto;
+        margin-left: -4px;
+        flex: 1;
+      }
+      .sec h2:has(+ .cnt) {
+        flex: none;
+      }
+
+      .ord {
+        border-radius: var(--r);
+        padding: 12px 14px 14px;
+        margin-bottom: 10px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-left-width: 4px;
+      }
+      .ord.sell {
+        border-left-color: var(--sell);
+        background: linear-gradient(90deg, var(--sell-soft), var(--surface) 70%);
+      }
+      .ord.buy {
+        border-left-color: var(--buy);
+        background: linear-gradient(90deg, var(--buy-soft), var(--surface) 70%);
+      }
+      .ord.blk {
+        border: 1px dashed var(--line-2);
+        border-left: 4px solid var(--text-3);
+        background: var(--surface);
+      }
+      .ord-h {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .act {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-size: 28px;
+        line-height: 1.1;
+        letter-spacing: 0.2px;
+      }
+      .act .ic {
+        font-family: var(--ui);
+        font-size: 18px;
+        margin-right: 9px;
+        vertical-align: 4px;
+      }
+      .ord.sell .act,
+      .act.sell {
+        color: var(--sell);
+      }
+      .ord.buy .act {
+        color: var(--buy);
+      }
+      .ord.blk .act {
+        color: var(--text-2);
+        font-size: 24px;
+      }
+      .ord-tag {
+        display: inline-block;
+        margin-top: 8px;
+        font: 600 11.5px/1 var(--ui);
+        letter-spacing: 0.6px;
+        padding: 5px 9px;
+        border-radius: 6px;
+        background: var(--wait-soft);
+        color: var(--wait);
+      }
+      .ord-d {
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        gap: 4px 18px;
+        margin-top: 10px;
+      }
+      .ord-d dt {
+        font-size: 12px;
+        color: var(--text-2);
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        min-height: 18px;
+      }
+      .ord-d dd {
+        font-size: 15px;
+        margin-top: 2px;
+        color: var(--text);
+      }
+      .ord-d dd:not(.m) {
+        font-size: 13.5px;
+      }
+      .why {
+        color: var(--text-2);
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .next {
+        color: var(--text-2);
+        font-size: 13.5px;
+        margin-top: 6px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--line-2);
+      }
+      .next b {
+        color: var(--text);
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+      .btns {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .b-pri,
+      .b-sec {
+        flex: 1;
+        height: 46px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .b-pri {
+        background: var(--accent);
+        color: var(--on-accent);
+      }
+      .b-sec {
+        border: 1.5px solid var(--accent);
+        color: var(--accent);
+      }
+      .done {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 13px;
+        color: var(--text-2);
+        background: var(--tile-neutral);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+      }
+      .done b {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .hold {
+        background: var(--tile-neutral);
+        border: 1px solid var(--line-2);
+        border-radius: var(--r);
+        padding: 16px 14px;
+      }
+      .hold .act {
+        color: var(--text);
+      }
+      .hold .act .ic {
+        color: var(--text-2);
+      }
+      .hold p {
+        color: var(--text-2);
+        font-size: 13.5px;
+        margin-top: 6px;
+      }
+      .hold .ord-d {
+        grid-template-columns: auto auto 1fr;
+      }
+
+      .pair {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 12px 14px 6px;
+        margin-bottom: 10px;
+      }
+      .pair header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 24px;
+      }
+      .pair h4 {
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .tag {
+        font-size: 12px;
+        color: var(--text-2);
+        background: var(--surface-3);
+        padding: 3px 8px;
+        border-radius: 6px;
+        margin-right: auto;
+      }
+      .pair-m {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 10px 0 6px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      .pair-m span {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: var(--text-2);
+        min-height: 18px;
+      }
+      .pair-m b {
+        display: block;
+        font-weight: 500;
+        font-size: 17px;
+        margin-top: 2px;
+      }
+      .pair-m small {
+        font-size: 12px;
+        color: var(--text-2);
+        font-weight: 400;
+      }
+      .leg {
+        display: grid;
+        grid-template-columns: 50px 48px 1fr 40px 74px 26px;
+        align-items: center;
+        min-height: 38px;
+        font-size: 14px;
+      }
+      .leg > span {
+        display: flex !important;
+        align-items: center;
+        height: 40px;
+        line-height: 1 !important;
+      }
+      .leg > .q,
+      .leg > .r {
+        justify-content: flex-end;
+      }
+      .leg .side {
+        font: 600 11.5px/1 var(--ui);
+        letter-spacing: 0.8px;
+        color: var(--text-2);
+      }
+      .leg .tk {
+        font-weight: 600;
+      }
+      .leg .lv {
+        color: var(--text-2);
+        font-size: 12.5px;
+      }
+      .leg .q {
+        text-align: right;
+      }
+      .leg .r {
+        text-align: right;
+      }
+      .leg .i {
+        margin: 0 -10px 0 0;
+        justify-self: end;
+      }
+      .fold {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        color: var(--accent);
+        font-size: 13.5px;
+        border-top: 1px solid var(--line);
+      }
+      .fold .i {
+        margin-left: 2px;
+      }
+
+      .alerts {
+        list-style: none;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 4px 0;
+      }
+      .alerts li {
+        display: grid;
+        grid-template-columns: 46px 62px 1fr;
+        gap: 8px;
+        padding: 9px 14px;
+        font-size: 13px;
+        border-left: 3px solid transparent;
+      }
+      .alerts li + li {
+        border-top: 1px solid var(--line);
+      }
+      .alerts .t {
+        color: var(--text-2);
+      }
+      .alerts .id {
+        color: var(--text-2);
+      }
+      .alerts li.s {
+        border-left-color: var(--sell);
+      }
+      .alerts li.s .id {
+        color: var(--sell);
+      }
+      .alerts li.a {
+        border-left-color: var(--accent);
+      }
+      .alerts li.a .id {
+        color: var(--accent);
+      }
+      .alerts li.w {
+        border-left-color: var(--wait);
+      }
+      .alerts li.w .id {
+        color: var(--wait);
+      }
+      .alerts li.g .msg {
+        color: var(--text-2);
+      }
+      .jr {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 10px 14px;
+      }
+      .jr > div {
+        flex: 1;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .jr span {
+        font-size: 12.5px;
+        color: var(--text-2);
+      }
+      .jr b {
+        font-size: 17px;
+        font-weight: 500;
+      }
+      .jr small {
+        font-size: 12.5px;
+      }
+
+      /* folha e sobreposições */
+      .scrim {
+        position: absolute;
+        inset: 0;
+        background: rgba(3, 5, 10, 0.74);
+      }
+      .sheet {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--surface-2);
+        border-top: 1px solid var(--line-2);
+        border-radius: 24px 24px 0 0;
+        padding: 10px 18px 26px;
+      }
+      .grab {
+        width: 40px;
+        height: 4px;
+        background: var(--line-2);
+        border-radius: 2px;
+        margin: 0 auto 12px;
+      }
+      .sh-h .act {
+        font-size: 26px;
+      }
+      .field {
+        margin-top: 12px;
+      }
+      .field label {
+        display: flex;
+        align-items: center;
+        font-size: 12.5px;
+        color: var(--text-2);
+        min-height: 20px;
+      }
+      .inp {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 46px;
+        margin-top: 4px;
+        padding: 0 14px;
+        background: var(--bg);
+        border: 1px solid var(--line-2);
+        border-radius: 10px;
+      }
+      .inp b {
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .inp span {
+        color: var(--text-2);
+        font-size: 13px;
+      }
+      .field:first-of-type .inp {
+        border-color: var(--accent);
+      }
+      .warn {
+        margin-top: 14px;
+        background: var(--wait-soft);
+        color: var(--wait);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13.5px;
+      }
+      .warn b {
+        font-weight: 600;
+      }
+      .ask {
+        display: flex;
+        align-items: center;
+        margin-top: 14px;
+        font-weight: 600;
+        font-size: 14.5px;
+      }
+      .radios {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .rd {
+        flex: 1;
+        text-align: left;
+        border: 1.5px solid var(--line-2);
+        border-radius: 12px;
+        padding: 10px 12px;
+        min-height: 62px;
+        font-weight: 600;
+        font-size: 14px;
+        position: relative;
+        padding-left: 36px;
+      }
+      .rd small {
+        display: block;
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--text-2);
+        margin-top: 2px;
+      }
+      .rd .dot {
+        position: absolute;
+        left: 12px;
+        top: 13px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1.5px solid var(--text-2);
+      }
+      .rd.sel {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .rd.sel .dot {
+        border-color: var(--accent);
+        box-shadow: inset 0 0 0 3.5px var(--accent-soft);
+        background: var(--accent);
+      }
+
+      .crit {
+        position: absolute;
+        inset: 0;
+        background: rgba(12, 6, 11, 0.985);
+        padding: 84px 24px 28px;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid var(--sell);
+        border-radius: 40px;
+      }
+      .crit-k {
+        font: 600 13px/1 var(--ui);
+        letter-spacing: 1.6px;
+        color: var(--sell);
+      }
+      .crit-t {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-size: 44px;
+        line-height: 1.02;
+        margin-top: 14px;
+        color: var(--text);
+      }
+      .crit-n {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 22px;
+      }
+      .crit-n > div {
+        background: var(--sell-soft);
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .crit-n span {
+        display: block;
+        font-size: 12px;
+        color: var(--text-2);
+      }
+      .crit-n b {
+        display: block;
+        font-size: 19px;
+        font-weight: 500;
+        margin-top: 4px;
+        color: var(--sell);
+      }
+      .crit-n div + div b {
+        color: var(--text);
+      }
+      .crit-n small {
+        display: block;
+        font-size: 12px;
+        color: var(--sell);
+        margin-top: 3px;
+      }
+      .crit-n div + div small {
+        color: var(--text-2);
+      }
+      .crit-p {
+        margin-top: 18px;
+        font-size: 15px;
+        color: var(--text);
+        line-height: 1.45;
+      }
+      .crit-o {
+        margin-top: 16px;
+        border-top: 1px solid #4a2232;
+      }
+      .crit-o div {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding: 12px 2px;
+        border-bottom: 1px solid #4a2232;
+      }
+      .crit-o .ic {
+        color: var(--sell);
+      }
+      .crit-o b {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-size: 26px;
+        color: var(--sell);
+        flex: 1;
+      }
+      .crit-o .m {
+        color: var(--text-2);
+        font-size: 13px;
+      }
+      .crit-s {
+        font-size: 13px;
+        color: var(--text-2);
+        margin-top: 12px;
+      }
+      .b-pri.big {
+        margin-top: auto;
+        height: 54px;
+        font-size: 16px;
+        flex: none;
+        width: 100%;
+      }
+
+      .tip {
+        position: absolute;
+        left: 16px;
+        top: 296px;
+        width: 300px;
+        background: var(--surface-3);
+        border: 1px solid var(--accent);
+        border-radius: 14px;
+        padding: 12px 14px 14px;
+        box-shadow: 0 20px 40px -10px #000;
+      }
+      .tip:before {
+        content: "";
+        position: absolute;
+        top: -7px;
+        left: 145px;
+        width: 12px;
+        height: 12px;
+        background: var(--surface-3);
+        border-left: 1px solid var(--accent);
+        border-top: 1px solid var(--accent);
+        transform: rotate(45deg);
+      }
+      .tip-h {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+      }
+      .tip-h .x {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        color: var(--text-2);
+        font-size: 20px;
+        margin: -6px -8px -6px 0;
+      }
+      .tip dl {
+        margin-top: 4px;
+      }
+      .tip dt {
+        font: 600 11px/1 var(--ui);
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-top: 12px;
+      }
+      .tip dd {
+        font-size: 14px;
+        color: var(--text);
+        margin-top: 5px;
+        line-height: 1.4;
+      }
+
+      .banner {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin-bottom: 12px;
+      }
+      .banner.wait {
+        background: var(--wait-soft);
+        color: var(--wait);
+      }
+      .banner > div {
+        flex: 1;
+      }
+      .banner b {
+        display: block;
+        font-weight: 600;
+        font-size: 14.5px;
+      }
+      .banner small {
+        display: block;
+        font-size: 12.5px;
+        color: var(--text);
+        opacity: 0.88;
+        margin-top: 2px;
+      }
+
+      /* desktop */
+      .desk {
+        width: 1440px;
+        background: var(--bg);
+        border: 1px solid var(--line-2);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .dk-top {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 10px;
+      }
+      .dk-top .appbar {
+        padding: 14px 28px 0;
+      }
+      .dk-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 28px 0;
+        min-height: 44px;
+      }
+      .dk-status .clock {
+        font-size: 13px;
+      }
+      .dk-status .st-l {
+        flex: none;
+      }
+      .vr {
+        width: 1px;
+        height: 20px;
+        background: var(--line-2);
+        margin: 0 10px;
+      }
+      .dk-cols {
+        display: grid;
+        grid-template-columns: 40% 60%;
+      }
+      .dk-l {
+        padding: 16px 22px 28px 28px;
+        border-right: 1px solid var(--line);
+      }
+      .dk-r {
+        padding: 16px 28px 28px 22px;
+      }
+      .dk-l .metrics.row .mc-v {
+        font-size: 16px;
+      }
+      .dk-l .metrics.row .mc-s {
+        font-size: 11.5px;
+      }
+      .ltk {
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+      .metrics.row .mc-s {
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .metrics.row .mc:nth-child(n + 2):nth-child(-n + 4) .mc-s {
+        display: none;
+      }
+      .pgrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .pgrid .pair {
+        margin: 0;
+      }
+      .pgrid .leg {
+        grid-template-columns: 54px 56px 1fr 44px 82px 26px;
+      }
+      .ldets {
+        display: grid;
+        gap: 6px;
+        margin: 6px 0 4px;
+      }
+      .ldet {
+        display: grid;
+        grid-template-columns: 44px repeat(5, 1fr) 1fr;
+        column-gap: 8px;
+        align-items: center;
+        background: var(--surface-2);
+        border-radius: 8px;
+        padding: 7px 8px;
+      }
+      .ldet span {
+        display: block;
+        font-size: 10px;
+        color: var(--text-2);
+      }
+      .ldet b {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 500;
+        margin-top: 1px;
+      }
+      .und,
+      .chk {
+        border-top: 1px solid var(--line);
+        padding: 8px 0;
+      }
+      .und-h,
+      .chk-h {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font: 600 11px/1 var(--ui);
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--text-2);
+        min-height: 22px;
+      }
+      .chk-h .m {
+        color: var(--text);
+        letter-spacing: 0;
+        margin-right: auto;
+      }
+      .und-h {
+        justify-content: space-between;
+      }
+      .und div:not(.und-h) {
+        display: grid;
+        grid-template-columns: 48px 1fr 1fr 1fr;
+        font-size: 12.5px;
+        padding: 3px 0;
+      }
+      .und div span {
+        color: var(--text-2);
+      }
+      .chk > div:not(.chk-h) {
+        display: grid;
+        grid-template-columns: 20px 1fr auto;
+        font-size: 12.5px;
+        padding: 3px 0;
+      }
+      .chk .y span {
+        color: var(--text-2);
+      }
+      .chk .n {
+        color: var(--text-2);
+      }
+      .chk .n span {
+        color: var(--sell);
+      }
+      .chk b {
+        font-weight: 400;
+        color: var(--text-2);
+      }
+      .side-notes {
+        width: 330px;
+        flex: none;
+        padding-top: 68px;
+      }
+      .side-notes h3 {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-size: 34px;
+        line-height: 1.05;
+      }
+      .side-notes ul {
+        list-style: none;
+        margin-top: 18px;
+      }
+      .side-notes li {
+        font-size: 14.5px;
+        color: var(--text-2);
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+        display: flex;
+        gap: 10px;
+      }
+      .side-notes li b {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .side-notes li span {
+        color: var(--text-2);
+        flex: none;
+        width: 16px;
+      }
+      .ft {
+        color: var(--text-2);
+        font: 13px var(--mono);
+        border-top: 1px solid var(--line);
+        padding-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="board">
+      <header class="hd">
+        <div>
+          <h1>Ordens Agora</h1>
+          <p>
+            Carteira › Long &amp; Short · a tela responde uma pergunta: “o que eu faço agora?” ·
+            Fase 6, 8 telas
+          </p>
+        </div>
+        <div class="legend">
+          <span><b style="background: var(--buy)"></b>▲ aumenta risco</span
+          ><span><b style="background: var(--sell)"></b>▼ reduz risco · crítico ‼</span
+          ><span><b style="background: var(--wait)"></b>◆ atenção</span
+          ><span><b style="background: var(--accent)"></b>ⓘ toque</span
+          ><span><b style="background: var(--text-3)"></b>⊘ ✓ ＝ parado</span>
+        </div>
+      </header>
+      <div class="row">
+        <section class="tela" id="t1">
+          <div class="lbl">
+            <span class="m n">1</span>
+            <div>
+              <b>Pregão regular · 2 ordens</b><small>venda da perdedora + aumento bloqueado</small>
+            </div>
+          </div>
+          <div class="phone">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill reg">● REGULAR</span>
+                  <span class="clock m">10:15 ET · 12:15 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l"
+                    >Faixa de abertura encerrada · fim dos aumentos em <b class="m">4h45</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+
+              <div class="metrics">
+                <div class="mc">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i" aria-label="P&L do dia"><span>i</span></button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 101,70</div>
+                  <div class="mc-s m buy">▲ +0,81R · +0,41%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 601,70</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">4,8R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">1,05x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 52%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,15x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 54.99999999999999%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,7R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 17%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+
+              <article class="ord sell">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">▼</span>VENDER 92 SQQQ</h3>
+                  <button class="i" aria-label="Ação"><span>i</span></button>
+                </div>
+
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      limite<button class="i" aria-label="limite"><span>i</span></button>
+                    </dt>
+                    <dd class="m">19,70</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      stop após<button class="i" aria-label="stop após"><span>i</span></button>
+                    </dt>
+                    <dd class="m">18,95 (mantém)</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                    </dt>
+                    <dd class="">P3 reduzir perdedora</dd>
+                  </div>
+                </dl>
+                <div class="btns">
+                  <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                </div>
+              </article>
+
+              <article class="ord blk">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">⊘</span>BLOQUEADO · aumentar SOXL</h3>
+                  <button class="i" aria-label="Bloqueado"><span>i</span></button>
+                </div>
+                <p class="why">aguarda reduzir a perdedora (P6)</p>
+                <p class="next">após executar a venda: <b>COMPRAR 46</b></p>
+              </article>
+              <div class="sec">
+                <h2>Pares</h2>
+                <button class="i" aria-label="Pares"><span>i</span></button>
+              </div>
+
+              <article class="pair">
+                <header>
+                  <h4>Semis vs Nasdaq</h4>
+                  <span class="tag">Cenário 1</span
+                  ><button class="i" aria-label="Cenário"><span>i</span></button>
+                </header>
+                <div class="pair-m">
+                  <div>
+                    <span
+                      >P&amp;L do par<button class="i" aria-label="P&L do par">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m buy">▲ +0,82R</b>
+                  </div>
+                  <div>
+                    <span
+                      >Direcional<button class="i" aria-label="Direcional efetiva">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m">+0,18x<small> / plano 0</small></b>
+                  </div>
+                </div>
+
+                <div class="leg">
+                  <span class="side">LONG</span><span class="tk">SOXL</span
+                  ><span class="lv">3x bull</span><span class="q m">154</span
+                  ><span class="r m buy">▲ +1,48R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="leg">
+                  <span class="side">SHORT</span><span class="tk">SQQQ</span
+                  ><span class="lv">3x bear</span><span class="q m">277</span
+                  ><span class="r m sell">▼ −0,66R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="fold">▸ Detalhes das pontas e subjacentes</div>
+                <div class="fold">
+                  ▸ Checklist de pyramiding (6/7)<button class="i" aria-label="Checklist">
+                    <span>i</span>
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="tela" id="t2">
+          <div class="lbl">
+            <span class="m n">2</span>
+            <div><b>Logo depois da venda</b><small>o aumento liberado vira COMPRAR 46</small></div>
+          </div>
+          <div class="phone">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill reg">● REGULAR</span>
+                  <span class="clock m">10:15 ET · 12:15 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l"
+                    >Faixa de abertura encerrada · fim dos aumentos em <b class="m">4h45</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+
+              <div class="metrics">
+                <div class="mc">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i" aria-label="P&L do dia"><span>i</span></button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 101,70</div>
+                  <div class="mc-s m buy">▲ +0,81R · +0,41%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 601,70</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">4,8R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,92x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 46%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,28x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 59.333333333333336%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,6R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 15%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+              <div class="done">
+                <span>✓</span> Registrado: VENDER 92 SQQQ a <b class="m">19,71</b> · 10:16
+              </div>
+
+              <article class="ord buy">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">▲</span>COMPRAR 46 SOXL</h3>
+                  <button class="i" aria-label="Ação"><span>i</span></button>
+                </div>
+
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      limite<button class="i" aria-label="limite"><span>i</span></button>
+                    </dt>
+                    <dd class="m">31,42</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      novo stop<button class="i" aria-label="novo stop"><span>i</span></button>
+                    </dt>
+                    <dd class="m">30,36</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                    </dt>
+                    <dd class="">P6 aumentar vencedora · 7/7</dd>
+                  </div>
+                </dl>
+                <div class="btns">
+                  <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                </div>
+              </article>
+              <div class="sec">
+                <h2>Pares</h2>
+                <button class="i" aria-label="Pares"><span>i</span></button>
+              </div>
+
+              <article class="pair">
+                <header>
+                  <h4>Semis vs Nasdaq</h4>
+                  <span class="tag">Cenário 1</span
+                  ><button class="i" aria-label="Cenário"><span>i</span></button>
+                </header>
+                <div class="pair-m">
+                  <div>
+                    <span
+                      >P&amp;L do par<button class="i" aria-label="P&L do par">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m buy">▲ +0,82R</b>
+                  </div>
+                  <div>
+                    <span
+                      >Direcional<button class="i" aria-label="Direcional efetiva">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m">+0,24x<small> / plano 0</small></b>
+                  </div>
+                </div>
+
+                <div class="leg">
+                  <span class="side">LONG</span><span class="tk">SOXL</span
+                  ><span class="lv">3x bull</span><span class="q m">154</span
+                  ><span class="r m buy">▲ +1,48R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="leg">
+                  <span class="side">SHORT</span><span class="tk">SQQQ</span
+                  ><span class="lv">3x bear</span><span class="q m">185</span
+                  ><span class="r m sell">▼ −0,66R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="fold">▸ Detalhes das pontas e subjacentes</div>
+                <div class="fold">
+                  ▸ Checklist de pyramiding (7/7)<button class="i" aria-label="Checklist">
+                    <span>i</span>
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="tela" id="t3">
+          <div class="lbl">
+            <span class="m n">3</span>
+            <div><b>Folha “Executei”</b><small>execução parcial e pergunta do saldo</small></div>
+          </div>
+          <div class="phone fixed">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr dim">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill reg">● REGULAR</span>
+                  <span class="clock m">10:15 ET · 12:15 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l"
+                    >Faixa de abertura encerrada · fim dos aumentos em <b class="m">4h45</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+
+              <div class="metrics">
+                <div class="mc">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i" aria-label="P&L do dia"><span>i</span></button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 101,70</div>
+                  <div class="mc-s m buy">▲ +0,81R · +0,41%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 601,70</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">4,8R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">1,05x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 52%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,15x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 54.99999999999999%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,7R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 17%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+
+              <article class="ord sell">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">▼</span>VENDER 92 SQQQ</h3>
+                  <button class="i" aria-label="Ação"><span>i</span></button>
+                </div>
+
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      limite<button class="i" aria-label="limite"><span>i</span></button>
+                    </dt>
+                    <dd class="m">19,70</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      stop após<button class="i" aria-label="stop após"><span>i</span></button>
+                    </dt>
+                    <dd class="m">18,95 (mantém)</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                    </dt>
+                    <dd class="">P3 reduzir perdedora</dd>
+                  </div>
+                </dl>
+                <div class="btns">
+                  <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                </div>
+              </article>
+
+              <article class="ord blk">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">⊘</span>BLOQUEADO · aumentar SOXL</h3>
+                  <button class="i" aria-label="Bloqueado"><span>i</span></button>
+                </div>
+                <p class="why">aguarda reduzir a perdedora (P6)</p>
+                <p class="next">após executar a venda: <b>COMPRAR 46</b></p>
+              </article>
+              <div class="sec">
+                <h2>Pares</h2>
+                <button class="i" aria-label="Pares"><span>i</span></button>
+              </div>
+
+              <article class="pair">
+                <header>
+                  <h4>Semis vs Nasdaq</h4>
+                  <span class="tag">Cenário 1</span
+                  ><button class="i" aria-label="Cenário"><span>i</span></button>
+                </header>
+                <div class="pair-m">
+                  <div>
+                    <span
+                      >P&amp;L do par<button class="i" aria-label="P&L do par">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m buy">▲ +0,82R</b>
+                  </div>
+                  <div>
+                    <span
+                      >Direcional<button class="i" aria-label="Direcional efetiva">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m">+0,18x<small> / plano 0</small></b>
+                  </div>
+                </div>
+
+                <div class="leg">
+                  <span class="side">LONG</span><span class="tk">SOXL</span
+                  ><span class="lv">3x bull</span><span class="q m">154</span
+                  ><span class="r m buy">▲ +1,48R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="leg">
+                  <span class="side">SHORT</span><span class="tk">SQQQ</span
+                  ><span class="lv">3x bear</span><span class="q m">277</span
+                  ><span class="r m sell">▼ −0,66R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="fold">▸ Detalhes das pontas e subjacentes</div>
+                <div class="fold">
+                  ▸ Checklist de pyramiding (6/7)<button class="i" aria-label="Checklist">
+                    <span>i</span>
+                  </button>
+                </div>
+              </article>
+            </div>
+            <div class="scrim"></div>
+            <div class="sheet">
+              <div class="grab"></div>
+              <div class="sh-h">
+                <h3 class="act sell"><span class="ic">▼</span>Executei · VENDER 92 SQQQ</h3>
+              </div>
+              <div class="field">
+                <label
+                  >Quantidade executada<button class="i" aria-label="Quantidade executada">
+                    <span>i</span>
+                  </button></label
+                >
+                <div class="inp m"><b>40</b><span>de 92</span></div>
+              </div>
+              <div class="field">
+                <label
+                  >Preço médio<button class="i" aria-label="Preço executado">
+                    <span>i</span>
+                  </button></label
+                >
+                <div class="inp m"><b>19,71</b><span>US$</span></div>
+              </div>
+              <div class="field">
+                <label
+                  >Custos<button class="i" aria-label="Custos"><span>i</span></button></label
+                >
+                <div class="inp m"><b>0,00</b><span>US$</span></div>
+              </div>
+              <div class="warn">
+                <span>◆</span> Execução parcial: <b class="m">40</b> de <b class="m">92</b> · saldo
+                <b class="m">52</b> cotas
+              </div>
+              <div class="ask">
+                O saldo de 52 cotas está…<button class="i" aria-label="Status do saldo">
+                  <span>i</span>
+                </button>
+              </div>
+              <div class="radios">
+                <button class="rd sel">
+                  <span class="dot"></span>Aberto na corretora<small
+                    >bloqueia nova ordem igual</small
+                  >
+                </button>
+                <button class="rd">
+                  <span class="dot"></span>Cancelado<small>libera o motor</small>
+                </button>
+              </div>
+              <div class="btns">
+                <button class="b-sec">Voltar</button
+                ><button class="b-pri">Confirmar 40 cotas</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tela" id="t4">
+          <div class="lbl">
+            <span class="m n">4</span>
+            <div><b>Crítico RSK-01</b><small>cobre a tela até “Li e entendi”</small></div>
+          </div>
+          <div class="phone fixed">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr dim">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill reg">● REGULAR</span>
+                  <span class="clock m">10:15 ET · 12:15 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l"
+                    >Faixa de abertura encerrada · fim dos aumentos em <b class="m">4h45</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+
+              <div class="metrics">
+                <div class="mc">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i" aria-label="P&L do dia"><span>i</span></button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 101,70</div>
+                  <div class="mc-s m buy">▲ +0,81R · +0,41%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 601,70</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">4,8R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">1,05x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 52%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,15x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 54.99999999999999%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,7R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 17%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+
+              <article class="ord sell">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">▼</span>VENDER 92 SQQQ</h3>
+                  <button class="i" aria-label="Ação"><span>i</span></button>
+                </div>
+
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      limite<button class="i" aria-label="limite"><span>i</span></button>
+                    </dt>
+                    <dd class="m">19,70</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      stop após<button class="i" aria-label="stop após"><span>i</span></button>
+                    </dt>
+                    <dd class="m">18,95 (mantém)</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                    </dt>
+                    <dd class="">P3 reduzir perdedora</dd>
+                  </div>
+                </dl>
+                <div class="btns">
+                  <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                </div>
+              </article>
+
+              <article class="ord blk">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">⊘</span>BLOQUEADO · aumentar SOXL</h3>
+                  <button class="i" aria-label="Bloqueado"><span>i</span></button>
+                </div>
+                <p class="why">aguarda reduzir a perdedora (P6)</p>
+                <p class="next">após executar a venda: <b>COMPRAR 46</b></p>
+              </article>
+              <div class="sec">
+                <h2>Pares</h2>
+                <button class="i" aria-label="Pares"><span>i</span></button>
+              </div>
+
+              <article class="pair">
+                <header>
+                  <h4>Semis vs Nasdaq</h4>
+                  <span class="tag">Cenário 1</span
+                  ><button class="i" aria-label="Cenário"><span>i</span></button>
+                </header>
+                <div class="pair-m">
+                  <div>
+                    <span
+                      >P&amp;L do par<button class="i" aria-label="P&L do par">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m buy">▲ +0,82R</b>
+                  </div>
+                  <div>
+                    <span
+                      >Direcional<button class="i" aria-label="Direcional efetiva">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m">+0,18x<small> / plano 0</small></b>
+                  </div>
+                </div>
+
+                <div class="leg">
+                  <span class="side">LONG</span><span class="tk">SOXL</span
+                  ><span class="lv">3x bull</span><span class="q m">154</span
+                  ><span class="r m buy">▲ +1,48R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="leg">
+                  <span class="side">SHORT</span><span class="tk">SQQQ</span
+                  ><span class="lv">3x bear</span><span class="q m">277</span
+                  ><span class="r m sell">▼ −0,66R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="fold">▸ Detalhes das pontas e subjacentes</div>
+                <div class="fold">
+                  ▸ Checklist de pyramiding (6/7)<button class="i" aria-label="Checklist">
+                    <span>i</span>
+                  </button>
+                </div>
+              </article>
+            </div>
+            <div class="crit">
+              <div class="crit-k">‼ CRÍTICO · RSK-01</div>
+              <h2 class="crit-t">Limite diário atingido</h2>
+              <div class="crit-n">
+                <div>
+                  <span>P&amp;L do dia</span><b class="m">−US$ 500,00</b
+                  ><small class="m">▼ −4,00R · −2,00%</small>
+                </div>
+                <div>
+                  <span>Limite restante</span><b class="m">US$ 0,00</b
+                  ><small class="m">de US$ 500,00</small>
+                </div>
+              </div>
+              <p class="crit-p">
+                A perda do dia chegou a −4R. Zere tudo agora. Entradas e aumentos ficam bloqueados
+                até o próximo pregão.
+              </p>
+              <div class="crit-o">
+                <div>
+                  <span class="ic">▼</span><b>ZERAR 154 SOXL</b><span class="m">a mercado</span>
+                </div>
+                <div>
+                  <span class="ic">▼</span><b>ZERAR 277 SQQQ</b><span class="m">a mercado</span>
+                </div>
+              </div>
+              <p class="crit-s">As duas ordens seguem na lista com Executei / Ignorar.</p>
+              <button class="b-pri big">Li e entendi</button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="row">
+        <section class="tela" id="t5">
+          <div class="lbl">
+            <span class="m n">5</span>
+            <div><b>Tooltip num MetricCard</b><small>O que é · Como ler · O que fazer</small></div>
+          </div>
+          <div class="phone fixed">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill reg">● REGULAR</span>
+                  <span class="clock m">10:15 ET · 12:15 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l"
+                    >Faixa de abertura encerrada · fim dos aumentos em <b class="m">4h45</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+
+              <div class="metrics">
+                <div class="mc focus">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i on" aria-label="P&L do dia">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 101,70</div>
+                  <div class="mc-s m buy">▲ +0,81R · +0,41%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 601,70</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">4,8R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">1,05x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 52%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,15x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 54.99999999999999%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,7R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 17%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+
+              <article class="ord sell">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">▼</span>VENDER 92 SQQQ</h3>
+                  <button class="i" aria-label="Ação"><span>i</span></button>
+                </div>
+
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      limite<button class="i" aria-label="limite"><span>i</span></button>
+                    </dt>
+                    <dd class="m">19,70</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      stop após<button class="i" aria-label="stop após"><span>i</span></button>
+                    </dt>
+                    <dd class="m">18,95 (mantém)</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                    </dt>
+                    <dd class="">P3 reduzir perdedora</dd>
+                  </div>
+                </dl>
+                <div class="btns">
+                  <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                </div>
+              </article>
+            </div>
+            <div class="tip" role="tooltip">
+              <div class="tip-h"><b>P&amp;L do dia</b><span class="x">×</span></div>
+              <dl>
+                <dt>O que é</dt>
+                <dd>Resultado do dia desde as 4:00 ET, aberto + realizado, em US$, R e %.</dd>
+                <dt>Como ler</dt>
+                <dd>Inclui o gap da noite; 1R = <span class="m">US$ 125,00</span>.</dd>
+                <dt>O que fazer</dt>
+                <dd>Se chegar a −4R (−2%), o app manda zerar tudo.</dd>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="tela" id="t6">
+          <div class="lbl">
+            <span class="m n">6</span>
+            <div><b>Pré-mercado</b><small>pílula PRÉ, só limitada, 50% do tamanho</small></div>
+          </div>
+          <div class="phone">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill pre">◆ PRÉ</span>
+                  <span class="clock m">8:40 ET · 10:40 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l">Abertura do pregão 9:30 em <b class="m">50 min</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+              <div class="banner wait">
+                <span>◆</span>
+                <div>
+                  <b>Pré-mercado: só ordem limitada</b
+                  ><small>tamanho 50% · spread máx. 0,30% · stop não roda na corretora</small>
+                </div>
+                <button class="i" aria-label="Sessão"><span>i</span></button>
+              </div>
+
+              <div class="metrics">
+                <div class="mc">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i" aria-label="P&L do dia"><span>i</span></button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 38,40</div>
+                  <div class="mc-s m buy">▲ +0,31R · +0,15%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 538,40</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">4,3R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,62x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 31%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,08x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 52.66666666666667%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,4R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 10%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+
+              <article class="ord buy">
+                <div class="ord-h">
+                  <h3 class="act"><span class="ic">▲</span>COMPRAR 23 SOXL</h3>
+                  <button class="i" aria-label="Ação"><span>i</span></button>
+                </div>
+                <div class="ord-tag">LIMITADA · 50% do tamanho</div>
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      limite<button class="i" aria-label="limite"><span>i</span></button>
+                    </dt>
+                    <dd class="m">30,48</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      stop<button class="i" aria-label="stop"><span>i</span></button>
+                    </dt>
+                    <dd class="m">29,12</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                    </dt>
+                    <dd class="">P7 entrada · gatilho do plano</dd>
+                  </div>
+                </dl>
+                <div class="btns">
+                  <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                </div>
+              </article>
+              <div class="done">
+                <span>○</span> Cotação SOXL há <b class="m">12 s</b> · limite pré/pós 30 s
+              </div>
+              <div class="sec">
+                <h2>Pares</h2>
+                <button class="i" aria-label="Pares"><span>i</span></button>
+              </div>
+
+              <article class="pair">
+                <header>
+                  <h4>Semis vs Nasdaq</h4>
+                  <span class="tag">Cenário 1</span
+                  ><button class="i" aria-label="Cenário"><span>i</span></button>
+                </header>
+                <div class="pair-m">
+                  <div>
+                    <span
+                      >P&amp;L do par<button class="i" aria-label="P&L do par">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m buy">▲ +0,31R</b>
+                  </div>
+                  <div>
+                    <span
+                      >Direcional<button class="i" aria-label="Direcional efetiva">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m">+0,06x<small> / plano 0</small></b>
+                  </div>
+                </div>
+
+                <div class="leg">
+                  <span class="side">LONG</span><span class="tk">SOXL</span
+                  ><span class="lv">3x bull</span><span class="q m">77</span
+                  ><span class="r m buy">▲ +0,41R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="leg">
+                  <span class="side">SHORT</span><span class="tk">SQQQ</span
+                  ><span class="lv">3x bear</span><span class="q m">277</span
+                  ><span class="r m sell">▼ −0,10R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="fold">▸ Detalhes das pontas e subjacentes</div>
+                <div class="fold">
+                  ▸ Checklist de pyramiding (5/7)<button class="i" aria-label="Checklist">
+                    <span>i</span>
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="tela" id="t8">
+          <div class="lbl">
+            <span class="m n">8</span>
+            <div><b>Nada a fazer</b><small>o lugar das ordens vira “manter”</small></div>
+          </div>
+          <div class="phone">
+            <div class="appbar"><span class="crumb">Carteira ›</span> <b>Long &amp; Short</b></div>
+            <div class="scr">
+              <div class="status">
+                <div class="st-r">
+                  <span class="pill reg">● REGULAR</span>
+                  <span class="clock m">13:20 ET · 15:20 BRT</span
+                  ><button class="i" aria-label="Sessão e relógio"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="st-l">Fim dos aumentos 15:00 em <b class="m">1h40</b></span
+                  ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                </div>
+                <div class="st-r">
+                  <span class="chip">✓ Travas ok</span>
+                  <span class="chip">✓ Plano</span>
+                  <span class="sp"></span
+                  ><button class="i" aria-label="Travas e plano"><span>i</span></button>
+                </div>
+              </div>
+
+              <div class="metrics">
+                <div class="mc">
+                  <div class="mc-h">
+                    P&amp;L do dia<button class="i" aria-label="P&L do dia"><span>i</span></button>
+                  </div>
+                  <div class="mc-v m buy">+US$ 164,10</div>
+                  <div class="mc-s m buy">▲ +1,31R · +0,66%</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Limite restante<button class="i" aria-label="Limite restante">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">US$ 664,10</div>
+                  <div class="bar"><i style="width: 100%"></i></div>
+                  <div class="mc-s">5,3R · longe do limite</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição bruta<button class="i" aria-label="Exposição bruta">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">1,12x<small> / 2,0</small></div>
+                  <div class="bar"><i style="width: 56%"></i></div>
+                  <div class="mc-s">limite 2,0x</div>
+                </div>
+                <div class="mc">
+                  <div class="mc-h">
+                    Exposição líquida<button class="i" aria-label="Exposição líquida">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">+0,11x</div>
+                  <div class="gauge">
+                    <span class="safe"></span><span class="mid"></span
+                    ><i style="left: 53.66666666666667%"></i>
+                  </div>
+                  <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                </div>
+                <div class="mc wide">
+                  <div class="mc-h">
+                    Risco aberto<button class="i" aria-label="Risco aberto total">
+                      <span>i</span>
+                    </button>
+                  </div>
+                  <div class="mc-v m">0,9R<small> / teto 4R</small></div>
+                  <div class="bar"><i style="width: 22%"></i></div>
+                  <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                </div>
+              </div>
+              <div class="sec">
+                <h2>Ordens agora</h2>
+                <button class="i" aria-label="Ordens agora"><span>i</span></button>
+              </div>
+              <article class="hold">
+                <h3 class="act"><span class="ic">＝</span>Nada a fazer: manter</h3>
+                <p>Nenhuma regra disparou. As ordens aparecem aqui sozinhas.</p>
+                <dl class="ord-d">
+                  <div>
+                    <dt>
+                      stop SOXL<button class="i" aria-label="Stop vigente"><span>i</span></button>
+                    </dt>
+                    <dd class="m">30,36</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      stop SQQQ<button class="i" aria-label="Stop vigente"><span>i</span></button>
+                    </dt>
+                    <dd class="m">18,95</dd>
+                  </div>
+                  <div>
+                    <dt>próxima checagem</dt>
+                    <dd class="m">15:45 overnight</dd>
+                  </div>
+                </dl>
+              </article>
+              <div class="sec">
+                <h2>Pares</h2>
+                <button class="i" aria-label="Pares"><span>i</span></button>
+              </div>
+
+              <article class="pair">
+                <header>
+                  <h4>Semis vs Nasdaq</h4>
+                  <span class="tag">Cenário 1</span
+                  ><button class="i" aria-label="Cenário"><span>i</span></button>
+                </header>
+                <div class="pair-m">
+                  <div>
+                    <span
+                      >P&amp;L do par<button class="i" aria-label="P&L do par">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m buy">▲ +1,68R</b>
+                  </div>
+                  <div>
+                    <span
+                      >Direcional<button class="i" aria-label="Direcional efetiva">
+                        <span>i</span>
+                      </button></span
+                    ><b class="m">+0,15x<small> / plano 0</small></b>
+                  </div>
+                </div>
+
+                <div class="leg">
+                  <span class="side">LONG</span><span class="tk">SOXL</span
+                  ><span class="lv">3x bull</span><span class="q m">200</span
+                  ><span class="r m buy">▲ +2,10R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="leg">
+                  <span class="side">SHORT</span><span class="tk">SQQQ</span
+                  ><span class="lv">3x bear</span><span class="q m">185</span
+                  ><span class="r m sell">▼ −0,42R</span
+                  ><button class="i" aria-label="Ponta"><span>i</span></button>
+                </div>
+                <div class="fold">▸ Detalhes das pontas e subjacentes</div>
+                <div class="fold">
+                  ▸ Checklist de pyramiding (4/7)<button class="i" aria-label="Checklist">
+                    <span>i</span>
+                  </button>
+                </div>
+              </article>
+              <div class="sec">
+                <h2>Diário do dia</h2>
+                <button class="i" aria-label="Diário do dia"><span>i</span></button>
+              </div>
+              <div class="jr">
+                <div>
+                  <span>seguidas</span><b class="m">4</b><small class="m buy">▲ +1,9R</small>
+                </div>
+                <div>
+                  <span>ignoradas</span><b class="m">1</b><small class="m sell">▼ −0,4R</small>
+                </div>
+                <button class="i" aria-label="Diário"><span>i</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <aside class="side-notes">
+          <h3>Três tempos de leitura</h3>
+          <ul>
+            <li>
+              <span>1</span>
+              <div>
+                <b>A resposta</b> em Instrument Serif 28 px: seta + ação + quantidade + ativo.
+              </div>
+            </li>
+            <li>
+              <span>2</span>
+              <div><b>O número</b> em Geist Mono tabular: limite, stop, R.</div>
+            </li>
+            <li>
+              <span>3</span>
+              <div><b>O detalhe</b> em Instrument Sans: motivo, regra, contexto.</div>
+            </li>
+            <li>
+              <span>✓</span>
+              <div>
+                “Tudo certo” é cinza com ✓. Verde só quando a ordem aumenta risco ou o P&amp;L é
+                positivo.
+              </div>
+            </li>
+            <li>
+              <span>⊘</span>
+              <div>Bloqueado tem borda tracejada: some a cor e ainda se distingue.</div>
+            </li>
+            <li>
+              <span>ⓘ</span>
+              <div>Todo rótulo de métrica tem ⓘ com área de toque de 44 px.</div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+      <div class="row">
+        <section class="tela wide" id="t7">
+          <div class="lbl">
+            <span class="m n">7</span>
+            <div>
+              <b>Desktop 1440 px · duas colunas (40/60)</b
+              ><small>ordens, alertas e diário à esquerda; 3 pares abertos à direita</small>
+            </div>
+          </div>
+          <div class="desk">
+            <div class="dk-top">
+              <div class="appbar">
+                <span class="crumb">Carteira ›</span> <b>Long &amp; Short</b>
+              </div>
+              <div class="dk-status">
+                <span class="pill reg">● REGULAR</span
+                ><span class="clock m">10:15 ET · 12:15 BRT</span
+                ><button class="i" aria-label="Sessão"><span>i</span></button>
+                <span class="vr"></span
+                ><span class="st-l"
+                  >Faixa de abertura encerrada · fim dos aumentos em <b class="m">4h45</b></span
+                ><button class="i" aria-label="Próximo marco"><span>i</span></button>
+                <span class="sp"></span><span class="chip">✓ Travas ok</span
+                ><span class="chip">✓ Plano</span
+                ><button class="i" aria-label="Travas"><span>i</span></button>
+              </div>
+            </div>
+            <div class="dk-cols">
+              <div class="dk-l">
+                <div class="metrics row">
+                  <div class="mc">
+                    <div class="mc-h">
+                      P&amp;L do dia<button class="i" aria-label="P&L do dia">
+                        <span>i</span>
+                      </button>
+                    </div>
+                    <div class="mc-v m buy">+US$ 101,70</div>
+                    <div class="mc-s m buy">▲ +0,81R · +0,41%</div>
+                  </div>
+                  <div class="mc">
+                    <div class="mc-h">
+                      Limite restante<button class="i" aria-label="Limite restante">
+                        <span>i</span>
+                      </button>
+                    </div>
+                    <div class="mc-v m">US$ 601,70</div>
+                    <div class="bar"><i style="width: 100%"></i></div>
+                    <div class="mc-s">4,8R · longe do limite</div>
+                  </div>
+                  <div class="mc">
+                    <div class="mc-h">
+                      Exposição bruta<button class="i" aria-label="Exposição bruta">
+                        <span>i</span>
+                      </button>
+                    </div>
+                    <div class="mc-v m">1,05x<small> / 2,0</small></div>
+                    <div class="bar"><i style="width: 52%"></i></div>
+                    <div class="mc-s">limite 2,0x</div>
+                  </div>
+                  <div class="mc">
+                    <div class="mc-h">
+                      Exposição líquida<button class="i" aria-label="Exposição líquida">
+                        <span>i</span>
+                      </button>
+                    </div>
+                    <div class="mc-v m">+0,15x</div>
+                    <div class="gauge">
+                      <span class="safe"></span><span class="mid"></span
+                      ><i style="left: 54.99999999999999%"></i>
+                    </div>
+                    <div class="mc-s m">−1,5x · 0 · +1,5x</div>
+                  </div>
+                  <div class="mc wide">
+                    <div class="mc-h">
+                      Risco aberto<button class="i" aria-label="Risco aberto total">
+                        <span>i</span>
+                      </button>
+                    </div>
+                    <div class="mc-v m">0,7R<small> / teto 4R</small></div>
+                    <div class="bar"><i style="width: 17%"></i></div>
+                    <div class="mc-s">se todos os stops fossem atingidos agora</div>
+                  </div>
+                </div>
+                <div class="sec">
+                  <h2>Ordens agora</h2>
+                  <span class="cnt m">3</span
+                  ><button class="i" aria-label="Ordens agora"><span>i</span></button>
+                </div>
+
+                <article class="ord sell">
+                  <div class="ord-h">
+                    <h3 class="act"><span class="ic">▼</span>VENDER 92 SQQQ</h3>
+                    <button class="i" aria-label="Ação"><span>i</span></button>
+                  </div>
+
+                  <dl class="ord-d">
+                    <div>
+                      <dt>
+                        limite<button class="i" aria-label="limite"><span>i</span></button>
+                      </dt>
+                      <dd class="m">19,70</dd>
+                    </div>
+                    <div>
+                      <dt>
+                        stop após<button class="i" aria-label="stop após"><span>i</span></button>
+                      </dt>
+                      <dd class="m">18,95 (mantém)</dd>
+                    </div>
+                    <div>
+                      <dt>
+                        motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                      </dt>
+                      <dd class="">P3 reduzir perdedora</dd>
+                    </div>
+                  </dl>
+                  <div class="btns">
+                    <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                  </div>
+                </article>
+
+                <article class="ord blk">
+                  <div class="ord-h">
+                    <h3 class="act"><span class="ic">⊘</span>BLOQUEADO · aumentar SOXL</h3>
+                    <button class="i" aria-label="Bloqueado"><span>i</span></button>
+                  </div>
+                  <p class="why">aguarda reduzir a perdedora (P6)</p>
+                  <p class="next">após executar a venda: <b>COMPRAR 46</b></p>
+                </article>
+
+                <article class="ord sell">
+                  <div class="ord-h">
+                    <h3 class="act"><span class="ic">▼</span>VENDER 16 FAS</h3>
+                    <button class="i" aria-label="Ação"><span>i</span></button>
+                  </div>
+
+                  <dl class="ord-d">
+                    <div>
+                      <dt>
+                        limite<button class="i" aria-label="limite"><span>i</span></button>
+                      </dt>
+                      <dd class="m">144,35</dd>
+                    </div>
+                    <div>
+                      <dt>
+                        novo stop<button class="i" aria-label="novo stop"><span>i</span></button>
+                      </dt>
+                      <dd class="m">141,90</dd>
+                    </div>
+                    <div>
+                      <dt>
+                        motivo<button class="i" aria-label="motivo"><span>i</span></button>
+                      </dt>
+                      <dd class="">P5 parcial de 1/3</dd>
+                    </div>
+                  </dl>
+                  <div class="btns">
+                    <button class="b-pri">Executei</button><button class="b-sec">Ignorar</button>
+                  </div>
+                </article>
+                <div class="sec">
+                  <h2>Alertas</h2>
+                  <span class="cnt m">(20)</span
+                  ><button class="i" aria-label="Alertas"><span>i</span></button>
+                </div>
+                <ul class="alerts">
+                  <li class="s">
+                    <span class="m t">10:15</span><span class="m id">P3-01</span
+                    ><span class="msg">SQQQ devolveu 50% do melhor ponto: reduzir metade</span>
+                  </li>
+                  <li class="a">
+                    <span class="m t">10:14</span><span class="m id">DEC-01</span
+                    ><span class="msg">Mercado confirmou SOXL acima da VWAP com volume 1,8x</span>
+                  </li>
+                  <li class="w">
+                    <span class="m t">10:02</span><span class="m id">LIQ-02</span
+                    ><span class="msg">Spread de TECS em 0,24%, perto do máximo</span>
+                  </li>
+                  <li class="g">
+                    <span class="m t">09:45</span><span class="m id">ORB-00</span
+                    ><span class="msg">Faixa de abertura fechada: SOXX 241,10–243,80</span>
+                  </li>
+                </ul>
+                <div class="sec">
+                  <h2>Diário do dia</h2>
+                  <button class="i" aria-label="Diário do dia"><span>i</span></button>
+                </div>
+                <div class="jr">
+                  <div>
+                    <span>seguidas</span><b class="m">4</b><small class="m buy">▲ +1,9R</small>
+                  </div>
+                  <div>
+                    <span>ignoradas</span><b class="m">1</b><small class="m sell">▼ −0,4R</small>
+                  </div>
+                  <button class="i" aria-label="Diário"><span>i</span></button>
+                </div>
+              </div>
+              <div class="dk-r">
+                <div class="sec">
+                  <h2>Pares</h2>
+                  <span class="cnt m">3</span
+                  ><button class="i" aria-label="Pares"><span>i</span></button>
+                </div>
+                <div class="pgrid">
+                  <article class="pair">
+                    <header>
+                      <h4>Semis vs Nasdaq</h4>
+                      <span class="tag">Cenário 1</span
+                      ><button class="i" aria-label="Cenário"><span>i</span></button>
+                    </header>
+                    <div class="pair-m">
+                      <div>
+                        <span
+                          >P&amp;L do par<button class="i" aria-label="P&L do par">
+                            <span>i</span>
+                          </button></span
+                        ><b class="m buy">▲ +0,82R</b>
+                      </div>
+                      <div>
+                        <span
+                          >Direcional<button class="i" aria-label="Direcional efetiva">
+                            <span>i</span>
+                          </button></span
+                        ><b class="m">+0,18x<small> / plano 0</small></b>
+                      </div>
+                    </div>
+
+                    <div class="leg">
+                      <span class="side">LONG</span><span class="tk">SOXL</span
+                      ><span class="lv">3x bull</span><span class="q m">154</span
+                      ><span class="r m buy">▲ +1,48R</span
+                      ><button class="i" aria-label="Ponta"><span>i</span></button>
+                    </div>
+                    <div class="leg">
+                      <span class="side">SHORT</span><span class="tk">SQQQ</span
+                      ><span class="lv">3x bear</span><span class="q m">277</span
+                      ><span class="r m sell">▼ −0,66R</span
+                      ><button class="i" aria-label="Ponta"><span>i</span></button>
+                    </div>
+                    <div class="ldets">
+                      <div class="ldet">
+                        <b class="ltk">SOXL</b>
+                        <div><span>médio</span><b class="m">29,61</b></div>
+                        <div><span>preço</span><b class="m">31,40</b></div>
+                        <div><span>stop</span><b class="m">30,36</b></div>
+                        <div><span>HWM</span><b class="m">31,55</b></div>
+                        <div><span>devolveu</span><b class="m">8%</b></div>
+                        <div><span>VWAP</span><b class="m">favor</b></div>
+                      </div>
+                      <div class="ldet">
+                        <b class="ltk">SQQQ</b>
+                        <div><span>médio</span><b class="m">20,12</b></div>
+                        <div><span>preço</span><b class="m">19,82</b></div>
+                        <div><span>stop</span><b class="m">18,95</b></div>
+                        <div><span>HWM</span><b class="m">20,40</b></div>
+                        <div><span>devolveu</span><b class="m">—</b></div>
+                        <div><span>VWAP</span><b class="m">contra</b></div>
+                      </div>
+                    </div>
+                    <div class="und">
+                      <div class="und-h">
+                        Subjacentes<button class="i" aria-label="Subjacente"><span>i</span></button>
+                      </div>
+                      <div>
+                        <b>SOXX</b><span class="m">VWAP +0,9%</span
+                        ><span class="m">gap +0,4 ATR</span><span class="m">viés alta</span>
+                      </div>
+                      <div>
+                        <b>QQQ</b><span class="m">VWAP +0,3%</span><span class="m">cruz. 1</span
+                        ><span class="m">viés alta</span>
+                      </div>
+                    </div>
+                    <div class="chk">
+                      <div class="chk-h">
+                        Checklist de pyramiding <span class="m">6/7</span
+                        ><button class="i" aria-label="Checklist"><span>i</span></button>
+                      </div>
+                      <div class="y"><span>✓</span>acima da VWAP<b class="m">+0,9%</b></div>
+                      <div class="y"><span>✓</span>rompeu faixa<b class="m">sim</b></div>
+                      <div class="y"><span>✓</span>volume ≥ 1,5x<b class="m">1,8x</b></div>
+                      <div class="y"><span>✓</span>≥ +1R<b class="m">+1,48R</b></div>
+                      <div class="n"><span>✗</span>perdedora reduzida<b class="m">não</b></div>
+                      <div class="y"><span>✓</span>exposição ok<b class="m">1,05x</b></div>
+                      <div class="y"><span>✓</span>antes de 15:00<b class="m">10:15</b></div>
+                    </div>
+                  </article>
+                  <article class="pair">
+                    <header>
+                      <h4>Financeiros vs Tech</h4>
+                      <span class="tag">Cenário 2</span
+                      ><button class="i" aria-label="Cenário"><span>i</span></button>
+                    </header>
+                    <div class="pair-m">
+                      <div>
+                        <span
+                          >P&amp;L do par<button class="i" aria-label="P&L do par">
+                            <span>i</span>
+                          </button></span
+                        ><b class="m buy">▲ +0,44R</b>
+                      </div>
+                      <div>
+                        <span
+                          >Direcional<button class="i" aria-label="Direcional efetiva">
+                            <span>i</span>
+                          </button></span
+                        ><b class="m">+0,02x<small> / plano 0</small></b>
+                      </div>
+                    </div>
+
+                    <div class="leg">
+                      <span class="side">LONG</span><span class="tk">FAS</span
+                      ><span class="lv">3x bull</span><span class="q m">48</span
+                      ><span class="r m buy">▲ +0,61R</span
+                      ><button class="i" aria-label="Ponta"><span>i</span></button>
+                    </div>
+                    <div class="leg">
+                      <span class="side">SHORT</span><span class="tk">TECS</span
+                      ><span class="lv">3x bear</span><span class="q m">330</span
+                      ><span class="r m sell">▼ −0,17R</span
+                      ><button class="i" aria-label="Ponta"><span>i</span></button>
+                    </div>
+                    <div class="ldets">
+                      <div class="ldet">
+                        <b class="ltk">FAS</b>
+                        <div><span>médio</span><b class="m">142,80</b></div>
+                        <div><span>preço</span><b class="m">144,39</b></div>
+                        <div><span>stop</span><b class="m">139,70</b></div>
+                        <div><span>HWM</span><b class="m">144,90</b></div>
+                        <div><span>devolveu</span><b class="m">4%</b></div>
+                        <div><span>VWAP</span><b class="m">favor</b></div>
+                      </div>
+                      <div class="ldet">
+                        <b class="ltk">TECS</b>
+                        <div><span>médio</span><b class="m">4,52</b></div>
+                        <div><span>preço</span><b class="m">4,49</b></div>
+                        <div><span>stop</span><b class="m">4,31</b></div>
+                        <div><span>HWM</span><b class="m">4,55</b></div>
+                        <div><span>devolveu</span><b class="m">—</b></div>
+                        <div><span>VWAP</span><b class="m">contra</b></div>
+                      </div>
+                    </div>
+                    <div class="und">
+                      <div class="und-h">
+                        Subjacentes<button class="i" aria-label="Subjacente"><span>i</span></button>
+                      </div>
+                      <div>
+                        <b>XLF</b><span class="m">VWAP +0,5%</span><span class="m">cruz. 1</span
+                        ><span class="m">viés alta</span>
+                      </div>
+                      <div>
+                        <b>XLK</b><span class="m">VWAP +0,2%</span><span class="m">cruz. 2</span
+                        ><span class="m">viés alta</span>
+                      </div>
+                    </div>
+                    <div class="chk">
+                      <div class="chk-h">
+                        Checklist de pyramiding <span class="m">5/7</span
+                        ><button class="i" aria-label="Checklist"><span>i</span></button>
+                      </div>
+                      <div class="y"><span>✓</span>acima da VWAP<b class="m">+0,5%</b></div>
+                      <div class="y"><span>✓</span>rompeu faixa<b class="m">sim</b></div>
+                      <div class="n"><span>✗</span>volume ≥ 1,5x<b class="m">1,2x</b></div>
+                      <div class="n"><span>✗</span>≥ +1R<b class="m">+0,61R</b></div>
+                      <div class="y"><span>✓</span>perdedora reduzida<b class="m">—</b></div>
+                      <div class="y"><span>✓</span>exposição ok<b class="m">1,05x</b></div>
+                      <div class="y"><span>✓</span>antes de 15:00<b class="m">10:15</b></div>
+                    </div>
+                  </article>
+                  <article class="pair">
+                    <header>
+                      <h4>Biotech vs S&amp;P 500</h4>
+                      <span class="tag">Cenário 5</span
+                      ><button class="i" aria-label="Cenário"><span>i</span></button>
+                    </header>
+                    <div class="pair-m">
+                      <div>
+                        <span
+                          >P&amp;L do par<button class="i" aria-label="P&L do par">
+                            <span>i</span>
+                          </button></span
+                        ><b class="m sell">▼ −0,12R</b>
+                      </div>
+                      <div>
+                        <span
+                          >Direcional<button class="i" aria-label="Direcional efetiva">
+                            <span>i</span>
+                          </button></span
+                        ><b class="m">−0,04x<small> / plano 0</small></b>
+                      </div>
+                    </div>
+
+                    <div class="leg">
+                      <span class="side">LONG</span><span class="tk">LABU</span
+                      ><span class="lv">3x bull</span><span class="q m">210</span
+                      ><span class="r m sell">▼ −0,20R</span
+                      ><button class="i" aria-label="Ponta"><span>i</span></button>
+                    </div>
+                    <div class="leg">
+                      <span class="side">SHORT</span><span class="tk">SPXS</span
+                      ><span class="lv">3x bear</span><span class="q m">160</span
+                      ><span class="r m buy">▲ +0,08R</span
+                      ><button class="i" aria-label="Ponta"><span>i</span></button>
+                    </div>
+                    <div class="ldets">
+                      <div class="ldet">
+                        <b class="ltk">LABU</b>
+                        <div><span>médio</span><b class="m">118,40</b></div>
+                        <div><span>preço</span><b class="m">118,28</b></div>
+                        <div><span>stop</span><b class="m">113,90</b></div>
+                        <div><span>HWM</span><b class="m">119,10</b></div>
+                        <div><span>devolveu</span><b class="m">—</b></div>
+                        <div><span>VWAP</span><b class="m">contra</b></div>
+                      </div>
+                      <div class="ldet">
+                        <b class="ltk">SPXS</b>
+                        <div><span>médio</span><b class="m">6,21</b></div>
+                        <div><span>preço</span><b class="m">6,24</b></div>
+                        <div><span>stop</span><b class="m">5,98</b></div>
+                        <div><span>HWM</span><b class="m">6,26</b></div>
+                        <div><span>devolveu</span><b class="m">—</b></div>
+                        <div><span>VWAP</span><b class="m">favor</b></div>
+                      </div>
+                    </div>
+                    <div class="und">
+                      <div class="und-h">
+                        Subjacentes<button class="i" aria-label="Subjacente"><span>i</span></button>
+                      </div>
+                      <div>
+                        <b>XBI</b><span class="m">VWAP −0,2%</span><span class="m">cruz. 4</span
+                        ><span class="m">neutro</span>
+                      </div>
+                      <div>
+                        <b>SPY</b><span class="m">VWAP +0,1%</span><span class="m">cruz. 3</span
+                        ><span class="m">viés alta</span>
+                      </div>
+                    </div>
+                    <div class="chk">
+                      <div class="chk-h">
+                        Checklist de pyramiding <span class="m">3/7</span
+                        ><button class="i" aria-label="Checklist"><span>i</span></button>
+                      </div>
+                      <div class="n"><span>✗</span>acima da VWAP<b class="m">−0,2%</b></div>
+                      <div class="n"><span>✗</span>rompeu faixa<b class="m">não</b></div>
+                      <div class="n"><span>✗</span>volume ≥ 1,5x<b class="m">0,9x</b></div>
+                      <div class="n"><span>✗</span>≥ +1R<b class="m">−0,20R</b></div>
+                      <div class="y"><span>✓</span>perdedora reduzida<b class="m">—</b></div>
+                      <div class="y"><span>✓</span>exposição ok<b class="m">1,05x</b></div>
+                      <div class="y"><span>✓</span>antes de 15:00<b class="m">10:15</b></div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer class="ft">
+        Prumo Noturno · uma cor = um sentido · cor sempre com ícone e texto · números de exemplo (1R
+        = US$ 125,00, capital US$ 25.000) · não é recomendação de investimento
+      </footer>
+    </main>
+  </body>
+</html>

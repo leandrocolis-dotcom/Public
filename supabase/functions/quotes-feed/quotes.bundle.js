@@ -267,6 +267,11 @@ function extendedHours(q) {
     xc: q.regularMarketPrice > 0 ? p / q.regularMarketPrice - 1 : null
   };
 }
+function bidAsk(q) {
+  const b = q?.bid;
+  const a = q?.ask;
+  return b > 0 && a > 0 && b <= a ? { b, a } : {};
+}
 function futContracts(symbols, now = /* @__PURE__ */ new Date()) {
   const out = {};
   for (const s of symbols) {
@@ -337,6 +342,7 @@ async function fetchAll(symbols = SYMBOLS, extra = [], { deadline = null } = {})
           av: q.averageDailyVolume10Day ?? null,
           pc: q.regularMarketPreviousClose ?? null,
           ...extendedHours(q),
+          ...bidAsk(q),
           ...extraSet.has(q.symbol) ? { n: q.shortName ?? q.longName ?? null } : {}
         };
       }
