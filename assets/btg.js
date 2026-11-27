@@ -291,18 +291,13 @@ export function btgParts(
   const manualWarn = v.manual
     ? `<p class="pf-btg-warn">✎ Ajuste manual sobre a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}${v.manual.at ? ` (editado ${fmtDT(new Date(v.manual.at))})` : ""}. Some sozinho na próxima leitura do BTG. <button class="btn small" data-action="btg-manual-clear">Descartar ajustes</button></p>`
     : "";
-  const warn =
-    (v.rejected
-      ? `<p class="pf-btg-warn">⚠ Última leitura recusada (${esc(v.rejected)}). A carteira segue com a foto anterior.</p>`
-      : v.tryFail
-        ? `<p class="pf-btg-warn">⚠ Última tentativa de leitura não gravou (${esc(v.tryFail)}). A carteira segue com a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}.</p>` // prettier-ignore
-        : v.stale
-          ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
-          : "") +
-    // aviso só quando as quantidades NÃO batem com o total investido que o BTG mandou na última leitura
-    (v.qty && !v.qty.ok
-      ? `<p class="pf-btg-warn">⚠ Quantidades do exterior não batem com o BTG: a leitura de ${v.asOf ? fmtDT(v.asOf) : "–"} mostra US$ ${num(v.qty.btg, 0)} investidos; as quantidades × preço dão US$ ${num(v.qty.mine, 0)} (${v.qty.gap >= 0 ? "+" : "−"}${num(Math.abs(v.qty.gap) * 100, 1)}%). O BTG não manda mais o exterior ativo a ativo: se comprou ou vendeu, ajuste no ✎ das posições.</p>` // prettier-ignore
-      : "");
+  const warn = v.rejected
+    ? `<p class="pf-btg-warn">⚠ Última leitura recusada (${esc(v.rejected)}). A carteira segue com a foto anterior.</p>`
+    : v.tryFail
+      ? `<p class="pf-btg-warn">⚠ Última tentativa de leitura não gravou (${esc(v.tryFail)}). A carteira segue com a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}.</p>` // prettier-ignore
+      : v.stale
+        ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
+        : "";
   const hm = (d) =>
     d ? d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "";
   const ddmmIso = (d) => (d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "");
