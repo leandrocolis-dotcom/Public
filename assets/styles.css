@@ -12058,3 +12058,169 @@ html[data-nav="bottom"] main {
     font-size: 15px;
   }
 }
+
+/* Carteira › Performance (assets/perf-view.js) — mesma linguagem das Duplas ("Leme e Escada") */
+.pp-card {
+  display: grid;
+  gap: 14px;
+}
+.pp-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pp-seg button {
+  min-height: 40px;
+}
+.pp-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+.pp-big {
+  display: grid;
+  gap: 2px;
+}
+.pp-big b {
+  font-size: 36px;
+  line-height: 1.1;
+}
+.pp-big span.mono {
+  color: var(--text-3);
+  font-size: 12px;
+}
+.pp-big.sm {
+  justify-items: end;
+}
+.pp-big.sm b {
+  font-size: 20px;
+}
+.pp-fig {
+  margin: 0;
+}
+.pp-fig svg {
+  display: block;
+  width: 100%;
+  height: 200px;
+}
+.pp-fig svg.pp-dd {
+  height: 64px;
+}
+.pp-fig svg[aria-label^="Retorno diário"] {
+  height: 90px;
+}
+.pp-base {
+  stroke: var(--line-2);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.pp-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  vector-effect: non-scaling-stroke;
+}
+.pp-bench {
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 3;
+  vector-effect: non-scaling-stroke;
+}
+.pp-dd polygon {
+  fill: color-mix(in srgb, var(--sell) 35%, transparent);
+}
+.pp-fig rect.up {
+  fill: var(--buy);
+}
+.pp-fig rect.dn {
+  fill: var(--sell);
+}
+.pp-fig figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+  color: var(--text-3);
+  font: 11px var(--mono);
+}
+.pp-leg i {
+  display: inline-block;
+  width: 12px;
+  height: 3px;
+  margin: 0 4px 2px 8px;
+  vertical-align: middle;
+}
+.pp-leg i.pf {
+  background: var(--accent);
+}
+.pp-leg i.bm {
+  background: var(--text-3);
+}
+.pp-leg i.dd {
+  height: 8px;
+  background: color-mix(in srgb, var(--sell) 35%, transparent);
+}
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.pp-m {
+  display: grid;
+  gap: 2px;
+  cursor: help;
+}
+.pp-m b {
+  font-size: 17px;
+}
+.pp .up {
+  color: var(--buy);
+}
+.pp .down {
+  color: var(--sell);
+}
+.pp-gap {
+  margin: 0;
+  color: var(--text-3);
+  font-size: 12px;
+  cursor: help;
+}
+.pp-heat {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px;
+  font: 11px var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.pp-heat th {
+  color: var(--text-3);
+  font-weight: 600;
+  text-align: center;
+}
+.pp-heat td {
+  padding: 6px 4px;
+  border-radius: 4px;
+  text-align: center;
+}
+.pp-hc.up {
+  background: color-mix(in srgb, var(--buy) calc(var(--a) * 100%), transparent);
+  color: var(--text);
+}
+.pp-hc.down {
+  background: color-mix(in srgb, var(--sell) calc(var(--a) * 100%), transparent);
+  color: var(--text);
+}
+.pp-yr {
+  font-weight: 700;
+}
+@media (max-width: 520px) {
+  .pp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pp-big b {
+    font-size: 30px;
+  }
+}

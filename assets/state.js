@@ -21,6 +21,7 @@ export const TABS = [
   ["risk", "Risco"],
   ["rebal", "Rebalancear"],
   ["phist", "Histórico"],
+  ["pfperf", "Performance"],
   ["rfix", "Renda fixa BR"],
   ["pairdesk", "Duplas L/S"],
   ["trig", "Agora"],
@@ -53,7 +54,7 @@ export const isOnshore = (tab) => marketOf(tab)?.id === "on";
 export const GROUPS = [
   { id: "home", label: "Início", q: "O que olhar hoje?", tabs: ["home"] },
   { id: "market", label: "Mercados", q: "Como estão os mercados agora? Offshore (EUA e mundo) e Onshore (Brasil), com as mesmas sete telas.", tabs: MARKETS.flatMap((m) => m.tabs), segs: MARKETS },
-  { id: "wallet", label: "Carteira", q: "Como estão os meus investimentos?", tabs: ["portfolio", "pairdesk", "journal", "risk", "rebal", "phist", "rfix"] },
+  { id: "wallet", label: "Carteira", q: "Como estão os meus investimentos?", tabs: ["portfolio", "pairdesk", "pfperf", "journal", "risk", "rebal", "phist", "rfix"] },
   { id: "opps", label: "Gatilhos", q: "Tem gatilho com evidência agora? Só o que passou no teste fora da amostra.", tabs: ["trig", "screener", "sim", "archive"] },
 ]; // prettier-ignore
 
@@ -104,7 +105,9 @@ export const TAB_INFO = {
   phist:
     "Posição histórica: escolha a data e veja posições, valor de mercado e rentabilidade da carteira naquele dia (uma foto do BTG por dia).",
   pairdesk:
-    "Painel das duplas long × short: alvo de saída de cada dupla (quanto vender da ponta vencedora, líquido do custo), ajuste da inclinação pelo regime do pêndulo e reserva de caixa para comprar na queda ou na alta.",
+    "Painel das duplas long × short: soma da carteira das duplas, trava da carteira, e por dupla postura-alvo, venda parcial e travas em degraus, com preço ao vivo e máxima do dia.",
+  pfperf:
+    "Rentabilidade do exterior por janela (dia, semana, mês, ano, início): curva, queda máxima, volatilidade, Sharpe e mês a mês. BTG oficial + carteira de cada dia.",
   rfix: "Compara CDB, LCI, LCA, Tesouro, CRI/CRA, debêntures, fundo DI e poupança no mesmo valor e prazo: bruto, impostos e líquido.",
   screener:
     "Scanner de volatilidade do mercado inteiro: amplitude (ATR%), gap, volume fora do normal, esticado contra a MM20 e movimentos fortes de hoje.",

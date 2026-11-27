@@ -39,6 +39,7 @@ import { ARCHIVE, TABS, TAB_INFO, hooks, marketOf, state } from "./state.js";
 import { viewChecks } from "./checks-center.js";
 import { viewRebalance } from "./rebalance.js";
 import { viewPortfolioHistory } from "./pf-history.js";
+import { viewPerformance } from "./perf-view.js";
 
 let structLoading = false;
 /** Custo de estrutura (não residente): dividend yield de cada posição pela análise (busca em segundo plano). */
@@ -232,6 +233,7 @@ export function makeViews({ settingsCtx, dashCtx, flowCtx, brFlowCtx, pfCtx }) {
         perf: state.offPerf,
       }),
     rfix: viewFixedIncome,
+    pfperf: viewPerformance,
     pairdesk: () =>
       viewPairDesk({ score: marketScore(), move: regimeMove(state.flow, state.live?.quotes) }),
     sim: viewSim,
