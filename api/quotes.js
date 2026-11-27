@@ -314,11 +314,11 @@ export default async function handler(req, res) {
     const out = await fetchAll(only ? [] : SYMBOLS, extra, { deadline: deadlineIn(22000) });
     const ok = out.count > 0;
     // Cache na borda: no máximo 1 consulta ao Yahoo por minuto, qualquer que seja o número de acessos.
-    // ba=1 (Long & Short: bid/ask para o preço limite e o spread): 5 s, senão o bid/ask chega com minutos.
+    // ba=1 (Long & Short: bid/ask para o preço limite e o spread): sem cache, senão chega com minutos de idade.
     const ba = qs.get("ba") === "1";
     res.setHeader(
       "Cache-Control",
-      !ok ? "no-store" : ba ? "public, s-maxage=5, stale-while-revalidate=5" : "public, s-maxage=60, stale-while-revalidate=120", // prettier-ignore
+      !ok || ba ? "no-store" : "public, s-maxage=60, stale-while-revalidate=120", // prettier-ignore
     );
     res.status(ok ? 200 : 502).json(out);
   } catch (e) {

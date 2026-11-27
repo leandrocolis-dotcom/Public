@@ -125,9 +125,9 @@ export function evaluateAlerts(input, out, p = input.params ?? PARAMS) {
   if (f.rsk02) A.push(mk("RSK-02"));
   if (f.rsk03 && !(out.orders ?? []).some((o) => o.alert === "RSK-03")) {
     const big = open.slice().sort((a, b) => Math.abs(b.expAj) - Math.abs(a.expAj))[0];
-    A.push(mk("RSK-03", big?.sym, { lado: big ? sideText(big.dir === 1 ? "VENDER" : "COMPRAR_PARA_COBRIR") : "REDUZIR", q: "—", ativo: big?.sym ?? "a maior posição" })); // prettier-ignore
+    A.push(mk("RSK-03", big?.sym, { lado: "REDUZIR", q: "o excesso", ativo: big?.sym ?? "a maior posição" })); // prettier-ignore
   }
-  if (f.rsk04) A.push(mk("RSK-04", null, { x: num(out.portfolio.tetoR ?? 0, 1) }));
+  if (f.rsk04) A.push(mk("RSK-04", null, { x: num(Math.max(0, out.portfolio.tetoR ?? 0), 2) }));
   const gb = out.blockers ?? [];
   if (gb.some((b) => b.id === "BEH-01")) A.push(mk("BEH-01"));
   const symStops = Object.entries(day.stopsBySym ?? {}).filter(([, n]) => n >= p.max_stops_ativo_dia).map(([s]) => s); // prettier-ignore

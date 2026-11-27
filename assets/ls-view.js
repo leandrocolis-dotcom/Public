@@ -51,7 +51,8 @@ export const parseNum = (s, sep = decSep()) => {
 /** ⓘ acessível: botão que abre a dica (toque no celular, foco/hover no desktop). */
 export const info = (id, vars) => {
   const t = tipText(id, vars);
-  return `<button type="button" class="ls-i" data-ls-tip="${id}" aria-label="Ajuda: ${esc(t.que)}" title="${esc(`${t.que} · ${t.ler}${t.fazer ? ` · ${t.fazer}` : ""}`)}">ⓘ</button>`; // prettier-ignore
+  const v = vars ? ` data-ls-tipv="${esc(JSON.stringify(vars))}"` : "";
+  return `<button type="button" class="ls-i" data-ls-tip="${id}"${v} aria-label="Ajuda: ${esc(t.que)}" title="${esc(`${t.que} · ${t.ler}${t.fazer ? ` · ${t.fazer}` : ""}`)}">ⓘ</button>`; // prettier-ignore
 };
 const lab = (txt, id, vars) => `<span class="ls-lab">${txt} ${info(id, vars)}</span>`;
 
@@ -134,9 +135,9 @@ function loadQuotes(need, session) {
   if (quoteBusy || session === "FECHADO") return;
   quoteBusy = true;
   const rest = need.all.filter((s) => !need.etfs.includes(s));
-  // ETFs: 8 s com bid/ask (o canal de 15 s não traz; idade máx. no pregão 10 s); subjacentes, SPY e VIX: normal
+  // ETFs: 5 s com bid/ask (o canal de 15 s não traz; idade máx. no pregão 10 s); subjacentes, SPY e VIX: normal
   Promise.all([
-    fetchQuotes(need.etfs, { id: "longshort", ttl: 8000, bidAsk: true, bg: false }),
+    fetchQuotes(need.etfs, { id: "longshort", ttl: 5000, bidAsk: true, bg: false }),
     fetchQuotes(rest, { id: "longshort-u", ttl: 15000, bg: false }),
   ])
     .then(([a, b]) => {
@@ -221,13 +222,21 @@ function compute(now) {
   const { input, meta } = buildInput({ now, rows, pairs, quotes, bars, daily, book: b, plan, paramsUser: store.get(PARAMS_KEY, {}) ?? {}, assetsUser, account, photoMs, events: eventsToday(now), recIssues: rec.issues }); // prettier-ignore
   loadQuotes(need, input.session);
   const out = computeLs(input);
-  const alerts = out.ok ? evaluateAlerts(input, out) : [];
+  // sem a 1ª cotação, nada de alerta (senão "preço não confiável" em tudo só por estar carregando)
+  const ready = !!state.lsQuotes || input.session === "FECHADO";
+  const alerts = out.ok && ready ? evaluateAlerts(input, out) : [];
   const ded = dedupeAlerts(alerts, state.lsAlertMem ?? {}, now, input.params);
   state.lsAlertMem = ded.mem;
-  if (ded.show.length) {
-    const t = clocks(now).et;
-    state.lsFeed = [...ded.show.map((a) => ({ ...a, t })), ...(state.lsFeed ?? [])].slice(0, 20);
+  // lista = alertas ATIVOS agora (some quando a condição passa), com a hora em que apareceram
+  const first = (state.lsFirst ??= {});
+  const active = new Set();
+  for (const a of alerts) {
+    const k = `${a.id}|${a.sym ?? ""}`;
+    active.add(k);
+    first[k] ??= clocks(now).et;
   }
+  for (const k of Object.keys(first)) if (!active.has(k)) delete first[k];
+  state.lsFeed = alerts.slice(0, 20).map((a) => ({ ...a, t: first[`${a.id}|${a.sym ?? ""}`] }));
   if (out.ok)
     b = noteTrips(
       b,
@@ -250,11 +259,15 @@ function statusBar(c, now) {
   const trava =
     f.rsk01 || f.rsk02 || f.rsk03 || f.rsk04 || out.blockers?.some((b) => /^BEH/.test(b.id));
   const near = out.portfolio?.near?.length;
-  const sem = trava
-    ? `<span class="ls-sem down">‼ trava ativa</span>`
-    : near
-      ? `<span class="ls-sem wait">⚠ perto do limite</span>`
-      : `<span class="ls-sem">✓ ok</span>`;
+  const noData =
+    (!state.lsQuotes && input.session !== "FECHADO") || out.legs?.some((m) => m.qty > 0 && !m.ok);
+  const sem = noData
+    ? `<span class="ls-sem">– sem dados</span>`
+    : trava
+      ? `<span class="ls-sem down">‼ trava ativa</span>`
+      : near
+        ? `<span class="ls-sem wait">⚠ perto do limite</span>`
+        : `<span class="ls-sem">✓ ok</span>`;
   const planOk = input.plan.ok;
   const bands = [];
   if (input.session !== "FECHADO" && !planOk)
@@ -278,6 +291,9 @@ function statusBar(c, now) {
 function metrics(c) {
   const pf = c.out.portfolio;
   if (!pf) return "";
+  const bad = c.out.legs.some((m) => m.qty > 0 && !m.ok);
+  if (bad || (!state.lsQuotes && c.input.session !== "FECHADO"))
+    return `<section class="ls-metrics" aria-label="Métricas da carteira"><div class="ls-card wide">${lab("P&L do dia", "pnl_dia", { R: num(pf.R, 2) })}<b class="ls-big">–</b><span class="ls-sub">${bad ? "Falta preço de alguma ponta: métricas suspensas para não mostrar zero falso." : "Carregando cotações…"}</span></div></section>`; // prettier-ignore
   const lim = pf.lossLim > 0 ? Math.max(0, Math.min(1, pf.limiteRestante / pf.lossLim)) : 0;
   const lvl = (u) => (u >= 1 ? "down" : u > 0.8 ? "wait" : "");
   const bar = (frac, cls) => `<div class="ls-bar ${cls}"><i style="width:${Math.round(frac * 100)}%"></i></div>`; // prettier-ignore
@@ -288,10 +304,10 @@ function metrics(c) {
   })();
   return `<section class="ls-metrics" aria-label="Métricas da carteira">
     <div class="ls-card ${lvl(pf.use.perda)}">${lab("P&L do dia", "pnl_dia", { R: num(pf.R, 2) })}<b class="ls-big ${tone(pf.pnlDay)}">${usd(pf.pnlDay)}</b><span class="ls-sub">${rTxt(pf.pnlDayR)} · ${sg(pf.pnlDayPct)}${num(Math.abs(pf.pnlDayPct), 2)}%</span></div>
-    <div class="ls-card ${lvl(pf.use.perda)}">${lab("Limite restante", "limite_restante")}<b class="ls-big">${usdA(pf.limiteRestante, 2)}</b>${bar(lim, lvl(pf.use.perda))}<span class="ls-sub">1R = ${usdA(pf.R, 2)} ${info("R")}</span></div>
+    <div class="ls-card ${lvl(pf.use.perda)}">${lab("Limite restante", "limite_restante")}<b class="ls-big ${pf.limiteRestante < 0 ? "down" : ""}">${pf.limiteRestante < 0 ? `−US$ ${num(-pf.limiteRestante, 2)}` : usdA(pf.limiteRestante, 2)}</b>${bar(lim, lvl(pf.use.perda))}<span class="ls-sub">1R = ${usdA(pf.R, 2)} ${info("R")}</span></div>
     <div class="ls-card ${lvl(pf.use.bruta)}">${lab("Exposição bruta", "exp_bruta")}<b class="ls-big">${num(pf.expBrutaX, 2)}x</b><span class="ls-sub">limite ${num(p.exposicao_bruta_max_x_capital, 1)}x</span></div>
     <div class="ls-card ${lvl(pf.use.liquida)}">${lab("Exposição líquida", "exp_liquida")}<b class="ls-big">${xTxt(pf.expLiqX)}</b>${gauge}<span class="ls-sub">limite ±${num(p.exposicao_liquida_max_x_capital, 1)}x</span></div>
-    <div class="ls-card wide ${lvl(pf.use.risco)}">${lab("Risco aberto", "risco_aberto_total")}<b class="ls-big">${num(pf.riskOpenR, 2)}R</b><span class="ls-sub">teto ${num(pf.tetoR, 2)}R · queda do pico ${num(pf.drawdown, 1)}% ${info("drawdown")}</span></div>
+    <div class="ls-card wide ${lvl(pf.use.risco)}">${lab("Risco aberto", "risco_aberto_total")}<b class="ls-big">${num(pf.riskOpenR, 2)}R</b><span class="ls-sub">teto ${num(Math.max(0, pf.tetoR), 2)}R · queda do pico ${num(pf.drawdown, 1)}% ${info("drawdown")}</span></div>
   </section>`; // prettier-ignore
 }
 
@@ -322,11 +338,20 @@ function ordersBlock(c) {
   const { out, input } = c;
   const list = out.orders ?? [];
   let body;
-  if (input.session === "FECHADO" && !list.some((o) => !o.blocked))
-    body = `<p class="ls-none">Mercado fechado: modo revisão. Veja o diário e preencha o plano de amanhã.</p>`;
-  else if (!list.length && !out.stopMoves.length)
+  const bad = out.legs.filter((m) => !m.ok || !m.quote?.ok).map((m) => m.sym);
+  // ignorada há menos de 15 min sai da lista (volta se a prioridade subir: id novo)
+  const ign = new Set((book().day.ignored ?? []).filter((x) => x.orderId && Date.now() - x.ts < input.params.dedupe_alerta_min * 60000).map((x) => x.orderId)); // prettier-ignore
+  const shown = list.filter((o) => !ign.has(o.id));
+  const hidden = list.length - shown.length;
+  if (input.session === "FECHADO") {
+    const nxt = shown.filter((o) => !o.blocked);
+    body = `<p class="ls-none">Mercado fechado: modo revisão. Veja o diário e preencha o plano de amanhã.</p>${nxt.length ? `<p class="ls-sub">Para a próxima sessão (4:00 ET): ${nxt.map((o) => `${esc(ACT(o))} ${o.qty} ${esc(o.sym)} (${esc(o.alert ?? o.reason)})`).join(" · ")}</p>` : ""}`; // prettier-ignore
+  } else if (bad.length && !shown.some((o) => o.purpose === "REDUZIR" || o.purpose === "ZERAR"))
+    body = `<p class="ls-none wait">⚠ Sem preço confiável em ${esc(bad.join(", "))}: não dá para dizer o que fazer agora.</p>`; // prettier-ignore
+  else if (!shown.length && !out.stopMoves.length)
     body = `<p class="ls-none">＝ Nada a fazer: manter.</p>`;
-  else body = out.stopMoves.map(stopRow).join("") + list.map(orderRow).join("");
+  else body = out.stopMoves.map(stopRow).join("") + shown.map(orderRow).join("");
+  if (hidden) body += `<p class="ls-sub">${hidden} ordem(ns) ignorada(s) há menos de 15 min.</p>`;
   const live = liveOrders(book()).filter((o) => o.status === "PARCIAL");
   if (live.length)
     body = live.map((o) => `<article class="ls-order"><div class="ls-sub">Saldo aberto ${info("residual")}: <b>${(o.qtySug ?? 0) - (o.qtyExec ?? 0)}</b> de ${o.qtySug} ${esc(o.sym)} (${esc(o.purpose)} · ${esc(o.reason ?? "")})</div><div class="ls-btns"><button class="btn" data-ls-execlive="${esc(o.id)}">Executou o saldo</button><button class="btn ghost" data-ls-rem="${esc(o.id)}" data-ans="cancelado">Foi cancelado</button></div></article>`).join("") + body; // prettier-ignore
@@ -493,7 +518,7 @@ function critical(c) {
 function tipPop() {
   const id = state.lsTip;
   if (!id || !TIPS[id]) return "";
-  const t = tipText(id);
+  const t = tipText(id, state.lsTipVars ?? {});
   return `<div class="ls-tip" role="tooltip" id="ls-tip-pop"><b>O que é</b> ${esc(t.que)}<br><b>Como ler</b> ${esc(t.ler)}${t.fazer ? `<br><b>O que fazer</b> ${esc(t.fazer)}` : ""} <button class="ls-tip-x" data-ls-tip-close aria-label="Fechar ajuda">×</button></div>`; // prettier-ignore
 }
 
@@ -525,6 +550,11 @@ export function lsClick(e) {
   const tip = t.closest("[data-ls-tip]");
   if (tip) {
     state.lsTip = state.lsTip === tip.dataset.lsTip ? null : tip.dataset.lsTip;
+    try {
+      state.lsTipVars = tip.dataset.lsTipv ? JSON.parse(tip.dataset.lsTipv) : {};
+    } catch {
+      state.lsTipVars = {}; // dado da própria tela: sem valores, a dica sai com a chave visível
+    }
     e.preventDefault();
     return hooks.render();
   }
@@ -636,13 +666,16 @@ export function lsChange(e) {
     if (v === null) return;
     const leg = state.lsLast?.input.pairs.flatMap((p) => [p.long, p.short]).find((l) => l?.sym === ds.lsSetstop); // prettier-ignore
     const P = leg?.quote?.P;
-    if (!(v > 0)) return flash(`Stop inválido (separador decimal: "${decSep()}").`, "warn");
-    if (P > 0 && (leg.dir === 1 ? v >= P : v <= P)) return flash(`Stop ${px(v)} do lado errado do preço ${px(P)}: zere em vez de pôr stop acima do preço.`, "warn"); // prettier-ignore
+    const back = () => (t.value = fin(leg?.stop) ? px(leg.stop) : ""); // recusado: o campo volta ao stop gravado
+    if (!(v > 0))
+      return (back(), flash(`Stop inválido (separador decimal: "${decSep()}").`, "warn"));
+    if (P > 0 && (leg.dir === 1 ? v >= P : v <= P)) return back(), flash(`Stop ${px(v)} do lado errado do preço ${px(P)}: zere em vez de pôr stop acima do preço.`, "warn"); // prettier-ignore
     try {
       saveBook(setStop(book(), ds.lsSetstop, v, { dir: leg?.dir ?? 1, ts: Date.now() }));
       flash(`Stop de ${ds.lsSetstop} = ${px(v)}.`);
     } catch (err) {
-      flash(err.message);
+      back();
+      flash(err.message, "warn");
     }
   } else if (ds.lsParam) {
     const cur = { ...(store.get(PARAMS_KEY, {}) ?? {}) };

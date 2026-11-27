@@ -12326,11 +12326,6 @@ html[data-nav="bottom"] main {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
-@media (min-width: 1100px) {
-  .ls-metrics {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
 .ls-card {
   display: grid;
   gap: 4px;
@@ -12495,8 +12490,8 @@ html[data-nav="bottom"] main {
   font-size: 22px;
 }
 .ls-i {
-  min-width: 28px;
-  min-height: 28px;
+  min-width: 40px;
+  min-height: 40px;
   padding: 0 4px;
   border: 0;
   background: none;
@@ -12702,4 +12697,47 @@ html[data-nav="bottom"] main {
 }
 .ls-crit .btn {
   min-height: 48px;
+}
+
+.ls .btn {
+  min-height: 44px;
+}
+.ls input:not([type="radio"]),
+.ls select {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 10px;
+}
+.ls input::placeholder {
+  color: var(--text-3);
+}
+.ls input:focus-visible,
+.ls select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.ls-plan label,
+.ls-params label,
+.ls-sheet label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+.ls-plan label > input,
+.ls-plan label > select,
+.ls-params label > input,
+.ls-sheet label > input[inputmode],
+.ls-sheet label > input[id] {
+  flex: 1 1 100%;
+}
+.ls-sheet fieldset label {
+  flex-wrap: nowrap;
+  min-height: 44px;
+  color: var(--text);
+}
+.ls-in {
+  min-height: 44px;
 }
