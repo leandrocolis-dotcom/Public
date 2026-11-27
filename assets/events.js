@@ -432,6 +432,9 @@ export function initEvents(h) {
         holdings: state.pfParsed.holdings.map(({ boughtToday, ...h }) =>
           boughtToday ? { ...h, openedOn: today } : h,
         ),
+        // com conta BTG, a importação vira ajuste por cima da foto: vale até o BTG mandar posições mais novas
+        // (leitura completa sobrescreve; leitura sem o exterior ativo a ativo mantém o importado)
+        ...(state.broker?.summary ? { manual: nextManual(state.broker, null, {}) } : {}),
       };
       setPortfolio(state.portfolio);
       state.prefs.tab = "portfolio";

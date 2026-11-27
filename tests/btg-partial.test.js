@@ -81,3 +81,17 @@ describe("conferência das quantidades com o total do BTG", async () => {
     expect(qtyCheck(1000, 1100, day - 10 * 60e3, day)).toMatchObject({ ok: false });
   });
 });
+
+describe("importação com conta BTG", async () => {
+  const { nextManual, manualActive: active } = await import("../assets/btg.js");
+  it("vale por cima da foto parcial e sai quando o BTG manda posições mais novas", () => {
+    const stale = { asOf: "2026-11-27T19:49:22Z", summary: { offshore: { positionsStale: true, positionsAsOf: "2026-11-25T18:24:37Z" } } }; // prettier-ignore
+    const m = nextManual(stale, null, {});
+    expect(active(stale, m)).toBe(true);
+    const full = {
+      asOf: "2026-11-28T14:00:00Z",
+      summary: { asOf: "2026-11-28T14:00:00Z", offshore: {} },
+    };
+    expect(active(full, m)).toBe(false);
+  });
+});
