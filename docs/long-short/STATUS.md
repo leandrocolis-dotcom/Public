@@ -20,6 +20,8 @@
   na API a cada 8 s enquanto aberta. Reimplantar `supabase/functions/quotes-feed` (index.ts + quotes.bundle.js).
 - **Short real (dir −1):** a Carteira só tem posição comprada; a aposta na queda é o ETF inverso comprado.
 - **Volume no pré/pós:** o Yahoo não traz; VWAP estendida sai como aproximada e rompimento só confirma no pregão.
+- **bid/ask de outra sessão:** o Yahoo às vezes devolve oferta velha no pós (SQQQ bid 38,31 com o pós em 45,78
+  em 27/11/2026). Meio do bid/ask a mais de 2% do preço vigente é descartado (`sanePair` em `assets/ls-input.js`).
 - **Idade da cotação:** é a hora do último negócio no Yahoo; papel parado pode acionar EXE-01 sem erro do robô.
 - **Diário:** fica dentro de `pendulo_ls` (a tabela `pendulo_journal` não existe no projeto Supabase).
 - **Eventos macro:** agenda de alto impacto dos EUA de `api/calendar` (P2, PRE-02); balanços de ETFs não se aplicam.

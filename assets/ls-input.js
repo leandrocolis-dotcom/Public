@@ -31,6 +31,20 @@ export function livePrice(q) {
   return ext ? { P: q.xp, ts: q.xt * 1000 } : { P: q.p, ts: fin(q.t) ? q.t * 1000 : null };
 }
 
+/** Distância máxima do meio do bid/ask ao preço vigente: fora disso a oferta é de outra sessão (o Yahoo
+ * devolveu SQQQ bid 38,31 com o pós em 45,78 em 27/11/2026) e é descartada (compras: EXE-01). */
+export const BA_MAX_DIST = 0.02;
+export function sanePair(q, P, sym = "", missing = []) {
+  const b = q?.b;
+  const a = q?.a;
+  if (!(b > 0) || !(a > 0) || !(P > 0)) return { bid: null, ask: null };
+  if (Math.abs((a + b) / 2 / P - 1) > BA_MAX_DIST) {
+    missing.push(`${sym}: bid/ask longe do preço (oferta de outra sessão): descartado`);
+    return { bid: null, ask: null };
+  }
+  return { bid: b, ask: a };
+}
+
 /** Percentil (0–100) do ATR(14) diário de hoje entre os ATRs do último ano (filtro de overnight). */
 export function atrPercentile(rows, n = 14, look = 252) {
   if (!rows || rows.length < n + 30) return null;
@@ -104,7 +118,7 @@ export function buildInput(src) {
       lastLot: link.lastLot ?? (qty || null),
       pRef: openedToday ? link.entryPrice : refPrice(bars[sym], now, q),
       asset,
-      quote: { P, bid: q?.b ?? null, ask: q?.a ?? null, ts },
+      quote: { P, ...sanePair(q, P, sym, missing), ts },
       under: u ? underlyingView({ bars: bars[u] ?? null, daily: hist(u), S, ms: now, params }) : {},
       retDay: { etf: P > 0 && q?.pc > 0 ? P / q.pc - 1 : null, under: S > 0 && uq?.pc > 0 ? S / uq.pc - 1 : null }, // prettier-ignore
       borrow: null,

@@ -305,3 +305,14 @@ describe("número digitado no separador do usuário", () => {
     expect(parseNum("abc", ".")).toBeNaN();
   });
 });
+
+describe("bid/ask de outra sessão", () => {
+  it("oferta longe do preço vigente é descartada (compras ficam sem preço confiável)", async () => {
+    const { sanePair } = await import("../assets/ls-input.js");
+    const miss = [];
+    expect(sanePair({ b: 38.31, a: 38.33 }, 45.78, "SQQQ", miss)).toEqual({ bid: null, ask: null });
+    expect(miss[0]).toMatch(/SQQQ/);
+    expect(sanePair({ b: 45.77, a: 45.79 }, 45.78)).toEqual({ bid: 45.77, ask: 45.79 });
+    expect(sanePair({ b: 0, a: 45.79 }, 45.78)).toEqual({ bid: null, ask: null });
+  });
+});
