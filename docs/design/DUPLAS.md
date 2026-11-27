@@ -1,50 +1,49 @@
-# Fiel da Balança — Carteira › Duplas L/S
+# Instrumento Frio — Carteira › Duplas L/S
 
-Movimento derivado do "Prumo Noturno" (`FILOSOFIA.md`), aplicado ao painel das duplas long × short em 27/11/2026.
+Movimento derivado do "Prumo Noturno" (`FILOSOFIA.md`), refeito em 27/11/2026 a pedido do usuário (substitui o
+"Fiel da Balança": sem inclinação pelo regime, sem reserva de caixa, sem "próxima ação" sugerida).
 Canvas: `duplas-canvas.png` (gerado por `build-duplas.py`, valores de EXEMPLO).
 
-Toda balança tem um fiel: a agulha fina que mostra, de longe e sem número, para que lado o peso pende. Este
-movimento faz de cada dupla uma balança. Uma barra só, dividida entre o lado comprado e o vendido, em que o ponto da
-divisão _é_ a agulha. Sobre ela fica uma marca fina para onde a agulha deveria estar e uma faixa tênue para a folga
-aceita. O olho entende a postura antes de ler qualquer algarismo: perto da marca, em paz; longe da marca, há trabalho.
-A interface não explica a inclinação, ela a mostra.
+Um instrumento de cabine não opina: mede. Este movimento trata a tela como um painel de instrumentos lido em
+dois segundos, no escuro, com a mão já a caminho da ordem. Nada decora; tudo indica. A forma nasce da pergunta
+"onde estou, quanto ganho, onde saio", e cada elemento existe só se responde a uma delas. O que sobra é silêncio
+deliberado, um vazio desenhado com o mesmo cuidado meticuloso do número que ele emoldura.
 
-A hierarquia segue a ordem em que a mão trabalha. Primeiro, o estado: quanto a dupla ganha, num número grande e
-sozinho. Depois, a postura: a balança. Em seguida, uma única ação em destaque, escrita como ordem de corretora
-("Vender 12 SOXS"), com o valor e o que ela realiza. Por fim, os preços a deixar na corretora, em algarismos
-tabulares grandes o bastante para copiar sem errar. O que é contexto (parâmetros, explicações, a segunda opção) desce
-para o fundo, em tipo pequeno, ou se recolhe. Ninguém precisa ler um parágrafo para agir.
+O espaço é uma coluna única, vertical, como a fita de um altímetro. Os comandos ficam em cima, onde o polegar
+começa; a leitura desce em camadas que nunca disputam o olho: o céu (o regime, só contexto, em voz baixa), o
+horizonte (o total comprado, vendido e o resultado) e o solo (cada dupla, cada ponta). A hierarquia é de escala,
+não de cor: um algarismo grande e sozinho para o resultado, algarismos tabulares médios para preços que serão
+copiados, rótulos minúsculos em versalete espaçado. A execução precisa parecer obra de mestre, calibrada à mão,
+um painel lapidado por horas até nenhuma linha estar meio pixel fora do lugar.
 
-A cor tem um sentido por vez e nunca dois. Verde e vermelho só aparecem em resultado e variação. O comprado e o
-vendido usam o azul de informação em dois pesos, cheio e esmaecido, porque a posição na barra já diz o lado. O acento
-marca o alvo e a ação recomendada, e nada mais. O âmbar aparece só quando algo pede a mão agora: dupla fora da folga,
-reserva de caixa furada ou regime virando contra a postura. Se nada estiver âmbar, nada está pedindo nada.
+A cor é um sinal, nunca um enfeite, e cada matiz carrega um único sentido. Verde e vermelho só para dinheiro
+ganho ou perdido. O azul frio da informação veste comprado e vendido, cheio e esmaecido, porque a posição já
+diz o lado. O periwinkle do acento marca o que o usuário define e o que a máquina devolve como ordem: a trava.
+O fundo é noite funda; as superfícies sobem em degraus mínimos de luz, sem sombra, sem gradiente, sem brilho.
 
-O progresso até o alvo é uma régua, não uma frase. Ela vai de zero ao alvo, com uma marca para a trava. O
-preenchimento anda conforme o resultado e fica verde e cheio quando o alvo é batido. A régua do caixa é igual, com o
-caixa contra a reserva: o mesmo desenho, que se aprende uma vez e se lê em todo lugar. Repetição é vocabulário.
+A barra é o coração do movimento. Cada ponta vira uma régua de preço em escala própria: o médio é um fio fino
+(o chão do zero), a trava é um entalhe no acento, o preço de agora é a agulha. Entre o médio e a trava, o lucro
+já garantido, pleno; entre a trava e a agulha, o lucro ainda exposto, esmaecido. Na ponta perdedora, o trecho
+entre a agulha e o médio em vermelho tênue, sem entalhe: não há o que travar. O olho entende a proteção antes
+de ler um algarismo. O mesmo desenho se repete em toda ponta, com a precisão paciente de quem desenha escalas
+de instrumentos; repetição é vocabulário, e vocabulário é velocidade.
 
-O espaço trabalha mais que as bordas. Os blocos se separam por respiro e por um único fio. Os números se alinham
-pela direita e não dançam quando mudam. Os alvos de toque têm 40 px ou mais, e nenhum texto é cortado com
-reticências. Cada régua, cada marca e cada alinhamento numa grade de 4 px precisa parecer feito à mão, com o cuidado
-paciente de quem lapidou o painel por horas, e não com o descuido de um painel gerado. A execução é de ofício:
-nada sobra, nada falta e tudo está no lugar onde o olho procura.
+O ritmo é uma grade de 4 px respeitada sem exceção. Números alinham pela direita e não dançam quando o preço
+muda. Alvos de toque têm 40 px ou mais; nada é cortado com reticências; nenhum parágrafo explica o que a forma
+já mostra. O acabamento deve ser o de uma peça de ofício no topo da disciplina, onde cada alinhamento foi
+revisto até sumir, e o que fica é só a medida, nítida, fria e confiável.
 
 ## Como isso vira interface
 
-1. **Faixa de comando** (topo): pêndulo (nota, faixa, 1 h) · balança do total das duplas (agora × alvo do regime) ·
-   régua do caixa × reserva · contador "N duplas pedem ajuste" (âmbar) ou "Tudo na folga".
-2. **Cartão por dupla**, de cima para baixo:
-   - nome + resultado grande (US$ e %, desde o médio ou hoje);
-   - **balança**: barra comprado | vendido, divisão = inclinação, marca do alvo e faixa da folga; rótulos
-     "62% comprado · 38% vendido" e "agora +24% → alvo +40%";
-   - **próxima ação** (caixa de acento): ★ ordem pronta (ex.: "Vender 12 SOXS"), valor, quanto realiza ou quanto
-     usa do caixa; a outra opção em uma linha pequena; "Na folga · nada a fazer" quando dentro;
-   - **régua do alvo de saída**: resultado ÷ alvo, marca da trava; batido = 🎯 ordem da ponta vencedora;
-   - **ordens na corretora**: por ponta, preço agora, 🎯 alvo (limitada, se subir) e 🔒 trava (stop, se cair), com a
-     distância em %;
-   - **pontas**: cotas, médio → preço, andou, resultado e exposição, em tabela compacta;
-   - ajustes (alvo % e inclinação manual) numa linha pequena no rodapé.
-3. **Parâmetros** (reserva, inclinação máxima, trava, custo, base, + dupla) recolhidos num `<details>`; o texto de
-   como ler também.
-4. Sem parágrafos explicativos na leitura principal; detalhes em `title` e no "Como ler".
+1. **Comandos** (topo, primeiro bloco): base do resultado (desde o médio / hoje), custo por operação e uma linha
+   por dupla com **Vender %** (fatia da ponta no lucro) e **Reter %** (quanto do lucro a trava garante). Editar
+   aqui recalcula tudo abaixo na hora. "+ dupla" no fim.
+2. **Regime** (só leitura, uma linha): nota do pêndulo, faixa e quanto andou em 1 h. Não entra em nenhuma conta.
+3. **Total das duplas**: comprado (US$), vendido (US$), resultado em US$ e % sobre o investido; barra
+   comprado | vendido.
+4. **Cartão por dupla**: nome + resultado grande (US$ e %); por ponta (comprado em cima, vendido embaixo):
+   cotas, médio → agora, dia %, resultado US$ e %, e a **régua de preço** (médio, trava, agora);
+   depois as **ordens prontas**: "Vender N cotas de X" (valor, quanto realiza) e "Stop X a P" (cotas que sobram,
+   distância e quanto garante).
+5. Trava de uma ponta no lucro: `stop = médio + reter × (agora − médio)`; garante `reter` do lucro da ponta
+   (antes do custo). Venda: `cotas = vender × cotas da ponta`, arredondado para baixo.

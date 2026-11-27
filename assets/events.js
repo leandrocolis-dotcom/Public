@@ -1,7 +1,7 @@
 import { fetchQuotes } from "./quote-hub.js";
 import { ratesChange, ratesClick } from "./rates-view.js";
 import { pairsChange, pairsClick } from "./pairs-view.js";
-import { deskChange, deskClick } from "./pair-desk-view.js";
+import { deskChange } from "./pair-desk-view.js";
 import { notifOn, setNotif } from "./notif-prefs.js";
 import { assetNewsPopHtml, newsByAsset, outliersPopHtml } from "./asset-news.js";
 import { BADGED, OUT, sparkPick, sparkUnpick } from "./dash.js";
@@ -89,7 +89,6 @@ export function initEvents(h) {
   document.addEventListener("click", (e) => pairsClick(e));
   document.addEventListener("change", (e) => pairsChange(e));
   document.addEventListener("change", (e) => deskChange(e)); // Carteira › Duplas L/S
-  document.addEventListener("click", (e) => deskClick(e)); // lembra Parâmetros / Como ler abertos
   // Painel: "+" no cabeçalho do quadro abre o campo; × tira o ativo acrescentado (sem abrir a linha)
   document.addEventListener(
     "click",
