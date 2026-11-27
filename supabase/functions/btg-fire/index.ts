@@ -137,6 +137,7 @@ async function fireOne(name: string, url: string, token: string): Promise<string
     .slice(0, 160);
   console.error("btg-fire: rotina recusou", {
     name,
+    routine: url.match(/trig_\w+/)?.[0] ?? "?", // qual rotina o segredo aponta (o id não é segredo)
     status: f.status,
     type: err.type,
     detail,
