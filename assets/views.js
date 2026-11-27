@@ -6,12 +6,13 @@ import { esc } from "./format.js";
 import { withManual } from "./btg.js";
 import { viewPortfolio } from "./portfolio-view.js";
 import { viewTriggers } from "./triggers-view.js";
+import { viewPairDesk } from "./pair-desk-view.js";
 import { viewSettings } from "./settings-view.js";
 import { viewDash } from "./dash.js";
 import { viewMacro } from "./macro-view.js";
 import { viewLocal } from "./local-view.js";
 import { viewBrCalendar, viewBrFlow, viewBrMacro } from "./br-views.js";
-import { viewHome } from "./home-view.js";
+import { regimeMove, viewHome } from "./home-view.js";
 import { sessionFraction } from "./flow-engine.js";
 import { viewNews } from "./news-view.js";
 import { viewCalendar } from "./calendar-view.js";
@@ -225,6 +226,8 @@ export function makeViews({ settingsCtx, dashCtx, flowCtx, brFlowCtx, pfCtx }) {
         perf: state.offPerf,
       }),
     rfix: viewFixedIncome,
+    pairdesk: () =>
+      viewPairDesk({ score: marketScore(), move: regimeMove(state.flow, state.live?.quotes) }),
     sim: viewSim,
     news: () =>
       viewNews({

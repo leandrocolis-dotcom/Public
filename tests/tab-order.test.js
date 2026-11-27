@@ -14,6 +14,6 @@ describe("ordem das sub-abas", () => {
     });
     expect(html).toContain('data-order-key="wallet"');
     const ids = [...html.matchAll(/class="subtab"[^>]*data-tab="(\w+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["phist", "rebal", "portfolio", "journal", "risk", "rfix"]);
+    expect(ids).toEqual(["phist", "rebal", "portfolio", "pairdesk", "journal", "risk", "rfix"]);
   });
 });
