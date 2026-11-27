@@ -139,6 +139,7 @@ export function computeLs(input) {
   const eventCooling = events.some((e) => e.atMs <= now && now - e.atMs < p.evento_espera_min * 60000); // prettier-ignore
   const eventToday = events.length > 0;
   const blockers = globalBuyBlockers({ session, minET, cutMin, planOk: !!input.plan?.ok, calendarBlocks: !!input.calendar?.blocks, flags, day, eventCooling, refMissing: pf.refMissing, noStop: pf.noStop, p }); // prettier-ignore
+  for (const b of input.extraBlockers ?? []) blockers.push(b); // reconciliação pendente (REC) etc.
 
   const orders = [];
   const stopMoves = [];

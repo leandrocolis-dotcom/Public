@@ -18,6 +18,7 @@ describe("ordem das sub-abas", () => {
       "phist",
       "rebal",
       "portfolio",
+      "longshort",
       "pairdesk",
       "pfperf",
       "journal",

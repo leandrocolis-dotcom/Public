@@ -43,3 +43,12 @@ Mockups da Fase 6 de `docs/PLANO-LONG-SHORT.md` (seção 8.7), na linguagem "Pru
 - [x] Uma cor = um sentido: nenhum verde para "ok"; âmbar só no pré-mercado, na execução parcial e no spread perto do limite.
 - [x] Ações destrutivas com confirmação: Executei abre a folha (Confirmar), Ignorar abre a folha de motivo, o crítico só fecha com "Li e entendi".
 - [x] Contraste ≥ 4,5:1 (medido com os valores do tema Meia-noite): `--text-3` sobre `--surface` 4,99 e sobre `--surface-2` 4,64; `--text-2` sobre `--sell-soft` 6,79; `--sell`/`--sell-soft` 6,2; `--buy`/`--buy-soft` 8,54; `--wait`/`--wait-soft` 8,29; `--accent` sobre `--surface` 7,15; `--on-accent` sobre `--accent` 7,42.
+
+## Decisões tomadas (27/11/2026, delegadas pelo usuário)
+
+1. **Pílula PRÉ cinza.** O âmbar fica só na faixa "só ordem limitada, tamanho 50%" (uma cor = um sentido).
+2. **Ordem bloqueada recolhida numa linha** ("⊘ BLOQUEADO · ação qtd ativo" + motivo); toque abre o detalhe e a
+   prévia. Não disputa atenção com a ordem executável.
+3. **Crítico fecha só com "Li e entendi".** Cada zeragem é registrada uma a uma com Executei (nada registrado sem
+   execução de fato).
+4. **Pares = duplas de Duplas L/S** (`prefs.pairs`), sem cadastro paralelo.

@@ -7,6 +7,7 @@ import { withManual } from "./btg.js";
 import { viewPortfolio } from "./portfolio-view.js";
 import { viewTriggers } from "./triggers-view.js";
 import { viewPairDesk } from "./pair-desk-view.js";
+import { viewLongShort } from "./ls-view.js";
 import { usdBrl } from "./fx-rate.js";
 import { viewSettings } from "./settings-view.js";
 import { viewDash } from "./dash.js";
@@ -234,6 +235,7 @@ export function makeViews({ settingsCtx, dashCtx, flowCtx, brFlowCtx, pfCtx }) {
       }),
     rfix: viewFixedIncome,
     pfperf: viewPerformance,
+    longshort: viewLongShort,
     pairdesk: () =>
       viewPairDesk({ score: marketScore(), move: regimeMove(state.flow, state.live?.quotes) }),
     sim: viewSim,

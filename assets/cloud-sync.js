@@ -5,6 +5,7 @@ import { fmtTime } from "./format.js";
 import * as cloud from "./cloud.js";
 import { syncTrades } from "./trades.js";
 import { syncJournal } from "./journal-view.js";
+import { syncLs } from "./ls-view.js";
 import {
   STAMPS_KEY,
   applyRemote,
@@ -123,6 +124,7 @@ export async function syncCloud({ force = false } = {}) {
     pushLists();
     if (await syncTrades()) changed = true;
     if (await syncJournal()) changed = true;
+    if (await syncLs()) changed = state.prefs.tab === "longshort" || changed;
     await syncSettings(); // edições: redesenha pelo initSettingsSync, sem o aviso de carteira
     const broker = await cloud.pullBroker().catch(() => state.broker ?? null);
     if (broker?.syncedAt !== state.broker?.syncedAt) {

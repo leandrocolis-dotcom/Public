@@ -410,6 +410,23 @@ export async function pullJournal() {
   return r ? { entries: r.entries, updatedAt: r.updated_at } : null;
 }
 
+/** Long & Short: estado do motor (pontas, ordens, execuções, contadores do dia, diário), 1 linha por usuário. */
+export async function pushLs(data) {
+  const t = await token();
+  await call(`/rest/v1/pendulo_ls?on_conflict=user_id`, {
+    method: "POST",
+    token: t,
+    headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: { user_id: session.user.id, data, updated_at: new Date().toISOString() },
+  });
+}
+
+export async function pullLs() {
+  const rows = await call(`/rest/v1/pendulo_ls?select=data,updated_at`, { token: await token() });
+  const r = rows?.[0];
+  return r ? { data: r.data, updatedAt: r.updated_at } : null;
+}
+
 /** Apaga a carteira em todos os aparelhos: grava uma carteira vazia com data (marca de exclusão), para que
  * outro aparelho com a cópia antiga entenda que ela foi apagada e não a envie de volta. */
 export async function deletePortfolio() {

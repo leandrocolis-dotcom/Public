@@ -82,16 +82,25 @@ const heldSyms = () => (state.portfolio?.holdings ?? []).map((h) => h.sym);
  * Busca (se preciso) e devolve { quotes, fetched (quantos foram buscados agora) } dos ativos pedidos, já com o que o canal e a central têm.
  * `id` registra o pedido para a presença; `bg` põe na fila de fundo; `ttl` validade por ativo.
  */
-export async function fetchQuotes(syms, { id = null, ttl = TTL, force = false, bg = true } = {}) {
+export async function fetchQuotes(
+  syms,
+  { id = null, ttl = TTL, force = false, bg = true, bidAsk = false } = {},
+) {
+  // prettier-ignore
   const now = Date.now();
   if (id) want(id, syms, now);
+  // bidAsk: o canal só "cobre" o ativo se trouxer bid/ask (b/a); senão a central busca na API (Long & Short)
+  const covers = (s) => {
+    const q = liveQuote(s, now);
+    return q && (!bidAsk || (q.b > 0 && q.a > 0)) ? q : null;
+  };
   const need = needFetch(syms, {
     now,
     ttl,
     force,
     at: hub.at,
     inflight: hub.inflight,
-    live: (s) => liveQuote(s, now),
+    live: covers,
   });
   need.forEach((s) => hub.inflight.add(s));
   try {
@@ -121,7 +130,11 @@ export async function fetchQuotes(syms, { id = null, ttl = TTL, force = false, b
   }
   const quotes = {};
   for (const s of syms) {
-    const q = liveQuote(s) ?? hub.quotes[s];
+    const lq = liveQuote(s);
+    const hq = hub.quotes[s];
+    let q = lq ?? hq;
+    // preço do canal (mais novo) + bid/ask da API quando o canal não traz
+    if (bidAsk && lq && !(lq.b > 0) && hq?.b > 0) q = { ...lq, b: hq.b, a: hq.a, baT: hub.at[s] };
     if (q) quotes[s] = q;
   }
   return { quotes, fetched: need.length };
