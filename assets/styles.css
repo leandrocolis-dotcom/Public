@@ -11539,7 +11539,7 @@ html[data-nav="bottom"] main {
   color: var(--bg);
 }
 
-/* Carteira › Duplas L/S (assets/pair-desk-view.js) — "Instrumento Frio", docs/design/DUPLAS.md */
+/* Carteira › Duplas L/S (assets/pair-desk-view.js) — "Leme e Escada", docs/design/DUPLAS.md */
 .pd {
   display: grid;
   gap: 16px;
@@ -11582,28 +11582,15 @@ html[data-nav="bottom"] main {
 .pd-name {
   font-size: 16px;
 }
-/* comandos */
-.pd-cmd {
+/* controles (campos editáveis: borda no acento) */
+.pd-ctl,
+.pd-glob {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
-.pd-cmd-head,
-.pd-cmd-foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.pd-cmd-foot {
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
-.pd-cmd-row {
-  display: grid;
-  grid-template-columns: minmax(96px, 1fr) minmax(96px, 1fr) minmax(120px, 1.3fr) 40px;
-  align-items: end;
-  gap: 12px;
+.pd-ctl {
+  padding-bottom: 12px;
 }
 .pd-in {
   display: grid;
@@ -11612,7 +11599,7 @@ html[data-nav="bottom"] main {
   gap: 4px 6px;
   min-width: 0;
 }
-.pd-in > span {
+.pd-in > span:first-child {
   grid-column: 1 / -1;
   color: var(--text-3);
   font-size: 10px;
@@ -11620,17 +11607,24 @@ html[data-nav="bottom"] main {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+.pd-in > .seg {
+  grid-column: 1 / -1;
+}
 .pd-in input {
   width: 100%;
   min-width: 0;
   min-height: 40px;
   padding: 0 10px;
-  border: 1px solid var(--accent-soft);
+  border: 1px solid var(--accent);
   border-radius: 8px;
   background: var(--surface-2);
   color: var(--text);
   font: 700 17px var(--mono);
   text-align: right;
+}
+.pd-in input::placeholder {
+  color: var(--text-3);
+  font-weight: 400;
 }
 .pd-in input:focus {
   outline: 2px solid var(--accent);
@@ -11641,11 +11635,14 @@ html[data-nav="bottom"] main {
   font: 15px var(--mono);
   font-style: normal;
 }
-.pd-in.wide {
-  grid-template-columns: auto 6em auto;
+.pd-i {
+  color: var(--text-3);
+  font-style: normal;
+  cursor: help;
 }
-.pd-in.wide > span {
-  grid-column: auto;
+[title] > .pd-lab,
+.pd-lab[title] {
+  cursor: help;
 }
 .pd-del {
   min-width: 40px;
@@ -11654,13 +11651,85 @@ html[data-nav="bottom"] main {
   color: var(--text-3);
 }
 .pd-add {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
 }
 .pd-add select {
   min-height: 40px;
+}
+/* carteira das duplas */
+.pd-book {
+  display: grid;
+  gap: 12px;
+}
+.pd-book > .pd-lab:first-child {
+  color: var(--accent);
+}
+.pd-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.pd-locked {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.pd-locked b {
+  font-size: 17px;
+}
+.pd-net {
+  color: var(--info);
+}
+.pd-sub {
+  color: var(--text-3);
+  font-size: 11px;
+}
+/* postura: −100% (vendido) a +100% (comprado) */
+.pd-post-track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--info) 22%, transparent);
+}
+.pd-post-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--info);
+}
+.pd-post-zero {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--text-3);
+}
+.pd-post-want {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--accent);
+}
+.pd-post-lbl {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--text-3);
+  font-size: 11px;
+}
+.pd-blk {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 12px;
+}
+.pd-blk .pd-row b {
+  font-size: 13px;
 }
 /* regime: só leitura */
 .pd-reg {
@@ -11679,11 +11748,6 @@ html[data-nav="bottom"] main {
   color: var(--text-2);
 }
 /* total */
-.pd-tot {
-  display: grid;
-  gap: 8px;
-  padding: 0 4px;
-}
 .pd-tot-res {
   display: flex;
   flex-wrap: wrap;
@@ -11700,7 +11764,7 @@ html[data-nav="bottom"] main {
 }
 .pd-tot-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 .pd-tot-grid > div {
@@ -11714,17 +11778,6 @@ html[data-nav="bottom"] main {
   text-align: right;
   color: var(--text-2);
   font-size: 18px;
-}
-.pd-mix {
-  height: 8px;
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--info) 30%, transparent);
-  overflow: hidden;
-}
-.pd-mix i {
-  display: block;
-  height: 100%;
-  background: var(--info);
 }
 /* cartões */
 .pd-grid {
@@ -11921,17 +11974,36 @@ html[data-nav="bottom"] main {
   text-transform: uppercase;
   white-space: nowrap;
 }
+.pd-lock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+}
+.pd-lock b {
+  font-size: 18px;
+  white-space: nowrap;
+}
 .pd-none {
   margin: 8px 0 0;
   color: var(--text-3);
   font-size: 12px;
 }
 @media (max-width: 520px) {
-  .pd-cmd-row {
-    grid-template-columns: 1fr 1fr 40px;
+  .pd-tot-grid {
+    grid-template-columns: 1fr 1fr;
   }
-  .pd-cmd-row .pd-name {
-    grid-column: 1 / -1;
+  .pd-ctl,
+  .pd-glob {
+    gap: 8px;
+  }
+  .pd-in input {
+    font-size: 15px;
+    padding: 0 8px;
   }
   .pd-card {
     padding: 14px 16px;

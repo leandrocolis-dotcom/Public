@@ -1,5 +1,5 @@
-# Gera docs/design/duplas-canvas.png ("Instrumento Frio"): Carteira › Duplas L/S refeita em 27/11/2026.
-# Coluna de celular: comandos no topo → regime (só leitura) → total → cartões com régua de preço e ordens prontas.
+# Gera docs/design/duplas-canvas.png ("Leme e Escada"): Carteira › Duplas L/S refeita em 27/11/2026.
+# Coluna de celular: carteira das duplas → cartão com controles, postura, réguas com escada de travas e ordens.
 # Valores de EXEMPLO (fictícios). Uso: python3 docs/design/build-duplas.py <pasta das fontes>
 import sys
 
@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 FONTS = sys.argv[1] if len(sys.argv) > 1 else "fonts"
 S = 2
-W, H = 760, 1690
+W, H = 760, 1440
 M = 32  # margem
 BG = (7, 10, 18)
 SURF = (15, 21, 36)
@@ -106,91 +106,128 @@ def price_bar(x0, x1, y, avg, now, stop):
     t(nx, y + 20, f"{now:.2f}", MONOB(11), TEXT, "ma")
 
 
+
+def price_ladder(x0, x1, y, avg, now, stops):
+    pts = [avg, now] + stops
+    lo, hi = min(pts), max(pts)
+    pad = (hi - lo) * 0.12
+    lo, hi = lo - pad, hi + pad
+    X = lambda p: x0 + (p - lo) / (hi - lo) * (x1 - x0)  # noqa: E731
+    rr(x0, y, x1, y + 10, 5, fill=SURF2)
+    if now >= avg:
+        top = max(stops) if stops else avg
+        rect(X(avg), y, X(top), y + 10, BUY)
+        rect(X(top), y, X(now), y + 10, BUYD)
+    else:
+        rect(X(now), y, X(avg), y + 10, SELLD)
+    rect(X(avg) - 0.5, y - 6, X(avg) + 1, y + 16, T2)
+    t(X(avg), y + 22, f"médio {avg:.2f}", MONO(11), T3, "ma")
+    for k, sp in enumerate(sorted(stops)):
+        sx = X(sp)
+        d.polygon([((sx - 6) * S, (y - 10) * S), ((sx + 6) * S, (y - 10) * S), (sx * S, (y - 2) * S)], fill=ACC)
+        rect(sx - 1, y - 2, sx + 1, y + 12, ACC)
+        t(sx, y - 26, f"{sp:.2f}", MONOB(11), ACC, "ma")
+    nx = X(now)
+    d.ellipse(((nx - 10) * S, (y - 5) * S, (nx + 10) * S, (y + 15) * S), fill=TEXT, outline=BG, width=3 * S)
+    lbl = f"agora {now:.2f}"
+    w = tw(lbl, MONOB(12)) + 16
+    lx = min(max(nx - w / 2, x0 - 12), x1 + 12 - w)
+    rr(lx, y + 20, lx + w, y + 40, 10, fill=TEXT)
+    t(lx + w / 2, y + 23, lbl, MONOB(12), BG, "ma")
+
+
+def posture(x0, x1, y, now, want):
+    X = lambda v: x0 + (v + 1) / 2 * (x1 - x0)  # noqa: E731
+    rr(x0, y, x1, y + 8, 4, fill=INFOD)
+    rect(min(X(0), X(now)), y, max(X(0), X(now)), y + 8, INFO)
+    rect(X(0) - 0.5, y - 4, X(0) + 0.5, y + 12, T3)
+    if want is not None:
+        wx = X(want)
+        rect(wx - 1, y - 6, wx + 1, y + 14, ACC)
+    t(x0, y + 16, "vendido", SANS(11), T3)
+    t(x1, y + 16, "comprado", SANS(11), T3, "ra")
+
+
+def ctrl(x, y, w, label, value):
+    lab(x, y, label)
+    rr(x, y + 16, x + w, y + 54, 8, fill=SURF2, outline=ACC)
+    t(x + w - 12, y + 25, value, MONOB(17), TEXT, "ra")
+
+
 # ── título ──
 t(M, 34, "Duplas L/S", SERIF(34))
-t(W - M, 46, "BTG 27/11 06:21 · preços ao vivo", MONO(11), T3, "ra")
+t(W - M, 46, "BTG 27/11 06:21 · ao vivo", MONO(11), T3, "ra")
 
-# ── comandos ──
+# ── carteira das duplas ──
 y = 92
-rr(M, y, W - M, y + 250, 14, fill=SURF)
-lab(M + 20, y + 18, "Comandos", ACC)
-seg_x = W - M - 20 - 236
-rr(seg_x, y + 12, seg_x + 236, y + 44, 8, fill=SURF2)
-rr(seg_x + 3, y + 15, seg_x + 125, y + 41, 6, fill=ACCD)
-t(seg_x + 64, y + 21, "Desde o médio", SANSB(12), TEXT, "ma")
-t(seg_x + 181, y + 21, "Hoje", SANS(12), T2, "ma")
-cy = y + 62
-cols = [M + 20, M + 240, M + 440]
-for name in ("SOXL × SOXS", "SNDU × SNDQ"):
-    t(cols[0], cy + 30, name, SANSB(16))
-    field(cols[1], cy, 172, "Vender", "30")
-    field(cols[2], cy, 236, "Reter do lucro", "50")
-    cy += 76
-hline(M + 20, W - M - 20, cy - 4)
-t(M + 20, cy + 10, "Custo por operação", SANS(13), T2)
-t(W - M - 20, cy + 8, "0,10 %", MONOB(15), TEXT, "ra")
+rr(M, y, W - M, y + 330, 14, fill=SURF)
+lab(M + 20, y + 18, "Carteira das duplas", ACC)
+t(M + 20, y + 40, "+US$ 1.689", MONOB(38), BUY)
+t(M + 20 + tw("+US$ 1.689", MONOB(38)) + 12, y + 56, "+19,6%", MONOB(18), BUY)
+cols = [M + 20, M + 190, M + 360, M + 530]
+for (lb, v, c), x in zip([("Comprado", "US$ 8.374", TEXT), ("Vendido", "US$ 80", TEXT), ("Líquido", "+US$ 24.3k", INFO), ("Caixa", "US$ 2.124", TEXT)], cols):
+    lab(x, y + 104, lb)
+    t(x, y + 122, v, MONOB(17), c)
+t(cols[2], y + 146, "238% da conta", MONO(11), T3)
+posture(M + 20, W - M - 20, y + 178, 0.97, None)
+hline(M + 20, W - M - 20, y + 214)
+lab(M + 20, y + 228, "Garantido pelas travas")
+t(W - M - 20, y + 224, "+US$ 712", MONOB(17), ACC, "ra")
+cx = M + 20
+for lb, v in (("Base", "Médio"), ("Travas padrão", "50 %"), ("Custo", "0,10 %")):
+    lab(cx, y + 262, lb)
+    rr(cx, y + 278, cx + 190, y + 314, 8, fill=SURF2, outline=ACC)
+    t(cx + 178, y + 286, v, MONOB(15), TEXT, "ra")
+    cx += 213
 
-# ── regime (só leitura) ──
-y = 362
-t(M, y, "PÊNDULO", SANSB(10), T3)
-t(M + 70, y - 4, "+18", MONOB(17), INFO)
-t(M + 112, y - 2, "Neutro, puxando para risco", SANS(14), T2)
-t(W - M, y - 1, "1 h ▲ 4", MONO(13), T3, "ra")
-hline(M, W - M, y + 30)
+t(M, 446, "PÊNDULO", SANSB(10), T3)
+t(M + 70, 442, "+18", MONOB(16), INFO)
+t(M + 108, 444, "Neutro", SANS(13), T2)
+t(W - M, 445, "1 h ▲ 4", MONO(12), T3, "ra")
 
-# ── total ──
-y = 414
-lab(M, y, "Total das duplas")
-t(M, y + 22, "+US$ 1.842", MONOB(40), BUY)
-t(M + tw("+US$ 1.842", MONOB(40)) + 12, y + 40, "+21,4%", MONOB(20), BUY)
-lab(M, y + 92, "Comprado")
-t(M, y + 110, "US$ 8.545", MONOB(20))
-lab(M + 220, y + 92, "Vendido")
-t(M + 220, y + 110, "US$ 78", MONOB(20))
-lab(W - M, y + 92, "Investido", anchor="ra")
-t(W - M, y + 110, "US$ 7.516", MONO(20), T2, "ra")
-by = y + 150
-rr(M, by, W - M, by + 8, 4, fill=INFOD)
-rr(M, by, M + (W - 2 * M) * 0.99, by + 8, 4, fill=INFO)
-
-# ── cartões ──
-legs_card = [
-    ("SOXL × SOXS", "+US$ 1.367", "+32,1%", BUY, [
-        ("SOXL", "3x", "comprado", 147.59, 28.56, 37.41, "+4,8%", "+US$ 1.306", "+31,0%", BUY, 32.99),
-        ("SOXS", "−3x", "vendido", 0.67, 65.03, 51.74, "−4,6%", "−US$ 9", "−20,4%", SELL, None),
-    ], ("Vender 44 SOXL", "US$ 1.646 · realiza +US$ 389"), ("Stop SOXL a 32,99", "103 cotas · −11,8% · garante +US$ 455")),
-    ("SNDU × SNDQ", "+US$ 554", "+22,1%", BUY, [
-        ("SNDU", "2x", "comprado", 1140.99, 2.15, 2.65, "+3,1%", "+US$ 571", "+23,3%", BUY, 2.40),
-        ("SNDQ", "−2x", "vendido", 1.09, 55.28, 39.71, "−3,0%", "−US$ 17", "−28,2%", SELL, None),
-    ], ("Vender 342 SNDU", "US$ 906 · realiza +US$ 171"), ("Stop SNDU a 2,40", "799 cotas · −9,4% · garante +US$ 200")),
+# ── cartão da dupla ──
+y = 484
+rr(M, y, W - M, H - 64, 14, fill=SURF)
+t(M + 20, y + 22, "SOXL × SOXS", SANSB(18))
+t(W - M - 20, y + 14, "+US$ 1.137", MONOB(26), BUY, "ra")
+t(W - M - 20, y + 48, "+26,7%", MONO(12), BUY, "ra")
+cy = y + 80
+ctrl(M + 20, cy, 196, "Realizar", "25 %")
+ctrl(M + 236, cy, 196, "Postura-alvo", "+60 %")
+ctrl(M + 452, cy, 216, "Travas", "50 70 %")
+lab(M + 20, cy + 82, "Postura")
+t(W - M - 20, cy + 78, "+97% → +60%", MONOB(13), TEXT, "ra")
+posture(M + 20, W - M - 20, cy + 102, 0.97, 0.6)
+ly = cy + 150
+for sym, lev, side, info, pl, plp, pc, avg, now, stops in (
+    ("SOXL", "3x", "comprado", "147.59 · 28.56 → 36.31 · dia +11,4%", "+US$ 1.144", "+27,1%", BUY, 28.56, 36.31, [32.44, 33.99]),
+    ("SOXS", "−3x", "vendido", "0.67 · 65.03 → 53.92 · dia −11,6%", "−US$ 7", "−17,1%", SELL, 65.03, 53.92, []),
+):
+    hline(M + 20, W - M - 20, ly)
+    t(M + 20, ly + 14, sym, SANSB(16))
+    t(M + 20 + tw(sym, SANSB(16)) + 8, ly + 17, f"{lev} · {side}", SANS(12), T3)
+    t(W - M - 20, ly + 12, pl, MONOB(16), pc, "ra")
+    t(M + 20, ly + 40, info, MONO(12), T2)
+    t(W - M - 20, ly + 40, plp, MONO(12), pc, "ra")
+    price_ladder(M + 50, W - M - 50, ly + 98, avg, now, stops)
+    ly += 158
+lab(M + 20, ly + 4, "Ordens")
+oy = ly + 24
+orders = [
+    ("Inclinar: vender 50 SOXL", "→ +60% · realiza +US$ 386 · ou comprar 26 SOXS (US$ 1.402 do caixa)", None),
+    ("Vender 36 SOXL", "US$ 1.307 · realiza +US$ 278", None),
+    ("Stop 56 SOXL a 33,99", "degrau 70% · garante +US$ 304", ACC),
+    ("Stop 55 SOXL a 32,44", "degrau 50% · garante +US$ 213", ACC),
 ]
-y = 600
-for name, res, rp, col, legs, sell, stop in legs_card:
-    h = 504
-    rr(M, y, W - M, y + h, 14, fill=SURF)
-    t(M + 20, y + 22, name, SANSB(18))
-    t(W - M - 20, y + 14, res, MONOB(26), col, "ra")
-    t(W - M - 20, y + 48, rp + " sobre o investido", MONO(12), col, "ra")
-    ly = y + 84
-    for sym, lev, side, qty, avg, now, day, pl, plp, pc, stp in legs:
-        hline(M + 20, W - M - 20, ly)
-        t(M + 20, ly + 14, sym, SANSB(16))
-        t(M + 20 + tw(sym, SANSB(16)) + 8, ly + 17, f"{lev} · {side}", SANS(12), T3)
-        t(W - M - 20, ly + 12, pl, MONOB(16), pc, "ra")
-        q = f"{qty:,.2f}".replace(",", " ")
-        t(M + 20, ly + 40, f"{q} cotas · {avg:.2f} → {now:.2f} · dia {day}", MONO(12), T2)
-        t(W - M - 20, ly + 40, plp, MONO(12), pc, "ra")
-        price_bar(M + 50, W - M - 50, ly + 92, avg, now, stp)
-        ly += 140
-    oy = ly + 8
-    for (head, sub), kind in ((sell, "sell"), (stop, "stop")):
-        rr(M + 20, oy, W - M - 20, oy + 52, 10, fill=SURF2, outline=ACCD if kind == "stop" else None)
-        t(M + 36, oy + 9, head, MONOB(16), ACC if kind == "stop" else TEXT)
-        t(M + 36, oy + 31, sub, MONO(11), T2)
-        t(W - M - 36, oy + 17, "trava" if kind == "stop" else "venda", SANSB(10), T3, "ra")
-        oy += 60
-    y += h + 20
+for head_, sub, col in orders:
+    rr(M + 20, oy, W - M - 20, oy + 50, 10, fill=SURF2, outline=ACCD if col else None)
+    t(M + 36, oy + 8, head_, MONOB(15), col or TEXT)
+    t(M + 36, oy + 29, sub, MONO(11), T2)
+    oy += 58
+rr(M + 20, oy + 4, W - M - 20, oy + 56, 10, outline=ACC)
+lab(M + 36, oy + 23, "Travas executadas: fica com")
+t(W - M - 36, oy + 18, "+US$ 788", MONOB(18), ACC, "ra")
 
-t(W / 2, H - 28, "Instrumento Frio · valores de exemplo", SANS(11), T3, "ma")
+t(W / 2, H - 30, "Leme e Escada · valores de exemplo", SANS(11), T3, "ma")
 img.save("duplas-canvas.png", optimize=True)
 print("ok", img.size)
