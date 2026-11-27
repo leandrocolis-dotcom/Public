@@ -100,3 +100,54 @@ describe("régua de preço", () => {
     expect(barScale(100, null)).toBeNull();
   });
 });
+
+describe("máxima do dia", async () => {
+  const { dayHigh, deskState: desk } = await import("../assets/pair-desk.js");
+  // dois dias de barras (g = 0 para simplificar): a máxima é só do último dia, com pré e pós
+  const D = 86400;
+  const bars = { t: [D + 100, D + 200, 2 * D + 100, 2 * D + 200, 2 * D + 300], h: [99, 50, 30, 41, 38], s: ["reg", "reg", "pre", "reg", "post"] }; // prettier-ignore
+  it("pega o maior high do dia de hoje (pré/pregão/pós) e o preço ao vivo", () => {
+    const now = 2 * D + 5 * 3600;
+    expect(dayHigh(bars, { price: 37, now })).toEqual({
+      high: 41,
+      at: 2 * D + 200,
+      ses: "reg",
+      day: 2,
+    });
+    expect(dayHigh(bars, { price: 45, now })).toMatchObject({ high: 45, ses: "live" });
+  });
+  it("barras de outro dia não contam; antes das 4h vale a véspera; guarda a máxima já vista", () => {
+    const fri = 4 * D + 5 * 3600; // o Yahoo ainda sem barras do dia: só o preço ao vivo
+    expect(dayHigh(bars, { price: 30, now: fri })).toMatchObject({ high: 30, ses: "live" });
+    expect(dayHigh(bars, { price: 30, now: 3 * D + 3600 })).toMatchObject({ high: 41 }); // 1h da manhã: vale o pregão da véspera
+    const seen = { high: 33, at: fri - 600, ses: "live", day: 4 };
+    expect(dayHigh(bars, { price: 30, now: fri, seen })).toMatchObject({ high: 33 });
+    expect(dayHigh(null)).toBeNull();
+  });
+  it("quanto voltou desde a máxima, em % e em US$ da posição", () => {
+    const legs2 = [{ sym: "A", qty: 100, avg: 30, price: 37, lev: 3, high: 41 }];
+    const r = desk([{ key: "A-B", legs: legs2 }], { fee: 0 }).pairs[0].rows[0];
+    expect(r.back.pct).toBeCloseTo(37 / 41 - 1);
+    expect(r.back.usd).toBe(400);
+  });
+});
+
+describe("trava da carteira", async () => {
+  const { bookPlan, deskState: desk } = await import("../assets/pair-desk.js");
+  const d = desk([{ key: "SOXL-SOXS", legs: legs() }], { fee: 0 });
+  it("% do lucro: stop único por ponta no lucro, prejuízo a mercado, zerar agora", () => {
+    const b = bookPlan(d.pairs, { pct: 0.5, fee: 0 });
+    expect(b.now).toBe(900 - 150);
+    expect(b.legs).toEqual([
+      expect.objectContaining({ sym: "SOXL", kind: "stop", shares: 100, price: 32.5 }),
+      expect.objectContaining({ sym: "SOXS", kind: "sell", shares: 10 }),
+    ]);
+    expect(b.locked).toBeCloseTo(450 - 150);
+  });
+  it("US$ a garantir vira a % que chega lá", () => {
+    const b = bookPlan(d.pairs, { usd: 300, fee: 0 });
+    expect(b.k).toBeCloseTo(0.5);
+    expect(b.locked).toBeCloseTo(300);
+    expect(bookPlan(d.pairs, { usd: 5000, fee: 0 }).reach).toBe(false);
+  });
+});

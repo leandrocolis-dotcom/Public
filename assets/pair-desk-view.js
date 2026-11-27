@@ -2,7 +2,8 @@
 // Desenho "Leme e Escada" (docs/design/DUPLAS.md + duplas-canvas.png): carteira das duplas no topo (soma, rumo,
 // garantido pelas travas, padrões globais) → pêndulo só leitura → cartão por dupla com os controles dela
 // (realizar %, postura-alvo, travas em degraus), postura, réguas de preço e ordens prontas. Explicações em dica.
-import { DESK_DEFAULTS, barScale, deskState, parseSteps } from "./pair-desk.js";
+import { DESK_DEFAULTS, barScale, bookPlan, dayHigh, deskState, parseSteps } from "./pair-desk.js";
+import { barsKey, useBars } from "./bars-hub.js";
 import { DEFAULT_FEE, MAX_PAIRS, detectPairs, legFrom } from "./pairs.js";
 import { btgButton, withManual } from "./btg.js";
 import { quoteOf } from "./asset-pop.js";
@@ -64,7 +65,8 @@ function postureBar(now, want, t) {
 /** Régua de preço da ponta: médio (fio), degraus da trava (entalhes no acento), agora (círculo). */
 function priceBar(r) {
   const stops = r.orders.stops.map((s) => s.price);
-  const sc = barScale(r.avg, r.price, stops);
+  const hi = r.back && r.back.high > r.price * 1.0005 ? r.back.high : null;
+  const sc = barScale(r.avg, r.price, stops, hi);
   if (!sc) return "";
   const seg = (a, b, cls) =>
     `<i class="pd-seg ${cls}" style="left:${Math.min(a, b)}%;width:${Math.abs(b - a)}%"></i>`;
@@ -80,19 +82,25 @@ function priceBar(r) {
   const marks = sc.stops
     .map(
       (x, k) =>
-        `<i class="pd-stop" style="left:${x}%"></i><span class="pd-tag stop" style="left:${x}%">${px(stops[k])}</span>`,
+        `<i class="pd-stop" style="left:${x}%" ${tip(`Trava ${px(stops[k])}`)}></i>${sc.stops.some((y, j) => j < k && Math.abs(y - x) < 14) ? "" : `<span class="pd-tag stop" style="left:${x}%">${px(stops[k])}</span>`}`, // rótulo colado ao anterior: só o entalhe (preço na ordem)
     ) // prettier-ignore
     .join("");
-  return `<div class="pd-bar${stops.length ? " has-stop" : ""}" role="img" aria-label="${esc(aria)}"><div class="pd-track">${fill}
+  const hiFar = fin(sc.high) && sc.stops.every((x) => Math.abs(x - sc.high) > 14);
+  const ses = { pre: "pré", reg: "pregão", post: "pós", live: "preço ao vivo" }[r.back?.ses] ?? "";
+  const hiTip = hi ? `Máxima do dia ${px(hi)} (${ses}${r.back.at ? ` ${new Date(r.back.at * 1000).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/New_York" })} NY` : ""}). Desde a máxima: ${sPct(r.back.pct)} · ${usd(r.back.usd)} devolvidos.` : ""; // prettier-ignore
+  const hiMark = fin(sc.high)
+    ? `${seg(sc.price, sc.high, "back")}<i class="pd-high" style="left:${sc.high}%" ${tip(hiTip)}></i>${hiFar ? `<span class="pd-tag high" style="left:${sc.high}%">máx ${px(hi)}</span>` : ""}`
+    : ""; // prettier-ignore
+  return `<div class="pd-bar${stops.length || hiFar ? " has-stop" : ""}" role="img" aria-label="${esc(aria)}"><div class="pd-track">${fill}
     <i class="pd-avg" style="left:${sc.avg}%"></i>${near ? "" : `<span class="pd-tag avg" style="left:${sc.avg}%">médio ${px(r.avg)}</span>`}
-    ${marks}
+    ${marks}${hiMark}
     <i class="pd-now" style="left:${sc.price}%"></i><span class="pd-tag now${sc.price > 75 ? " end" : sc.price < 25 ? " start" : ""}" style="left:${sc.price}%">agora <b>${px(r.price)}</b></span></div></div>`; // prettier-ignore
 }
 
 function legRow(r, base) {
   return `<div class="pd-leg" data-hold="${esc(r.sym)}">
     <div class="pd-leg-top"><span><b>${esc(r.sym)}</b> <span class="pd-meta">${levTxt(r.lev)} · ${r.side === "short" ? "vendido" : "comprado"}</span> <button class="pf-edit" data-action="hold-edit" data-hold-sym="${esc(r.sym)}" title="Editar quantidade e preço médio" aria-label="Editar posição de ${esc(r.sym)}">✎</button></span><b class="mono ${tone(r.pl)}">${sUsd(r.pl)}</b></div>
-    <div class="pd-leg-sub"><span class="mono">${qtyTxt(r.qty)} cotas · ${usd(r.value)} · ${px(base === "day" ? r.ref : r.avg)} → <b>${px(r.price)}</b> · dia <span class="${tone(r.day)}">${sPct(r.day)}</span></span><span class="mono ${tone(r.plPct)}">${sPct(r.plPct)}</span></div>
+    <div class="pd-leg-sub"><span class="mono">${qtyTxt(r.qty)} cotas · ${usd(r.value)} · ${px(base === "day" ? r.ref : r.avg)} → <b>${px(r.price)}</b> · dia <span class="${tone(r.day)}">${sPct(r.day)}</span>${r.back && r.back.pct < -0.0005 ? ` · <span class="pd-back" ${tip("Quanto o preço já voltou desde a máxima do dia (com pré e pós), em % e em US$ da posição.")}>máx ${px(r.back.high)} ${sPct(r.back.pct)}</span>` : ""}</span><span class="mono ${tone(r.plPct)}">${sPct(r.plPct)}</span></div>
     ${priceBar(r)}
   </div>`; // prettier-ignore
 }
@@ -150,8 +158,33 @@ function regimeLine(score, move) {
   return `<div class="pd-reg" ${tip("Nota do regime de 1 dia (−100 a +100) e quanto andou em 1 h. Só leitura: não entra em nenhuma conta do painel.")}>${lab("Pêndulo")}<b class="mono pd-score">${sgn(score)}${num(Math.abs(score), 0)}</b><span class="pd-zone">${esc(z?.label ?? "")}</span>${fin(move) ? `<span class="mono muted pd-move">1 h ${move >= 0 ? "▲" : "▼"} ${num(Math.abs(move), 0)}</span>` : ""}</div>`; // prettier-ignore
 }
 
+/** Trava da carteira: um só controle para todas as duplas (% do lucro ou US$ a garantir) e as ordens para zerar. */
+function bookLock(d, c) {
+  const cfgB = state.prefs.pairBook ?? {};
+  const plan = bookPlan(d.pairs, { pct: cfgB.pct ?? null, usd: cfgB.usd ?? null, fee: c.fee });
+  if (!plan) return "";
+  const legs = plan.legs
+    .map(
+      (l) =>
+      l.kind === "stop"
+        ? `<div class="pd-ord stop"><div><b class="mono">Stop ${num(l.shares, 0)} ${esc(l.sym)} a ${px(l.price)}</b><span class="mono">${sPct(l.dist)} do preço · garante ${sUsd(l.keeps)}${l.loose > 0.005 ? ` · ${qtyTxt(l.loose)} a mercado` : ""}</span></div><span class="pd-ord-k">${esc(l.pair.replace("-", " × "))}</span></div>` // prettier-ignore
+        : `<div class="pd-ord"><div><b class="mono">Vender ${qtyTxt(l.shares)} ${esc(l.sym)} a mercado</b><span class="mono">ponta no prejuízo · ${sUsd(l.keeps)}</span></div><span class="pd-ord-k">${esc(l.pair.replace("-", " × "))}</span></div>`, // prettier-ignore
+    )
+    .join("");
+  const usdTxt = fin(cfgB.usd) ? num(cfgB.usd, 0) : "";
+  return `<div class="pd-booklock">
+    <div class="pd-row" ${tip("Zerar todas as pontas agora, a mercado, líquido do custo.")}>${lab("Zerar tudo agora")}<b class="mono ${tone(plan.now)}">${sUsd(plan.now)}</b></div>
+    <div class="pd-glob two">
+      <label class="pd-in" ${tip("Trava da carteira: % do lucro de CADA ponta no lucro a reter, com um stop só por ponta (sem degraus). As pontas no prejuízo saem a mercado. Vazio = sem trava da carteira.")}><span>Trava da carteira</span><input data-pd-book="pct" value="${fin(cfgB.pct) ? pctIn(cfgB.pct) : ""}" placeholder="%" inputmode="decimal"><i>%</i></label>
+      <label class="pd-in" ${tip("Ou o valor que a carteira das duplas deve garantir no total, em US$: o painel acha a % que chega lá.")}><span>Ou garantir</span><input data-pd-book="usd" value="${usdTxt}" placeholder="US$" inputmode="decimal"><i>US$</i></label>
+    </div>
+    ${fin(plan.k) ? `<div class="pd-ords">${lab("Ordens da carteira", "Uma ordem por ponta: stop nas pontas no lucro no preço da trava da carteira; venda a mercado nas pontas no prejuízo. Zera todas as duplas.")}${legs}<div class="pd-lock" ${tip("Resultado da carteira das duplas se todos os stops executarem e as pontas no prejuízo forem vendidas agora.")}>${lab(`Trava ${num(plan.k * 100, 0)}% executada: fica com`)}<b class="mono ${tone(plan.locked)}">${sUsd(plan.locked)}</b></div>${plan.reach ? "" : `<p class="pd-none">O valor pedido passa do lucro atual: trava em 100%.</p>`}</div>` : ""}
+  </div>`; // prettier-ignore
+}
+
 /** Carteira das duplas: soma de todas, rumo, garantido pelas travas e os padrões globais. */
-function book(t, c, add) {
+function book(d, c, add) {
+  const t = d.total;
   return `<section class="card pd-book">
     ${lab("Carteira das duplas")}
     <div class="pd-tot-res" ${tip(T.pl)}><b class="mono ${tone(t.pl)}">${sUsd(t.pl)}</b><span class="mono ${tone(t.plPct)}">${sPct(t.plPct)}</span></div>
@@ -163,6 +196,7 @@ function book(t, c, add) {
     </div>
     ${postureBar(t.posture, null, T.rumo)}
     <div class="pd-row pd-locked" ${tip(T.locked)}>${lab("Garantido pelas travas")}<b class="mono ${tone(t.locked)}">${fin(t.locked) ? sUsd(t.locked) : "–"}</b></div>
+    ${bookLock(d, c)}
     <div class="pd-glob">
       <div class="pd-in" ${tip(T.base)}><span>Base</span><span class="seg"><button data-pair-base="cost" aria-pressed="${c.base === "cost"}">Médio</button><button data-pair-base="day" aria-pressed="${c.base === "day"}">Hoje</button></span></div>
       <label class="pd-in" ${tip(T.stepsDef)}><span>Travas padrão</span><input data-pd-keepdef value="${stepsIn(c.steps)}" inputmode="text"><i>%</i></label>
@@ -171,6 +205,17 @@ function book(t, c, add) {
     ${add}
   </section>`; // prettier-ignore
 }
+
+/** Máxima do dia da ponta (pré + pregão + pós, barras de 5 min da central) somada ao preço ao vivo. */
+function withHigh(leg) {
+  const e = useBars(barsKey({ symbol: leg.sym, prepost: true }), { bg: true, onUpdate: rerender });
+  const seen = (state.pdHigh ??= {});
+  const hi = dayHigh(e?.data?.bars, { g: e?.data?.gmtoffset ?? -18000, price: leg.price, seen: seen[leg.sym] }); // prettier-ignore
+  if (!hi) return leg;
+  seen[leg.sym] = hi; // máxima vista nesta sessão do app (cobre o pré que o Yahoo ainda não mostra em barras)
+  return { ...leg, high: hi.high, highAt: hi.at, highSes: hi.ses };
+}
+const rerender = () => hooks.render();
 
 export function viewPairDesk({ score = null, move = null } = {}) {
   const rows = state.valuation?.rows ?? [];
@@ -189,7 +234,7 @@ export function viewPairDesk({ score = null, move = null } = {}) {
       const own = parseSteps(keeps[key]);
       return {
         key,
-        legs: pr.map((s) => legFrom(held[s], quoteOf(s))),
+        legs: pr.map((s) => withHigh(legFrom(held[s], quoteOf(s)))),
         sell: fin(sells[key]) ? sells[key] : DESK_DEFAULTS.sell,
         keeps: own.length ? own : c.steps,
         tilt: fin(aims[key]) ? aims[key] : null,
@@ -211,7 +256,7 @@ export function viewPairDesk({ score = null, move = null } = {}) {
       : "";
   const body = !rows.length
     ? `<p class="muted">Importe a carteira para usar o painel.</p>`
-    : `${book(d.total, c, add)}${regimeLine(score, move)}${d.pairs.length ? `<div class="pd-grid">${d.pairs.map((p, i) => pairCard(p, i, c)).join("")}</div>` : `<p class="muted">Nenhuma dupla com as duas pontas na carteira.</p>`}`; // prettier-ignore
+    : `${book(d, c, add)}${regimeLine(score, move)}${d.pairs.length ? `<div class="pd-grid">${d.pairs.map((p, i) => pairCard(p, i, c)).join("")}</div>` : `<p class="muted">Nenhuma dupla com as duas pontas na carteira.</p>`}`; // prettier-ignore
   return `<section class="pd">
     <div class="pd-head"><h2>Duplas L/S</h2><span class="pd-src" ${tip(T.src)}>${src} <i class="pd-i" aria-hidden="true">ⓘ</i></span>${btgButton(state.btgSync)}</div>
     ${body}
@@ -246,6 +291,14 @@ export function deskChange(e) {
     const steps = parseSteps(raw);
     if (raw && !steps.length) return;
     setKey("pairKeep", ds.pdKeep, steps.length ? steps : null);
+  } else if (ds.pdBook) {
+    if (!raw) state.prefs.pairBook = {};
+    else {
+      const plain = raw.replace(/[^\d.,-]/g, "");
+      const v = parseFloat(decSep() === "," ? plain.replace(/\./g, "").replace(",", ".") : plain.replace(/,/g, "")); // prettier-ignore
+      if (ds.pdBook === "pct" ? !(v >= 0 && v <= 100) : !(v >= 0)) return;
+      state.prefs.pairBook = ds.pdBook === "pct" ? { pct: v / 100 } : { usd: v };
+    }
   } else if ("pdKeepdef" in ds) {
     const steps = parseSteps(raw);
     if (!steps.length) return;

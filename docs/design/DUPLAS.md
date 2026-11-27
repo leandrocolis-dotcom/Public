@@ -44,4 +44,9 @@ silencioso, e o que sobra é só a medida, nítida, fria e confiável.
 3. Postura = exposição líquida ÷ exposição bruta no ativo-base (valor × alavancagem): −100% todo vendido, +100%
    todo comprado. Trava de cada degrau: `stop = médio + reter × (agora − médio)` na ponta no lucro; cotas da
    ponta divididas igualmente entre os degraus.
-4. Toda explicação em dica (`title`); nada de texto solto na tela.
+4. **Trava da carteira** (topo): um só controle para todas as duplas, em % do lucro de cada ponta ou em US$ a
+   garantir no total; mostra "zerar tudo agora" e as ordens (stop nas pontas no lucro, venda a mercado nas
+   perdedoras) com "trava executada: fica com".
+5. **Máxima do dia** (pré + pregão + pós) na régua: entalhe cinza "máx", trecho hachurado entre o preço de agora e a
+   máxima (o que já voltou) e "máx X −Y%" na linha da ponta; dica com hora, sessão e US$ devolvidos.
+6. Toda explicação em dica (`title`); nada de texto solto na tela.

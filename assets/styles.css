@@ -11673,6 +11673,15 @@ html[data-nav="bottom"] main {
   align-items: baseline;
   gap: 12px;
 }
+.pd-booklock {
+  display: grid;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.pd-glob.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 .pd-locked {
   padding-top: 12px;
   border-top: 1px solid var(--line);
@@ -11857,6 +11866,35 @@ html[data-nav="bottom"] main {
 }
 .pd-seg.open {
   background: color-mix(in srgb, var(--buy) 32%, transparent);
+}
+.pd-seg.back {
+  top: 2px;
+  bottom: 2px;
+  border: 1px dashed var(--text-2);
+  border-left: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0 3px,
+    color-mix(in srgb, var(--text-2) 30%, transparent) 3px 5px
+  );
+}
+.pd-high {
+  position: absolute;
+  top: -6px;
+  height: 22px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--text-2);
+  cursor: help;
+}
+.pd-tag.high {
+  top: -26px;
+  color: var(--text-2);
+  font-weight: 700;
+}
+.pd-back {
+  color: var(--text-2);
+  white-space: nowrap;
 }
 .pd-seg.loss {
   background: color-mix(in srgb, var(--sell) 32%, transparent);

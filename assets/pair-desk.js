@@ -123,7 +123,9 @@ export function deskState(pairs, opts = {}) {
     const steps = parseSteps(keeps);
     const rows = st.rows.map((r) => {
       const inv = r.qty * r.ref;
-      return { ...r, side: r.lev < 0 ? "short" : "long", inv, plPct: inv > 0 ? r.pl / inv : null, day: r.pc > 0 ? r.price / r.pc - 1 : null, orders: legOrders(r, { sell, keeps: steps, fee }) }; // prettier-ignore
+      const high = fin(r.high) && r.high > 0 ? Math.max(r.high, r.price) : null;
+      const back = high ? { high, at: r.highAt ?? null, ses: r.highSes ?? null, pct: r.price / high - 1, usd: r.qty * (high - r.price) } : null; // prettier-ignore
+      return { ...r, side: r.lev < 0 ? "short" : "long", inv, plPct: inv > 0 ? r.pl / inv : null, day: r.pc > 0 ? r.price / r.pc - 1 : null, back, orders: legOrders(r, { sell, keeps: steps, fee }) }; // prettier-ignore
     });
     const sum = (f) => rows.reduce((a, r) => a + f(r), 0);
     const inv = sum((r) => r.inv);
@@ -178,10 +180,70 @@ export function deskState(pairs, opts = {}) {
   };
 }
 
-/** Escala da régua de preço: posição (0–100%) do médio, dos degraus e do preço de agora, com folga nas pontas. */
-export function barScale(avg, price, stops = []) {
+/**
+ * Trava da carteira (todas as duplas de uma vez): um só nível para todas as pontas no lucro. `pct` = fração do
+ * lucro de cada ponta a reter; ou `usd` = quanto a carteira das duplas deve garantir no total (vira o pct que,
+ * com as pontas no prejuízo vendidas a mercado, chega nesse valor). Devolve as ordens para zerar tudo:
+ * stop nas pontas no lucro, venda a mercado nas pontas no prejuízo; `now` = zerar tudo agora (líquido do custo);
+ * `locked` = resultado se os stops executarem. pairs = deskState(...).pairs.
+ */
+export function bookPlan(pairs, { pct = null, usd = null, fee = DESK_DEFAULTS.fee } = {}) {
+  const rows = pairs.flatMap((p) => p.rows.map((r) => ({ ...r, pair: p.key })));
+  if (!rows.length) return null;
+  const win = rows.filter((r) => r.price > r.avg && r.qty > 0);
+  const lose = rows.filter((r) => !(r.price > r.avg) && r.qty > 0);
+  const now = rows.reduce((a, r) => a + r.qty * (r.price - r.avg) - r.qty * r.price * fee, 0);
+  const loseNow = lose.reduce((a, r) => a + r.qty * (r.price - r.avg) - r.qty * r.price * fee, 0);
+  const winProfit = win.reduce((a, r) => a + Math.floor(r.qty + 1e-9) * (r.price - r.avg), 0);
+  let k = fin(pct) ? pct : null;
+  if (k == null && fin(usd) && winProfit > 0) {
+    // garante usd ≈ Σ q·k·lucro − custo das vendas no stop + pontas no prejuízo a mercado
+    const feeAt = (kk) => win.reduce((a, r) => a + Math.floor(r.qty + 1e-9) * (r.avg + kk * (r.price - r.avg)) * fee, 0); // prettier-ignore
+    const k0 = (usd - loseNow) / winProfit;
+    k = (usd - loseNow + feeAt(clamp(k0, 0, 1))) / winProfit;
+  }
+  if (k == null) return { k: null, now, legs: [], locked: null };
+  const kk = clamp(k, 0, 1);
+  const legs = [];
+  let locked = loseNow;
+  for (const r of win) {
+    const q = Math.floor(r.qty + 1e-9);
+    const loose = r.qty - q; // fração não vai no stop: vendida a mercado agora
+    const price = r.avg + kk * (r.price - r.avg);
+    const keeps =
+      q * (price - r.avg) - q * price * fee + loose * (r.price - r.avg) - loose * r.price * fee;
+    locked += keeps;
+    legs.push({ pair: r.pair, sym: r.sym, kind: "stop", shares: q, loose, price, dist: price / r.price - 1, keeps }); // prettier-ignore
+  }
+  for (const r of lose)
+    legs.push({ pair: r.pair, sym: r.sym, kind: "sell", shares: r.qty, price: r.price, keeps: r.qty * (r.price - r.avg) - r.qty * r.price * fee }); // prettier-ignore
+  return { k: kk, wanted: k, now, legs, locked, reach: !(fin(usd) && k > 1) };
+}
+
+/**
+ * Máxima do dia da ponta, com pré e pós (barras de 5 min de api/intraday?symbol=X&prepost=1). O dia é o pregão de
+ * NY de `now` (4:00–20:00; antes das 4:00 vale o da véspera); barras de outros dias (ex.: o Yahoo ainda sem o pré
+ * de hoje) não contam. O preço ao vivo e a máxima já vista nesta sessão do app (`seen`) entram na conta.
+ * bars = { t (s), h, s }, g = gmtoffset (s). Devolve { high, at (s), ses: "pre" | "reg" | "post" | "live", day }.
+ */
+export function dayHigh(bars, { g = 0, price = null, now = Date.now() / 1000, seen = null } = {}) {
+  const day = (x) => Math.floor((x + g) / 86400);
+  const d = (((now + g) % 86400) + 86400) % 86400 < 4 * 3600 ? day(now) - 1 : day(now);
+  let best = seen?.day === d && fin(seen.high) ? { ...seen } : null;
+  const t = bars?.t ?? [];
+  const h = bars?.h ?? [];
+  for (let i = t.length - 1; i >= 0 && day(t[i]) >= d; i--)
+    if (day(t[i]) === d && fin(h[i]) && h[i] > 0 && (!best || h[i] > best.high))
+      best = { high: h[i], at: t[i], ses: bars.s?.[i] ?? "reg", day: d };
+  if (fin(price) && price > 0 && (!best || price > best.high))
+    best = { high: price, at: Math.floor(now), ses: "live", day: d };
+  return best;
+}
+
+/** Escala da régua de preço: posição (0–100%) do médio, dos degraus, da máxima do dia e do preço de agora. */
+export function barScale(avg, price, stops = [], high = null) {
   const list = (Array.isArray(stops) ? stops : [stops]).filter((x) => fin(x) && x > 0);
-  const pts = [avg, price, ...list].filter((x) => fin(x) && x > 0);
+  const pts = [avg, price, high, ...list].filter((x) => fin(x) && x > 0);
   if (!(fin(avg) && avg > 0 && fin(price) && price > 0)) return null;
   let lo = Math.min(...pts);
   let hi = Math.max(...pts);
@@ -189,5 +251,10 @@ export function barScale(avg, price, stops = []) {
   lo -= pad;
   hi += pad;
   const at = (p) => ((p - lo) / (hi - lo)) * 100;
-  return { avg: at(avg), price: at(price), stops: list.map(at) };
+  return {
+    avg: at(avg),
+    price: at(price),
+    stops: list.map(at),
+    high: fin(high) && high > 0 ? at(high) : null,
+  };
 }
