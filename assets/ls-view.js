@@ -6,14 +6,14 @@
 import { computeLs } from "./ls-engine.js";
 import { dedupeAlerts, evaluateAlerts, sideText } from "./ls-alerts.js";
 import { buildInput, neededSyms, pairId, parseHistCsv } from "./ls-input.js";
-import { ackCritical, answerRemainder, loadBook, noteTrips, reconcile, recordExecution, recordIgnore, registerReport, rollDay, setStop, trackHwm } from "./ls-book.js"; // prettier-ignore
+import { ackCritical, answerRemainder, liveOrders, loadBook, mergeBooks, positionFrom, noteTrips, reconcile, recordExecution, recordIgnore, registerReport, rollDay, setStop, trackHwm } from "./ls-book.js"; // prettier-ignore
 import { clocks, leftText, nextMark, tradingDay } from "./ls-clock.js";
 import { PARAMS } from "./ls-params.js";
 import { ETF_CATALOG, assetInfo } from "./ls-etfs.js";
 import { TIPS, tipText } from "./ls-tooltips.js";
 import { barsKey, useBars } from "./bars-hub.js";
 import { fetchQuotes } from "./quote-hub.js";
-import { withManual } from "./btg.js";
+import { manualActive, positionsAsOf, withManual } from "./btg.js";
 import { detectPairs } from "./pairs.js";
 import { decSep, esc, num } from "./format.js";
 import { hooks, state, store } from "./state.js";
@@ -32,13 +32,20 @@ const rTxt = (x) => (fin(x) ? `${sg(x)}${num(Math.abs(x), 2)}R` : "–");
 const xTxt = (x, d = 2) => (fin(x) ? `${sg(x)}${num(Math.abs(x), d)}x` : "–");
 const px = (x) => (fin(x) ? num(x, 2) : "–");
 const tone = (x) => (!fin(x) || Math.abs(x) < 1e-9 ? "" : x > 0 ? "up" : "down");
-const parseNum = (s) => {
+/** Número digitado no separador do usuário. Separador trocado (50,25 no modo ponto) = inválido (NaN), nunca ×100. */
+export const parseNum = (s, sep = decSep()) => {
   const t = String(s ?? "")
     .trim()
-    .replace(/[^\d.,−-]/g, "")
-    .replace("−", "-");
-  const v = decSep() === "," ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
-  return v === "" ? null : Number(v);
+    .replace(/\s/g, "")
+    .replace("−", "-")
+    .replace(/^US\$/, "");
+  if (t === "") return null;
+  const other = sep === "." ? "," : ".";
+  const esc2 = (c) => (c === "." ? "\\." : c);
+  const thousands = new RegExp(`^-?\\d{1,3}(${esc2(other)}\\d{3})+(${esc2(sep)}\\d+)?$`);
+  if (t.includes(other) && !thousands.test(t)) return NaN;
+  const v = Number(t.split(other).join("").replace(sep, "."));
+  return Number.isFinite(v) ? v : NaN;
 };
 
 /** ⓘ acessível: botão que abre a dica (toque no celular, foco/hover no desktop). */
@@ -52,15 +59,18 @@ const lab = (txt, id, vars) => `<span class="ls-lab">${txt} ${info(id, vars)}</s
 function book() {
   if (!state.lsBook) {
     const r = loadBook(store.get(KEY, null));
+    // versão mais nova que o app: só leitura (nunca trocar por um livro vazio e enviar à nuvem)
+    state.lsReadOnly = !r.data;
     state.lsBook = r.data ?? loadBook(null).data;
     state.lsBookErr = r.errors ?? [];
   }
   return state.lsBook;
 }
+/** Grava o livro. Ação do usuário sobe para a nuvem; mudança só derivada (hwm, máximas, travas) fica aqui. */
 function saveBook(d, { push = true } = {}) {
+  if (state.lsReadOnly) return;
   state.lsBook = d;
   store.set(KEY, d);
-  store.set(`${KEY}.at`, new Date().toISOString());
   if (push) pushBook(d);
 }
 let pushT = null;
@@ -77,7 +87,7 @@ function pushBook(d) {
     }
   }, 800);
 }
-/** Puxa da nuvem ao abrir (o mais novo vence). Chamado por cloud-sync.js. */
+/** Junta com a nuvem a cada sincronia (nada se perde: ver mergeBooks). Chamado por cloud-sync.js. */
 export async function syncLs() {
   if (!cloud.cloudUser()) {
     state.lsLoaded = true;
@@ -85,15 +95,17 @@ export async function syncLs() {
   }
   try {
     const r = await cloud.pullLs();
-    const localAt = store.get(`${KEY}.at`, null);
-    if (r && Date.parse(r.updatedAt) > Date.parse(localAt ?? 0)) {
-      const b = loadBook(r.data);
-      if (b.data) {
-        saveBook(b.data, { push: false });
-        store.set(`${KEY}.at`, r.updatedAt);
-      }
-      state.lsBookErr = b.errors ?? [];
-    } else if (store.get(KEY, null)) pushBook(book());
+    const remote = r ? loadBook(r.data) : null;
+    if (remote && !remote.data) {
+      state.lsReadOnly = true; // a nuvem tem versão mais nova que este app
+      state.lsBookErr = remote.errors;
+    } else {
+      const local = book();
+      const merged = mergeBooks(local, remote?.data ?? null);
+      const changed = JSON.stringify(merged) !== JSON.stringify(local);
+      if (changed) saveBook(merged, { push: false });
+      if (!remote || JSON.stringify(merged) !== JSON.stringify(remote.data)) pushBook(merged);
+    }
     state.lsSync = { ok: true, at: Date.now() };
     state.lsLoaded = true;
     return true;
@@ -118,13 +130,17 @@ function loadDaily(syms) {
   }
 }
 let quoteBusy = false;
-function loadQuotes(syms, session) {
+function loadQuotes(need, session) {
   if (quoteBusy || session === "FECHADO") return;
   quoteBusy = true;
-  // 8 s: o canal de 15 s não traz bid/ask; a idade máxima no pregão é 10 s (EXE-01)
-  fetchQuotes(syms, { id: "longshort", ttl: 8000, bidAsk: true, bg: false })
-    .then((r) => {
-      state.lsQuotes = r.quotes;
+  const rest = need.all.filter((s) => !need.etfs.includes(s));
+  // ETFs: 8 s com bid/ask (o canal de 15 s não traz; idade máx. no pregão 10 s); subjacentes, SPY e VIX: normal
+  Promise.all([
+    fetchQuotes(need.etfs, { id: "longshort", ttl: 8000, bidAsk: true, bg: false }),
+    fetchQuotes(rest, { id: "longshort-u", ttl: 15000, bg: false }),
+  ])
+    .then(([a, b]) => {
+      state.lsQuotes = { ...b.quotes, ...a.quotes };
       rerender();
     })
     .catch((e) => (state.lsQuoteErr = String(e?.message ?? e)))
@@ -164,24 +180,46 @@ function compute(now) {
   }
   loadDaily([...need.unders, "SPY"]);
   let b = book();
+  const before = b;
+  const broker = withManual(state.broker, state.portfolio?.holdings, state.portfolio?.manual);
+  // horário em que as QUANTIDADES da Carteira valem: posições da última foto completa do BTG ou o ajuste ✎
+  const manualMs = manualActive(state.broker, state.portfolio?.manual) ? Date.parse(state.portfolio?.manual?.at ?? "") : NaN; // prettier-ignore
+  const photoMs = Math.max(Date.parse(positionsAsOf(state.broker) ?? "") || 0, manualMs || 0, state.broker ? 0 : Date.parse(state.portfolio?.updatedAt ?? state.portfolio?.importedAt ?? "") || 0) || null; // prettier-ignore
+  const cash = broker?.summary?.offshore?.cashUsd ?? 0;
+  const account = (state.valuation?.total ?? 0) + (fin(cash) ? cash : 0);
+  const bySym = Object.fromEntries(rows.map((r) => [r.sym, r]));
+  const syms = [...new Set([...rows.map((r) => r.sym), ...pairs.flat()])];
+  const posOf = (s) => positionFrom(bySym[s], b, s, photoMs);
   b = rollDay(
     b,
     tradingDay(now),
-    rows.map((r) => r.sym),
+    syms.filter((s) => posOf(s).qty > 0),
   );
-  const broker = withManual(state.broker, state.portfolio?.holdings, state.portfolio?.manual);
-  const photoMs = Date.parse(broker?.asOf ?? broker?.summary?.asOf ?? state.portfolio?.importedAt ?? "") || null; // prettier-ignore
-  const cash = broker?.summary?.offshore?.cashUsd ?? 0;
-  const account = (state.valuation?.total ?? 0) + (fin(cash) ? cash : 0);
-  for (const r of rows) b = trackHwm(b, r.sym, { avg: r.avg, price: r.price });
-  const maxValue = { ...(b.day.maxValue ?? {}) };
-  for (const r of rows) maxValue[r.sym] = Math.max(maxValue[r.sym] ?? 0, r.qty * r.price);
-  b = { ...b, day: { ...b.day, maxValue } };
-  const rec = reconcile({ data: b, rows, photoMs, now, loaded: state.lsLoaded !== false, migrationErrors: state.lsBookErr ?? [] }); // prettier-ignore
-  const plan = store.get(PLAN, null);
   const quotes = state.lsQuotes ?? {};
+  const maxValue = { ...(b.day.maxValue ?? {}) };
+  for (const s of syms) {
+    const pos = posOf(s);
+    const price = quotes[s]?.p ?? bySym[s]?.price;
+    if (!(pos.qty > 0) || !(price > 0)) continue;
+    b = trackHwm(b, s, { avg: pos.avg, price: quotes[s]?.xp > 0 && quotes[s]?.xt > (quotes[s]?.t ?? 0) ? quotes[s].xp : price }); // prettier-ignore
+    maxValue[s] = Math.max(maxValue[s] ?? 0, pos.qty * price);
+  }
+  b = { ...b, day: { ...b.day, maxValue } };
+  const loaded = !cloud.cloudUser() || state.lsLoaded === true;
+  const rec = reconcile({
+    data: b,
+    rows,
+    photoMs,
+    now,
+    loaded,
+    migrationErrors: state.lsBookErr ?? [],
+  });
+  if (!photoMs && rows.length) rec.issues.push({ id: "foto", msg: "sem horário da foto da Carteira: não dá para saber quais execuções já estão nela" }); // prettier-ignore
+  if (state.lsReadOnly) rec.issues.push({ id: "versao", msg: "o livro foi gravado por uma versão mais nova do app: atualize a página (modo só leitura)" }); // prettier-ignore
+  rec.ok = rec.issues.length === 0;
+  const plan = store.get(PLAN, null);
   const { input, meta } = buildInput({ now, rows, pairs, quotes, bars, daily, book: b, plan, paramsUser: store.get(PARAMS_KEY, {}) ?? {}, assetsUser, account, photoMs, events: eventsToday(now), recIssues: rec.issues }); // prettier-ignore
-  loadQuotes(need.all, input.session);
+  loadQuotes(need, input.session);
   const out = computeLs(input);
   const alerts = out.ok ? evaluateAlerts(input, out) : [];
   const ded = dedupeAlerts(alerts, state.lsAlertMem ?? {}, now, input.params);
@@ -197,7 +235,8 @@ function compute(now) {
       input.date,
     );
   if (out.portfolio?.flags?.rsk01 && !b.day.rsk01Locked) b = { ...b, day: { ...b.day, rsk01Locked: true } }; // prettier-ignore
-  if (JSON.stringify(b) !== JSON.stringify(state.lsBook)) saveBook(b);
+  // mudanças daqui são derivadas (virada do dia, máximas, travas): ficam no aparelho; a nuvem recebe nas ações
+  if (b !== before && JSON.stringify(b) !== JSON.stringify(before)) saveBook(b, { push: b.day.date !== before.day?.date || (b.day.rsk01Locked && !before.day?.rsk01Locked) }); // prettier-ignore
   return { input, out, alerts, meta, rec, rows, pairs, plan, account, need };
 }
 
@@ -288,6 +327,9 @@ function ordersBlock(c) {
   else if (!list.length && !out.stopMoves.length)
     body = `<p class="ls-none">＝ Nada a fazer: manter.</p>`;
   else body = out.stopMoves.map(stopRow).join("") + list.map(orderRow).join("");
+  const live = liveOrders(book()).filter((o) => o.status === "PARCIAL");
+  if (live.length)
+    body = live.map((o) => `<article class="ls-order"><div class="ls-sub">Saldo aberto ${info("residual")}: <b>${(o.qtySug ?? 0) - (o.qtyExec ?? 0)}</b> de ${o.qtySug} ${esc(o.sym)} (${esc(o.purpose)} · ${esc(o.reason ?? "")})</div><div class="ls-btns"><button class="btn" data-ls-execlive="${esc(o.id)}">Executou o saldo</button><button class="btn ghost" data-ls-rem="${esc(o.id)}" data-ans="cancelado">Foi cancelado</button></div></article>`).join("") + body; // prettier-ignore
   const err = out.errors?.length ? `<p class="ls-sub wait">⚠ ${esc(out.errors.map((e) => `${e.sym ? `${e.sym}: ` : ""}${e.why}`).join(" · "))}</p>` : ""; // prettier-ignore
   return `<section class="ls-block"><h3>Ordens agora ${info("ordens_agora")}</h3>${body}${err}</section>`;
 }
@@ -385,7 +427,8 @@ function planBlock(c) {
       <label>Direcional (x capital) ${info("plano_direcional")}<input data-ls-plan="${esc(id)}" data-f="dirPlan" inputmode="decimal" value="${fin(v.dirPlan) ? num(v.dirPlan, 2) : ""}" placeholder="0"></label>
     </fieldset>`; // prettier-ignore
   });
-  const cap = plan.date === c.input.date && fin(plan.capital) ? num(plan.capital, 0) : fin(c.account) ? num(Math.round(c.account), 0) : ""; // prettier-ignore
+  if (fin(c.account) && !fin(state.lsPlanCap)) state.lsPlanCap = Math.round(c.account); // congelado: o campo não anda com os preços
+  const cap = plan.date === c.input.date && fin(plan.capital) ? num(plan.capital, 0) : fin(state.lsPlanCap) ? num(state.lsPlanCap, 0) : ""; // prettier-ignore
   return `<details class="ls-block ls-plan"${open ? " open" : ""} id="ls-plan"><summary><h3>Plano do dia ${info("plano_dia")}</h3> ${c.input.plan.ok ? "✓ preenchido" : "✗ falta"}</summary>
     <label>Capital do dia (US$) <input data-ls-plancap inputmode="decimal" value="${cap}"></label>
     ${rows.join("") || `<p class="ls-sub">Monte as duplas em Carteira › Duplas L/S: elas viram os pares daqui.</p>`}
@@ -412,24 +455,24 @@ function setupBlock(c) {
 function sheet(c) {
   const s = state.lsSheet;
   if (!s) return "";
-  // pelo id: a lista muda a cada preço e o índice apontaria para outra ordem
-  const o = c.out.orders?.find((x) => x.id === s.id);
-  if (!o) return `<div class="ls-sheet" role="dialog" aria-modal="true"><div class="ls-sheet-in"><h3>A ordem mudou</h3><p>Com o preço novo, essa ordem saiu ou mudou de tamanho. Confira a lista e registre de novo.</p><div class="ls-btns"><button class="btn" data-ls-close>Fechar</button></div></div></div>`; // prettier-ignore
+  // cópia CONGELADA da ordem ao abrir: a lista muda a cada preço e os campos não podem voltar sozinhos
+  const o = s.order;
+  const gone = !s.live && !c.out.orders?.some((x) => x.id === o.id);
+  const warn = gone ? `<p class="ls-sub wait">⚠ Com o preço novo essa ordem saiu da lista. Registre só se executou de fato.</p>` : ""; // prettier-ignore
   if (s.kind === "exec") {
-    const leg = c.input.pairs.flatMap((p) => [p.long, p.short]).find((l) => l?.sym === o.sym);
     return `<div class="ls-sheet" role="dialog" aria-modal="true" aria-label="Registrar execução"><div class="ls-sheet-in">
-      <h3>Executei: ${esc(ACT(o))} ${esc(o.sym)}</h3>
-      <label>Quantidade executada ${info("exec_quantidade")}<input id="ls-x-q" inputmode="numeric" value="${o.qty}"></label>
-      <label>Preço médio executado ${info("exec_preco")}<input id="ls-x-p" inputmode="decimal" value="${px(o.limit ?? leg?.quote?.P)}"></label>
+      <h3>Executei: ${esc(ACT(o))} ${esc(o.sym)}</h3>${warn}
+      <label>Quantidade executada ${info("exec_quantidade")}<input id="ls-x-q" inputmode="numeric" value="${s.init.qty}"></label>
+      <label>Preço médio executado ${info("exec_preco")}<input id="ls-x-p" inputmode="decimal" value="${px(s.init.price)}"></label>
       <label>Custos (US$) ${info("exec_custos")}<input id="ls-x-f" inputmode="decimal" value="0"></label>
-      <fieldset><legend>Se executou menos que ${o.qty}: o saldo ${info("saldo_status")}</legend>
+      <fieldset><legend>Se executou menos que ${s.init.qty}: o saldo ${info("saldo_status")}</legend>
         <label><input type="radio" name="ls-x-rem" value="aberto" checked> continua aberto na corretora</label>
         <label><input type="radio" name="ls-x-rem" value="cancelado"> foi cancelado</label></fieldset>
       <div class="ls-btns"><button class="btn" data-ls-confirm>Confirmar</button><button class="btn ghost" data-ls-close>Cancelar</button></div>
     </div></div>`; // prettier-ignore
   }
   return `<div class="ls-sheet" role="dialog" aria-modal="true" aria-label="Ignorar ordem"><div class="ls-sheet-in">
-    <h3>Ignorar: ${esc(ACT(o))} ${o.qty} ${esc(o.sym)}</h3>
+    <h3>Ignorar: ${esc(ACT(o))} ${o.qty} ${esc(o.sym)}</h3>${warn}
     <label>Motivo ${info("ignorar")}<input id="ls-ig-why" placeholder="por que não seguir?"></label>
     <p class="ls-sub wait">⚠ 2 alertas de risco ignorados em 30 min bloqueiam entradas até amanhã (BEH-01).</p>
     <div class="ls-btns"><button class="btn" data-ls-igconfirm>Registrar</button><button class="btn ghost" data-ls-close>Cancelar</button></div>
@@ -496,20 +539,41 @@ export function lsClick(e) {
     hooks.render();
     return document.getElementById("ls-plan")?.scrollIntoView({ block: "start" });
   }
-  if (q("[data-ls-exec]")) return (state.lsSheet = { kind: "exec", id: q("[data-ls-exec]").dataset.lsExec }), hooks.render(); // prettier-ignore
-  if (q("[data-ls-ignore]")) return (state.lsSheet = { kind: "ignore", id: q("[data-ls-ignore]").dataset.lsIgnore }), hooks.render(); // prettier-ignore
+  const open = (kind, o, live = false) => {
+    const leg = c.input.pairs.flatMap((p) => [p.long, p.short]).find((l) => l?.sym === o.sym);
+    state.lsSheet = { kind, live, order: { ...o }, init: { qty: o.qty, price: o.limit ?? leg?.quote?.P ?? null }, leg: leg ? { avg: leg.avg, dir: leg.dir, S: leg.under?.S, P: leg.quote?.P } : null }; // prettier-ignore
+    hooks.render();
+  };
+  if (q("[data-ls-exec]")) {
+    const o = c.out.orders.find((x) => x.id === q("[data-ls-exec]").dataset.lsExec);
+    return o ? open("exec", o) : flash("A ordem mudou com o preço novo: confira a lista.", "warn");
+  }
+  if (q("[data-ls-ignore]")) {
+    const o = c.out.orders.find((x) => x.id === q("[data-ls-ignore]").dataset.lsIgnore);
+    return o
+      ? open("ignore", o)
+      : flash("A ordem mudou com o preço novo: confira a lista.", "warn");
+  }
+  if (q("[data-ls-execlive]")) {
+    const bo = book().orders.find((x) => x.id === q("[data-ls-execlive]").dataset.lsExeclive);
+    if (!bo) return;
+    return open("exec", { id: bo.id, pairId: bo.pairId, sym: bo.sym, purpose: bo.purpose, side: bo.side, qty: (bo.qtySug ?? 0) - (bo.qtyExec ?? 0), limit: bo.limit, stop: bo.stop, reason: bo.reason, alert: bo.alert, episode: bo.episode }, true); // prettier-ignore
+  }
   if (q("[data-ls-close]")) return ((state.lsSheet = null), hooks.render());
   if (q("[data-ls-confirm]")) {
-    const o = c.out.orders.find((x) => x.id === state.lsSheet?.id);
-    if (!o) return flash("A ordem mudou com o preço novo: confira a lista.", "warn");
+    const sh = state.lsSheet;
+    if (!sh?.order) return;
+    const o = sh.order;
     const qty = parseNum(document.getElementById("ls-x-q")?.value);
     const price = parseNum(document.getElementById("ls-x-p")?.value);
     const fees = parseNum(document.getElementById("ls-x-f")?.value) ?? 0;
     const rem = document.querySelector('input[name="ls-x-rem"]:checked')?.value ?? "aberto";
-    if (!(qty > 0) || !Number.isInteger(qty) || !(price > 0) || !(fees >= 0)) return flash("Quantidade inteira > 0, preço > 0 e custos ≥ 0.", "warn"); // prettier-ignore
-    const leg = c.input.pairs.flatMap((p) => [p.long, p.short]).find((l) => l?.sym === o.sym);
+    if (!(qty > 0) || !Number.isInteger(qty) || !(price > 0) || !(fees >= 0)) return flash(`Quantidade inteira > 0, preço > 0 e custos ≥ 0 (separador decimal: "${decSep()}").`, "warn"); // prettier-ignore
+    const ref = sh.init.price ?? sh.leg?.P;
+    if (ref > 0 && Math.abs(price / ref - 1) > 0.2) return flash(`Preço ${px(price)} está a mais de 20% do limite ${px(ref)}: confira o número (e o separador decimal).`, "warn"); // prettier-ignore
+    if (qty > o.qty) return flash(`Executou mais que a ordem (${o.qty})? Registre só a ordem sugerida e corrija a Carteira.`, "warn"); // prettier-ignore
     try {
-      const r = recordExecution(book(), o, { uid: `${o.id}|${now}`, qty, price, fees, ts: now, remainder: qty < o.qty ? rem : null, avg: leg?.avg, dir: leg?.dir, S: leg?.under?.S, R: c.out.portfolio?.R }); // prettier-ignore
+      const r = recordExecution(book(), o, { uid: `${o.id}|${now}`, qty, price, fees, ts: now, remainder: qty < o.qty ? rem : null, avg: sh.leg?.avg, dir: sh.leg?.dir, S: sh.leg?.S, R: c.out.portfolio?.R }); // prettier-ignore
       saveBook(r.data);
       state.lsSheet = null;
       return flash(`Registrado: ${ACT(o)} ${qty} ${o.sym} @ ${px(price)}.${o.purpose === "ENTRAR" || o.purpose === "AUMENTAR" ? ` Coloque o stop ${px(o.stop)} na corretora.` : ""}`); // prettier-ignore
@@ -518,8 +582,8 @@ export function lsClick(e) {
     }
   }
   if (q("[data-ls-igconfirm]")) {
-    const o = c.out.orders.find((x) => x.id === state.lsSheet?.id);
-    if (!o) return flash("A ordem mudou com o preço novo: confira a lista.", "warn");
+    const o = state.lsSheet?.order;
+    if (!o) return;
     try {
       saveBook(recordIgnore(book(), { id: o.alert ?? o.reason, sym: o.sym, why: document.getElementById("ls-ig-why")?.value ?? "", ts: now, orderId: o.id })); // prettier-ignore
       state.lsSheet = null;
@@ -531,7 +595,7 @@ export function lsClick(e) {
   if (q("[data-ls-stop]")) {
     const el = q("[data-ls-stop]");
     try {
-      saveBook(setStop(book(), el.dataset.lsStop, Number(el.dataset.to)));
+      saveBook(setStop(book(), el.dataset.lsStop, Number(el.dataset.to), { ts: Date.now() }));
       return flash(`Stop de ${el.dataset.lsStop} = ${px(Number(el.dataset.to))}.`);
     } catch (err) {
       return flash(err.message);
@@ -570,8 +634,12 @@ export function lsChange(e) {
   if (ds.lsSetstop) {
     const v = parseNum(t.value);
     if (v === null) return;
+    const leg = state.lsLast?.input.pairs.flatMap((p) => [p.long, p.short]).find((l) => l?.sym === ds.lsSetstop); // prettier-ignore
+    const P = leg?.quote?.P;
+    if (!(v > 0)) return flash(`Stop inválido (separador decimal: "${decSep()}").`, "warn");
+    if (P > 0 && (leg.dir === 1 ? v >= P : v <= P)) return flash(`Stop ${px(v)} do lado errado do preço ${px(P)}: zere em vez de pôr stop acima do preço.`, "warn"); // prettier-ignore
     try {
-      saveBook(setStop(book(), ds.lsSetstop, v));
+      saveBook(setStop(book(), ds.lsSetstop, v, { dir: leg?.dir ?? 1, ts: Date.now() }));
       flash(`Stop de ${ds.lsSetstop} = ${px(v)}.`);
     } catch (err) {
       flash(err.message);
@@ -579,6 +647,8 @@ export function lsChange(e) {
   } else if (ds.lsParam) {
     const cur = { ...(store.get(PARAMS_KEY, {}) ?? {}) };
     const v = parseNum(t.value);
+    if (Number.isNaN(v))
+      return flash(`Número inválido (separador decimal: "${decSep()}").`, "warn");
     if (v === null) delete cur[ds.lsParam];
     else cur[ds.lsParam] = v;
     store.set(PARAMS_KEY, cur);

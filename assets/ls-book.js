@@ -43,6 +43,30 @@ export function deltaSince(data, sym, photoMs) {
   return d;
 }
 
+/**
+ * Posição real = foto da Carteira + execuções registradas depois dela, em ordem: compra refaz o preço médio
+ * (média ponderada), venda tira cotas (médio igual), zerou = recomeça. { qty, avg }.
+ */
+export function positionFrom(row, data, sym, photoMs) {
+  let qty = row?.qty ?? 0;
+  let avg = row?.avg ?? null;
+  const fills = data.fills
+    .filter((f) => !(fin(photoMs) && fin(f.ts) && f.ts <= photoMs))
+    .map((f) => ({ f, o: data.orders.find((x) => x.id === f.orderId) }))
+    .filter((x) => x.o?.sym === sym)
+    .sort((a, b) => (a.f.ts ?? 0) - (b.f.ts ?? 0));
+  for (const { f, o } of fills) {
+    if (BUY_SIDES.has(o.side)) {
+      avg = qty > 0 && fin(avg) ? (qty * avg + f.qty * f.price) / (qty + f.qty) : f.price;
+      qty += f.qty;
+    } else {
+      qty -= f.qty;
+      if (qty <= 0) avg = null;
+    }
+  }
+  return { qty: Math.max(0, qty), avg: qty > 0 ? avg : null, short: qty < 0 };
+}
+
 /** Melhor preço a favor desde a última mudança de preço médio (dir +1: máximo). Devolve links novos ou os mesmos. */
 export function trackHwm(data, sym, { avg, price, dir = 1 }) {
   const cur = data.links[sym] ?? {};
@@ -55,11 +79,11 @@ export function trackHwm(data, sym, { avg, price, dir = 1 }) {
 }
 
 /** O usuário definiu ou atualizou o stop na corretora. Stop só se aproxima, exceto o primeiro. */
-export function setStop(data, sym, stop, { dir = 1, force = false } = {}) {
+export function setStop(data, sym, stop, { dir = 1, force = false, ts = null } = {}) {
   if (!(stop > 0)) throw new Error("stop deve ser maior que zero");
   const cur = data.links[sym]?.stop;
   if (!force && fin(cur) && (dir === 1 ? stop < cur : stop > cur)) throw new Error("o stop só se aproxima do preço: não pode afastar"); // prettier-ignore
-  return { ...data, links: { ...data.links, [sym]: { ...(data.links[sym] ?? {}), stop } } };
+  return { ...data, links: { ...data.links, [sym]: { ...(data.links[sym] ?? {}), stop, at: ts ?? data.links[sym]?.at ?? 0 } } }; // prettier-ignore
 }
 
 /**
@@ -72,9 +96,13 @@ export function recordExecution(data, order, f) {
   if (!(f.qty > 0) || !(f.price > 0))
     throw new Error("quantidade e preço precisam ser maiores que zero");
   if (data.fills.some((x) => x.uid === f.uid)) return { data, applied: false };
+  // mesma ordem do motor (mesmo id) já encerrada: é um episódio novo (ex.: zerar o saldo cancelado, novo stop)
+  const FIN = ["EXECUTADA", "CANCELADA", "REJEITADA", "EXPIRADA"];
+  const same = data.orders.filter((x) => x.id === order.id || x.id.startsWith(`${order.id}#`));
+  const live = same.find((x) => !FIN.includes(x.status));
+  if (live) order = { ...order, id: live.id };
+  else if (same.length) order = { ...order, id: `${order.id}#${same.length + 1}` };
   let d = suggest(data, { id: order.id, pairId: order.pairId, sym: order.sym, purpose: order.purpose, side: order.side, qtySug: order.qty, limit: order.limit, stop: order.stop, reason: order.reason, alert: order.alert, episode: order.episode ?? null }, f.ts); // prettier-ignore
-  const prev = d.orders.find((o) => o.id === order.id);
-  if (prev && ["EXECUTADA", "CANCELADA", "REJEITADA", "EXPIRADA"].includes(prev.status)) throw new Error("ordem já encerrada"); // prettier-ignore
   d = markSent(d, order.id, f.ts);
   const r = registerFill(d, { uid: f.uid, orderId: order.id, qty: f.qty, price: f.price, fees: f.fees ?? 0, ts: f.ts }); // prettier-ignore
   d = r.data;
@@ -112,13 +140,17 @@ export function recordExecution(data, order, f) {
     if (fin(order.stop)) link.stop = fin(link.stop) && order.reason === "P6" ? (dir === 1 ? Math.max(link.stop, order.stop) : Math.min(link.stop, order.stop)) : order.stop; // prettier-ignore
     link.lastLot = f.qty;
   }
-  const journal = [...(d.journal ?? []), { ts: f.ts, kind: "exec", alertId: order.alert ?? order.reason, reason: order.reason, sym, purpose: order.purpose, side: order.side, qty: f.qty, qtySug: order.qty, price: f.price, fees: f.fees ?? 0, followed: true, realized, pnlR: fin(realized) && f.R > 0 ? realized / f.R : null }]; // prettier-ignore
+  const journal = [...(d.journal ?? []), { ts: f.ts, day: d.day?.date ?? null, kind: "exec", alertId: order.alert ?? order.reason, reason: order.reason, sym, purpose: order.purpose, side: order.side, qty: f.qty, qtySug: order.qty, price: f.price, fees: f.fees ?? 0, followed: true, realized, pnlR: fin(realized) && f.R > 0 ? realized / f.R : null }]; // prettier-ignore
+  link.at = f.ts;
   return { data: { ...d, day, links: { ...d.links, [sym]: link }, journal }, applied: r.applied };
 }
 
 /** Saldo de uma parcial: "aberto" mantém a ordem viva (bloqueia a mesma finalidade); "cancelado" libera. */
 export function answerRemainder(data, orderId, answer, ts) {
-  if (answer === "aberto") return data;
+  if (answer === "aberto") {
+    // confirmado vivo na corretora: renova o horário e tira a pendência de confirmação
+    return { ...data, orders: data.orders.map((o) => (o.id === orderId ? { ...o, updatedAt: ts, needsConfirm: false } : o)) }; // prettier-ignore
+  }
   return closeRemainder(data, orderId, answer === "rejeitado" ? "REJEITADA" : answer === "expirado" ? "EXPIRADA" : "CANCELADA", ts); // prettier-ignore
 }
 
@@ -128,7 +160,7 @@ export function recordIgnore(data, { id, sym = null, why = "", ts, orderId = nul
   if (risk && String(why).trim().length < 3)
     throw new Error("escreva o motivo para ignorar um alerta de risco");
   const day = { ...data.day, ignored: [...(data.day.ignored ?? []), { ts, id, sym, risk }] };
-  const journal = [...(data.journal ?? []), { ts, kind: "ignore", alertId: id, sym, orderId, followed: false, why: String(why).slice(0, 280), realized: null }]; // prettier-ignore
+  const journal = [...(data.journal ?? []), { ts, day: data.day?.date ?? null, kind: "ignore", alertId: id, sym, orderId, followed: false, why: String(why).slice(0, 280), realized: null }]; // prettier-ignore
   return { ...data, day, journal };
 }
 
@@ -210,4 +242,62 @@ export function registerReport(data, p = PARAMS) {
     ready: days >= 10,
     note: `Modo registro: ${p.max_entradas_dia} entradas/dia no máximo; decidir manter ou ajustar parâmetros só com 10+ pregões.`,
   };
+}
+
+const RANK = {
+  SUGERIDA: 0,
+  ENVIADA: 1,
+  PARCIAL: 2,
+  EXECUTADA: 3,
+  CANCELADA: 3,
+  REJEITADA: 3,
+  EXPIRADA: 3,
+};
+const maxMap = (a = {}, b = {}) => {
+  const out = { ...a };
+  for (const [k, v] of Object.entries(b)) out[k] = typeof v === "number" && typeof out[k] === "number" ? Math.max(out[k], v) : (out[k] ?? v); // prettier-ignore
+  return out;
+};
+/**
+ * Junta o livro deste aparelho com o da nuvem SEM perder registro: execuções unidas pelo id único, ordens pelo id
+ * (vence o status mais avançado / mais executado), diário unido, vínculos pelo carimbo `at` mais novo, contadores
+ * do mesmo dia pelo maior valor. Dois aparelhos registrando no mesmo dia somam, não se apagam.
+ */
+export function mergeBooks(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  const fills = [...a.fills];
+  for (const f of b.fills) if (!fills.some((x) => x.uid === f.uid)) fills.push(f);
+  const orders = [...a.orders];
+  for (const o of b.orders) {
+    const i = orders.findIndex((x) => x.id === o.id);
+    if (i < 0) orders.push(o);
+    else {
+      const x = orders[i];
+      const better = (RANK[o.status] ?? 0) > (RANK[x.status] ?? 0) || ((RANK[o.status] ?? 0) === (RANK[x.status] ?? 0) && (o.qtyExec ?? 0) > (x.qtyExec ?? 0)) || ((o.updatedAt ?? 0) > (x.updatedAt ?? 0) && o.status === x.status && (o.qtyExec ?? 0) === (x.qtyExec ?? 0)); // prettier-ignore
+      if (better) orders[i] = o;
+    }
+  }
+  const key = (j) => `${j.ts}|${j.kind}|${j.alertId}|${j.sym}`;
+  const seen = new Set((a.journal ?? []).map(key));
+  const journal = [...(a.journal ?? []), ...(b.journal ?? []).filter((j) => !seen.has(key(j)))].sort((x, y) => x.ts - y.ts); // prettier-ignore
+  const links = { ...a.links };
+  for (const [s, l] of Object.entries(b.links ?? {})) if (!links[s] || (l.at ?? 0) > (links[s].at ?? 0)) links[s] = l; // prettier-ignore
+  let day;
+  if ((a.day?.date ?? "") !== (b.day?.date ?? ""))
+    day = (a.day?.date ?? "") > (b.day?.date ?? "") ? a.day : b.day; // prettier-ignore
+  else {
+    const ign = [...(a.day.ignored ?? [])];
+    for (const x of b.day.ignored ?? []) if (!ign.some((y) => y.ts === x.ts && y.id === x.id)) ign.push(x); // prettier-ignore
+    const red = { ...(a.day.reduced ?? {}) };
+    for (const [k, v] of Object.entries(b.day.reduced ?? {})) red[k] = [...new Set([...(red[k] ?? []), ...v])]; // prettier-ignore
+    day = { ...a.day, ...maxMap(a.day, b.day), adds: maxMap(a.day.adds, b.day.adds), stopsBySym: maxMap(a.day.stopsBySym, b.day.stopsBySym), lastAdj: maxMap(a.day.lastAdj, b.day.lastAdj), lastStop: maxMap(a.day.lastStop, b.day.lastStop), maxValue: maxMap(a.day.maxValue, b.day.maxValue), done: { ...(a.day.done ?? {}), ...(b.day.done ?? {}) }, ack: { ...(a.day.ack ?? {}), ...(b.day.ack ?? {}) }, ignored: ign, reduced: red, rsk01Locked: !!(a.day.rsk01Locked || b.day.rsk01Locked) }; // prettier-ignore
+    // realizado do dia = soma das execuções do dia no diário unido (não somar duas vezes)
+    day.realized = journal
+      .filter((j) => j.followed && fin(j.realized) && j.day === day.date)
+      .reduce((t, j) => t + j.realized, 0);
+  }
+  const trips = { ...(a.trips ?? {}) };
+  for (const [d, m] of Object.entries(b.trips ?? {})) trips[d] = maxMap(trips[d], m);
+  return { ...a, fills, orders, journal, links, day, trips };
 }

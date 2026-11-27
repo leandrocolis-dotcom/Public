@@ -107,7 +107,7 @@ export async function fetchQuotes(
     // um bloco por vez: em rajada, o Yahoo responde 429 e parte da lista fica sem preço
     for (const lot of stableLots(need, need, LOT)) {
       try {
-        const j = await fetchJSON(`api/quotes?only=1&extra=${encodeURIComponent(lot.join(","))}`, { bg }); // prettier-ignore
+        const j = await fetchJSON(`api/quotes?only=1&extra=${encodeURIComponent(lot.join(","))}${bidAsk ? "&ba=1" : ""}`, { bg }); // prettier-ignore
         const got = j?.quotes ?? {};
         const t = Date.now();
         for (const s of lot) {
@@ -134,7 +134,10 @@ export async function fetchQuotes(
     const hq = hub.quotes[s];
     let q = lq ?? hq;
     // preço do canal (mais novo) + bid/ask da API quando o canal não traz
-    if (bidAsk && lq && !(lq.b > 0) && hq?.b > 0) q = { ...lq, b: hq.b, a: hq.a, baT: hub.at[s] };
+    if (bidAsk && lq && !(lq.b > 0) && hq?.b > 0) {
+      // a cotação da API mais nova que a do canal vale inteira; senão preço do canal + bid/ask com a idade dele
+      q = (hq.t ?? 0) >= (lq.t ?? 0) ? { ...hq, baT: hub.at[s] } : { ...lq, b: hq.b, a: hq.a, baT: hub.at[s] }; // prettier-ignore
+    }
     if (q) quotes[s] = q;
   }
   return { quotes, fetched: need.length };

@@ -6,7 +6,7 @@ import { checkPlan } from "./ls-data.js";
 import { resolveParams, hhmm } from "./ls-params.js";
 import { calendarStatus, lsSession, markMin, refPrice, tradingDay } from "./ls-clock.js";
 import { atr, betaCorr, underlyingView } from "./ls-market.js";
-import { dayForEngine, deltaSince, liveOrders } from "./ls-book.js";
+import { dayForEngine, liveOrders, positionFrom } from "./ls-book.js";
 import { nyClock } from "./sessions.js";
 
 const fin = (x) => typeof x === "number" && Number.isFinite(x);
@@ -74,9 +74,14 @@ export function buildInput(src) {
     const q = quotes[sym];
     const r = held[sym];
     const lp = livePrice(q);
-    const P = r?.price > 0 ? r.price : lp.P;
+    // preço e horário da MESMA fonte (cotação com bid/ask); a Carteira só como reserva, com o horário dela
+    const P = lp.P ?? (r?.live && r.price > 0 ? r.price : null);
+    const pTs = lp.P ? lp.ts : fin(r?.quoteTime) ? r.quoteTime * 1000 : null;
+    const ts = fin(q?.baT) && fin(pTs) ? Math.min(pTs, q.baT) : pTs; // bid/ask velho conta como cotação velha
     const link = book.links?.[sym] ?? {};
-    const qty = Math.max(0, (r?.qty ?? 0) + deltaSince(book, sym, src.photoMs));
+    const pos = positionFrom(r, book, sym, src.photoMs);
+    const qty = pos.qty;
+    if (pos.short) missing.push(`${sym}: execuções somam mais vendas do que a posição`);
     const u = asset.ok ? asset.under : null;
     const uq = u ? quotes[u] : null;
     const S = livePrice(uq).P;
@@ -89,17 +94,17 @@ export function buildInput(src) {
       sym,
       dir: 1, // a Carteira só tem posição comprada (ETF inverso = tipo bear); ver MAPEAMENTO.md
       qty,
-      avg: r?.avg ?? null,
+      avg: pos.avg,
       stop: fin(link.stop) ? link.stop : null,
-      hwm: fin(link.hwm) && link.hwmAvg === r?.avg ? link.hwm : (r?.avg ?? null),
+      hwm: fin(link.hwm) && link.hwmAvg === pos.avg ? link.hwm : pos.avg,
       partialDone: !!link.partialDone,
       entryUnder: link.entryUnder ?? null,
-      entryPrice: link.entryPrice ?? r?.avg ?? null,
+      entryPrice: link.entryPrice ?? pos.avg,
       sessions: link.sessions ?? 0,
       lastLot: link.lastLot ?? (qty || null),
       pRef: openedToday ? link.entryPrice : refPrice(bars[sym], now, q),
       asset,
-      quote: { P, bid: q?.b ?? null, ask: q?.a ?? null, ts: lp.ts },
+      quote: { P, bid: q?.b ?? null, ask: q?.a ?? null, ts },
       under: u ? underlyingView({ bars: bars[u] ?? null, daily: hist(u), S, ms: now, params }) : {},
       retDay: { etf: P > 0 && q?.pc > 0 ? P / q.pc - 1 : null, under: S > 0 && uq?.pc > 0 ? S / uq.pc - 1 : null }, // prettier-ignore
       borrow: null,

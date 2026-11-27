@@ -31,7 +31,8 @@ describe("livro: execução manual", () => {
     expect(b.day.reduced["SOXL-SQQQ"]).toEqual(["SQQQ"]);
     expect(b.day.realized).toBeCloseTo((19.7 - 20) * 92 - 1, 9);
     expect(b.journal.at(-1)).toMatchObject({ followed: true, alertId: "DEC-01", qty: 92 });
-    expect(() => recordExecution(b, sell92, { ...f, uid: "u2" })).toThrow("ordem já encerrada");
+    // a mesma ordem do motor de novo (outro id único) é um episódio novo: ordem nova, nunca a encerrada
+    expect(recordExecution(b, sell92, { ...f, uid: "u2" }).data.orders.map((o) => o.id)).toEqual([sell92.id, `${sell92.id}#2`]); // prettier-ignore
   });
   it("parcial 40/92: saldo aberto bloqueia a mesma finalidade; cancelado libera", () => {
     let b = recordExecution(fresh(), sell92, { uid: "u1", qty: 40, price: 19.7, ts: T0, avg: 20, remainder: "aberto" }).data; // prettier-ignore
@@ -228,5 +229,79 @@ describe("dicas da tela", () => {
       expect(t.que.length + t.ler.length + t.fazer.length, id).toBeLessThanOrEqual(280);
     }
     expect(() => tipText("nao_existe")).toThrow();
+  });
+});
+
+describe("regressões da revisão (27/11/2026)", () => {
+  it("dois aparelhos registrando: a mesclagem une execuções, ordens e diário sem perder nada", async () => {
+    const { mergeBooks } = await import("../assets/ls-book.js");
+    const base = fresh();
+    const cel = recordExecution(base, sell92, { uid: "cel", qty: 92, price: 19.7, ts: T0, avg: 20 }).data; // prettier-ignore
+    const buy = { id: "d|SOXL|ENTRAR|P7|P7#0", pairId: "p", sym: "SOXL", purpose: "ENTRAR", side: "COMPRAR", qty: 10, limit: 30, stop: 29, reason: "P7", alert: "INT-02", episode: "P7#0" }; // prettier-ignore
+    const desk = recordExecution(base, buy, {
+      uid: "desk",
+      qty: 10,
+      price: 30,
+      ts: T0 + 5000,
+    }).data;
+    const m = mergeBooks(desk, cel);
+    expect(m.fills.map((f) => f.uid).sort()).toEqual(["cel", "desk"]);
+    expect(m.orders).toHaveLength(2);
+    expect(m.journal).toHaveLength(2);
+    expect(m.day.entries).toBe(1);
+    expect(m.day.reduced["SOXL-SQQQ"]).toEqual(["SQQQ"]);
+    expect(m.day.realized).toBeCloseTo((19.7 - 20) * 92, 9);
+    expect(mergeBooks(m, m)).toEqual(m); // idempotente
+  });
+  it("posição = foto + execuções depois dela, com preço médio ponderado; zerou recomeça", async () => {
+    const { positionFrom } = await import("../assets/ls-book.js");
+    const buy = (id, q, p, ts) => ({ o: { id, pairId: "p", sym: "TQQQ", purpose: "ENTRAR", side: "COMPRAR", qty: q, limit: p, stop: p * 0.95, reason: "P7", alert: null }, f: { uid: id, qty: q, price: p, ts } }); // prettier-ignore
+    let b = fresh();
+    for (const x of [buy("a", 100, 50, T0), buy("b", 50, 56, T0 + 1000)]) b = recordExecution(b, x.o, x.f).data; // prettier-ignore
+    expect(positionFrom(null, b, "TQQQ", T0 - 1)).toEqual({ qty: 150, avg: 52, short: false });
+    expect(positionFrom({ qty: 100, avg: 50 }, b, "TQQQ", T0 + 500)).toEqual({ qty: 150, avg: 52, short: false }); // prettier-ignore
+    const z = { id: "z", pairId: "p", sym: "TQQQ", purpose: "ZERAR", side: "VENDER", qty: 150, limit: 55, reason: "P1", alert: "DEC-07" }; // prettier-ignore
+    b = recordExecution(b, z, { uid: "z", qty: 150, price: 55, ts: T0 + 2000, avg: 52 }).data;
+    expect(positionFrom(null, b, "TQQQ", T0 - 1)).toEqual({ qty: 0, avg: null, short: false });
+  });
+  it("zerar de novo no mesmo dia (saldo cancelado ou novo stop) abre ordem nova em vez de travar", () => {
+    const z = {
+      ...sell92,
+      id: "d|SQQQ|ZERAR|P1",
+      purpose: "ZERAR",
+      reason: "P1",
+      alert: "DEC-07",
+      qty: 100,
+    };
+    let b = recordExecution(fresh(), z, { uid: "1", qty: 40, price: 19, ts: T0, avg: 20, remainder: "cancelado" }).data; // prettier-ignore
+    b = recordExecution(b, { ...z, qty: 60 }, { uid: "2", qty: 60, price: 19, ts: T0 + 1000, avg: 20 }).data; // prettier-ignore
+    expect(b.orders.map((o) => [o.id, o.status])).toEqual([["d|SQQQ|ZERAR|P1", "CANCELADA"], ["d|SQQQ|ZERAR|P1#2", "EXECUTADA"]]); // prettier-ignore
+    // saldo aberto: o "Executou o saldo" cai na MESMA ordem viva
+    let c = recordExecution(fresh(), z, { uid: "a", qty: 40, price: 19, ts: T0, avg: 20, remainder: "aberto" }).data; // prettier-ignore
+    c = recordExecution(c, { ...z, qty: 60 }, { uid: "b", qty: 60, price: 19, ts: T0 + 1000, avg: 20 }).data; // prettier-ignore
+    expect(c.orders).toHaveLength(1);
+    expect(c.orders[0]).toMatchObject({ status: "EXECUTADA", qtyExec: 100 });
+  });
+  it("'Está aberta' confirma a ordem antiga e tira a pendência da reconciliação", () => {
+    const b0 = recordExecution(fresh(), sell92, { uid: "u", qty: 40, price: 19.7, ts: T0, avg: 20, remainder: "aberto" }).data; // prettier-ignore
+    const late = T0 + 19 * 3600000;
+    expect(reconcile({ data: b0, rows: [{ sym: "SQQQ", qty: 277 }], photoMs: T0 - 1, now: late }).ok).toBe(false); // prettier-ignore
+    const b1 = answerRemainder(b0, sell92.id, "aberto", late);
+    expect(reconcile({ data: b1, rows: [{ sym: "SQQQ", qty: 277 }], photoMs: T0 - 1, now: late + 1 }).ok).toBe(true); // prettier-ignore
+  });
+});
+
+describe("número digitado no separador do usuário", () => {
+  it("separador trocado é inválido (nunca ×100); milhar aceito", async () => {
+    const { parseNum } = await import("../assets/ls-view.js");
+    expect(parseNum("50.25", ".")).toBe(50.25);
+    expect(parseNum("50,25", ".")).toBeNaN();
+    expect(parseNum("25,000", ".")).toBe(25000);
+    expect(parseNum("1,234.5", ".")).toBe(1234.5);
+    expect(parseNum("50,25", ",")).toBe(50.25);
+    expect(parseNum("50.25", ",")).toBeNaN();
+    expect(parseNum("25.000", ",")).toBe(25000);
+    expect(parseNum("", ".")).toBeNull();
+    expect(parseNum("abc", ".")).toBeNaN();
   });
 });
