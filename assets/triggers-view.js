@@ -13,6 +13,7 @@ import { itemsOf, watchLists } from "./watchlist.js";
 import { nyDate } from "./live.js";
 import { esc, num } from "./format.js";
 import { hooks, state } from "./state.js";
+import { pairsBlock } from "./pairs-view.js";
 
 const MAX_SYMS = 40;
 const pctTxt = (x, d = 1) =>
@@ -140,6 +141,7 @@ export function viewTriggers() {
   const f = spyFilter();
   return `<section class="trig">
     <p class="muted small">Placar ao vivo = resultado em R (risco até o stop de 2,5 ATR) acima da média do universo, com faixa de 90%, no diário fora da amostra. Material educacional; não é recomendação de investimento.</p>
+    ${pairsBlock()}
     <div class="trig-grid">${leverBlock(f)}${protectBlock(u)}${reboundBlock(f)}${avoidBlock()}</div>
   </section>`;
 }
