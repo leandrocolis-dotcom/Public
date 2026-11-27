@@ -160,6 +160,8 @@ export function brokerView(row, now = Date.now(), live = {}, fxq = null) {
     fx,
     fxLive,
     fxAt: fxLive != null ? toDate(fxq?.t) : null,
+    fxSrc: fxLive != null ? (fxq?.src ?? "live") : null, // "live" (câmbio aberto) | "close" (fechamento)
+    fxDate: fxq?.date ?? null,
     liveCount: positions.filter((p) => p.live).length,
     liveAt: positions.reduce(
       (m, p) => (p.quoteTime && (!m || p.quoteTime > m) ? p.quoteTime : m),
@@ -280,9 +282,16 @@ export function btgParts(
       : "");
   const hm = (d) =>
     d ? d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "";
+  const ddmmIso = (d) => (d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "");
+  const fxTxt =
+    v.fxLive == null
+      ? `dólar da foto ${num(v.fx, 4)}`
+      : v.fxSrc === "close"
+        ? `dólar ${num(v.fxLive, 4)} (fechamento${v.fxDate ? ` de ${ddmmIso(v.fxDate)}` : ""}; câmbio fechado)`
+        : `dólar ${num(v.fxLive, 4)} ao vivo${v.fxAt ? ` às ${hm(v.fxAt)}` : ""}`;
   const liveTxt = v.liveCount
-    ? `<span class="pf-btg-live">● ao vivo</span> ${v.liveCount}/${v.positions.length} ativos${v.liveAt ? ` às ${hm(v.liveAt)}` : ""} · dólar ${v.fxLive != null ? `${num(v.fxLive, 4)}${v.fxAt ? ` às ${hm(v.fxAt)}` : ""}` : `da foto ${num(v.fx, 4)}`}`
-    : `sem cotação ao vivo · dólar ${v.fxLive != null ? num(v.fxLive, 4) : `da foto ${num(v.fx, 4)}`}`;
+    ? `<span class="pf-btg-live">● ao vivo</span> ${v.liveCount}/${v.positions.length} ativos${v.liveAt ? ` às ${hm(v.liveAt)}` : ""} · ${fxTxt}`
+    : `sem cotação ao vivo · ${fxTxt}`;
   const shareOn = v.liveTotalBrl > 0 ? v.onshore / v.liveTotalBrl : null;
   const ddmm = (d) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
   // variação do patrimônio pelas fotos do BTG (inclui aportes, resgates e câmbio): só a data, sem jargão

@@ -7,6 +7,7 @@ import { withManual } from "./btg.js";
 import { viewPortfolio } from "./portfolio-view.js";
 import { viewTriggers } from "./triggers-view.js";
 import { viewPairDesk } from "./pair-desk-view.js";
+import { usdBrl } from "./fx-rate.js";
 import { viewSettings } from "./settings-view.js";
 import { viewDash } from "./dash.js";
 import { viewMacro } from "./macro-view.js";
@@ -71,6 +72,11 @@ function riskNow() {
   if (riskMemo.key !== key)
     riskMemo = { key, val: portfolioRisk(v.rows, state.history, { total: v.total }) };
   return riskMemo.val;
+}
+/** Dólar da Carteira: ao vivo com o câmbio do Brasil aberto (9h–18h); fechado, o fechamento diário. */
+function brokerFxNow() {
+  const r = usdBrl({ quote: quoteOf("BRL=X"), daily: state.history?.["BRL=X"] });
+  return r ? { p: r.rate, t: r.at ? r.at.getTime() / 1000 : null, src: r.src, date: r.date ?? null } : null; // prettier-ignore
 }
 let rgMemo = { flow: null, quotes: null, val: null };
 /** Cenário ao vivo: intensidade do regime de 1 dia (fora do pregão, com futuros e pré/pós). */
@@ -209,7 +215,7 @@ export function makeViews({ settingsCtx, dashCtx, flowCtx, brFlowCtx, pfCtx }) {
         bias: biasNow(),
         broker: withManual(state.broker, state.portfolio?.holdings, state.portfolio?.manual),
         brokerHist: state.brokerHist,
-        brokerFx: quoteOf("BRL=X"),
+        brokerFx: brokerFxNow(),
         btgSync: state.btgSync,
         open: state.prefs.pfOpen,
         hide: state.prefs.pfHide,

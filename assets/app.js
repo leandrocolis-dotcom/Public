@@ -484,7 +484,8 @@ async function load({ notify = false } = {}) {
     liveSnapshot(held, () => fetchJSON(`api/quotes${qs}`), notify),
     held.length
       ? fetchJSON(
-          `api/history?vol=1&symbols=${encodeURIComponent([...new Set([...held, "SPY"])].join(","))}`,
+          // BRL=X: fechamento diário do dólar da Carteira fora do horário do câmbio (assets/fx-rate.js)
+          `api/history?vol=1&symbols=${encodeURIComponent([...new Set([...held, "SPY", "BRL=X"])].join(","))}`,
         )
       : Promise.resolve(null),
   ]);
