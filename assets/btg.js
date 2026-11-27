@@ -17,11 +17,18 @@ export function btgFireDone(fire) {
   return !!fire?.already && Number.isFinite(since) && Number.isFinite(synced) && synced >= since;
 }
 
-/** Ajuste manual vale enquanto não chega foto do BTG mais nova que a usada como base. */
+/**
+ * Data das POSIÇÕES do exterior da foto. Foto parcial (desde 26/11/2026 o conector do BTG não traz mais o exterior
+ * ativo a ativo): Brasil e totais são de agora, as posições são as da última foto completa (`positionsAsOf`).
+ */
+export const positionsAsOf = (row) =>
+  row?.summary?.offshore?.positionsAsOf ?? row?.asOf ?? row?.summary?.asOf ?? null;
+
+/** Ajuste manual vale enquanto não chega foto do BTG com posições mais novas que as usadas como base. */
 export function manualActive(row, manual) {
   if (!manual?.baseAsOf) return false;
   const base = Date.parse(manual.baseAsOf);
-  const at = Date.parse(row?.asOf ?? row?.summary?.asOf ?? "");
+  const at = Date.parse(positionsAsOf(row) ?? "");
   return Number.isFinite(base) && (!Number.isFinite(at) || at <= base);
 }
 
@@ -60,7 +67,7 @@ export function withManual(row, holdings = [], manual = null) {
 
 /** Novo ajuste manual sobre a foto atual (mantém o que já foi ajustado nela). */
 export function nextManual(row, manual, patch) {
-  const base = manualActive(row, manual) ? manual : { baseAsOf: row?.asOf ?? row?.summary?.asOf ?? new Date().toISOString() }; // prettier-ignore
+  const base = manualActive(row, manual) ? manual : { baseAsOf: positionsAsOf(row) ?? new Date().toISOString() }; // prettier-ignore
   return { ...base, ...patch, at: new Date().toISOString() };
 }
 
@@ -137,6 +144,9 @@ export function brokerView(row, now = Date.now(), live = {}, fxq = null) {
     asOf: Number.isFinite(at) ? new Date(at) : null,
     stale: !Number.isFinite(at) || now - at > BTG_STALE_MS,
     rejected: row.status === "rejected" ? row.statusDetail || "leitura recusada" : null,
+    posAsOf: s.offshore.positionsStale && positionsAsOf(row) ? new Date(positionsAsOf(row)) : null,
+    tryFail:
+      Date.parse(row.tryAt ?? "") > (Date.parse(row.syncedAt ?? "") || 0) ? row.tryDetail || "leitura não gravou" : null, // prettier-ignore
     manual: row.manual ?? null,
     totalBrl,
     liveTotalBrl,
@@ -257,11 +267,17 @@ export function btgParts(
   const manualWarn = v.manual
     ? `<p class="pf-btg-warn">✎ Ajuste manual sobre a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}${v.manual.at ? ` (editado ${fmtDT(new Date(v.manual.at))})` : ""}. Some sozinho na próxima leitura do BTG. <button class="btn small" data-action="btg-manual-clear">Descartar ajustes</button></p>`
     : "";
-  const warn = v.rejected
-    ? `<p class="pf-btg-warn">⚠ Última leitura recusada (${esc(v.rejected)}). A carteira segue com a foto anterior.</p>`
-    : v.stale
-      ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
-      : "";
+  const warn =
+    (v.rejected
+      ? `<p class="pf-btg-warn">⚠ Última leitura recusada (${esc(v.rejected)}). A carteira segue com a foto anterior.</p>`
+      : v.tryFail
+        ? `<p class="pf-btg-warn">⚠ Última tentativa de leitura não gravou (${esc(v.tryFail)}). A carteira segue com a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}.</p>` // prettier-ignore
+        : v.stale
+          ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
+          : "") +
+    (v.posAsOf && !v.manual
+      ? `<p class="pf-btg-warn">ⓘ Exterior: totais (investido e caixa) de agora; ativo a ativo da foto de ${fmtDT(v.posAsOf)}. O BTG deixou de enviar as posições do exterior em 26/11/2026. Operou desde então? Ajuste no ✎ das posições.</p>` // prettier-ignore
+      : "");
   const hm = (d) =>
     d ? d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "";
   const liveTxt = v.liveCount

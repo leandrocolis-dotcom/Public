@@ -37,6 +37,31 @@ export function checkSnapshot(raw, now = Date.now()) {
   const [totalUsd, investedUsd, cashUsd, totalBrl] = [off?.totalUsd, off?.investedUsd, off?.cashUsd, off?.totalBrl].map(n); // prettier-ignore
   if ([totalUsd, investedUsd, cashUsd, totalBrl].some((x) => x == null || x < 0)) return bad("conta internacional incompleta"); // prettier-ignore
   if (!near(investedUsd + cashUsd, totalUsd, 1)) return bad("investido + caixa não fecha com o total"); // prettier-ignore
+  // Desde 26/11/2026 o conector do BTG não traz mais as posições do exterior ativo a ativo (get_offshore_position
+  // saiu; get_balances só dá patrimônio, investido e caixa em US$). Foto parcial: Brasil + totais do exterior;
+  // as posições ficam as da última foto completa (o banco as carrega, ver pendulo_btg_apply).
+  const keep = off?.positions == null && raw.keepPositions === true;
+  if (keep) {
+    const ptax = n(raw.fx?.ptax);
+    if (!(ptax > 0) || !DAY.test(raw.fx?.date ?? "")) return bad("câmbio inválido");
+    if (!near(totalUsd * ptax, totalBrl, Math.max(5, totalBrl * 0.02))) return bad("total em reais não fecha com a PTAX"); // prettier-ignore
+    return {
+      ok: true,
+      snap: {
+        asOf: new Date(at).toISOString(),
+        fx: { ptax, date: raw.fx.date.slice(0, 10) },
+        onshore: { total: onTotal, items },
+        offshore: {
+          totalUsd,
+          investedUsd,
+          cashUsd,
+          totalBrl,
+          positions: null,
+          positionsStale: true,
+        },
+      },
+    };
+  }
   if (!Array.isArray(off.positions) || !off.positions.length) return bad("leitura sem posições");
 
   const positions = [];
@@ -72,3 +97,23 @@ export function checkSnapshot(raw, now = Date.now()) {
     },
   };
 }
+
+/**
+ * PTAX de venda do dia útil mais recente (Banco Central, sem chave). Uso na rotina:
+ * `node btg-snapshot.mjs ptax` → {"ptax":5.33,"date":"2026-11-26"}. now = hoje (testes).
+ */
+export async function fetchPtax(now = new Date(), get = fetch) {
+  for (let back = 0; back < 8; back++) {
+    const d = new Date(now.getTime() - back * 86400000);
+    const mdY = `${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}-${d.getUTCFullYear()}`; // prettier-ignore
+    const url = `https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='${mdY}'&$format=json`; // prettier-ignore
+    const r = await get(url).catch(() => null);
+    const v = r?.ok ? (await r.json().catch(() => null))?.value?.at(-1) : null;
+    if (v?.cotacaoVenda > 0)
+      return { ptax: v.cotacaoVenda, date: String(v.dataHoraCotacao).slice(0, 10) };
+  }
+  return null;
+}
+
+if (typeof process !== "undefined" && process.argv?.[2] === "ptax" && import.meta.url === `file://${process.argv[1]}`)
+  fetchPtax().then((r) => console.log(JSON.stringify(r))); // prettier-ignore

@@ -21,6 +21,9 @@ create or replace function public.pendulo_btg_apply(p_user uuid, p_snap jsonb)
 returns jsonb language plpgsql security definer set search_path = public as $$
 declare
   pos jsonb := p_snap #> '{offshore,positions}';
+  -- foto parcial (27/11/2026): o conector do BTG deixou de trazer as posições do exterior; vem só o total.
+  -- As posições ficam as da última foto completa (carregadas no summary) e a carteira não é reescrita.
+  stale boolean := coalesce((p_snap #>> '{offshore,positionsStale}')::boolean, false);
   invested numeric;
   total numeric;
   as_of timestamptz;
@@ -32,10 +35,18 @@ declare
   new_syms text[];
   today text;
 begin
+  select * into old from public.pendulo_broker where user_id = p_user for update;
   begin
     as_of := (p_snap->>'asOf')::timestamptz;
     invested := (p_snap #>> '{offshore,investedUsd}')::numeric;
-    if jsonb_typeof(pos) <> 'array' or jsonb_array_length(pos) = 0 then
+    if stale then
+      pos := old.summary #> '{offshore,positions}';
+      if jsonb_typeof(pos) <> 'array' or jsonb_array_length(pos) = 0 then
+        why := 'foto parcial sem posições anteriores para manter';
+      elsif invested is null or invested < 0 then
+        why := 'total investido do exterior inválido';
+      end if;
+    elsif jsonb_typeof(pos) <> 'array' or jsonb_array_length(pos) = 0 then
       why := 'leitura sem posições';
     elsif exists (
       select 1 from jsonb_array_elements(pos) e
@@ -56,15 +67,23 @@ begin
     why := 'snapshot malformado';
   end;
 
-  select * into old from public.pendulo_broker where user_id = p_user for update;
   if why is null and as_of is null then why := 'sem data'; end if;
   if why is null and old.as_of is not null and as_of < old.as_of then why := 'snapshot mais antigo que o atual'; end if;
 
   if why is not null then
-    insert into public.pendulo_broker (user_id, status, status_detail, synced_at)
-    values (p_user, 'rejected', why, now())
-    on conflict (user_id) do update set status = 'rejected', status_detail = excluded.status_detail, synced_at = now();
+    -- recusa não apaga a foto boa: fica anotada como tentativa (try_at), a foto vigente segue 'ok'
+    update public.pendulo_broker set try_at = now(), try_detail = why where user_id = p_user;
     return jsonb_build_object('ok', false, 'why', why);
+  end if;
+
+  if stale then
+    p_snap := jsonb_set(p_snap, '{offshore,positions}', pos);
+    p_snap := jsonb_set(p_snap, '{offshore,positionsAsOf}',
+      to_jsonb(coalesce(old.summary #>> '{offshore,positionsAsOf}', old.as_of::text)));
+    update public.pendulo_broker set as_of = (p_snap->>'asOf')::timestamptz, summary = p_snap, status = 'ok', status_detail = null,
+      try_at = null, try_detail = null, synced_at = now()
+    where user_id = p_user;
+    return jsonb_build_object('ok', true, 'positions', jsonb_array_length(pos), 'positionsStale', true);
   end if;
 
   select holdings into cur from public.pendulo_portfolio where user_id = p_user for update;
@@ -92,7 +111,8 @@ begin
   insert into public.pendulo_broker (user_id, as_of, summary, syms, prev_holdings, status, status_detail, synced_at)
   values (p_user, as_of, p_snap, new_syms, cur, 'ok', null, now())
   on conflict (user_id) do update set as_of = excluded.as_of, summary = excluded.summary, syms = excluded.syms,
-    prev_holdings = excluded.prev_holdings, status = 'ok', status_detail = null, synced_at = now();
+    prev_holdings = excluded.prev_holdings, status = 'ok', status_detail = null, try_at = null, try_detail = null,
+    synced_at = now();
   return jsonb_build_object('ok', true, 'positions', jsonb_array_length(fresh), 'manualKept', jsonb_array_length(manual));
 end $$;
 revoke all on function public.pendulo_btg_apply(uuid, jsonb) from public, anon, authenticated;
@@ -368,3 +388,18 @@ begin
   return n;
 end $$;
 revoke all on function public.pendulo_offperf_apply(uuid, text, jsonb) from public, anon, authenticated;
+
+-- Última tentativa da rotina do BTG (27/11/2026): a rotina anota quando NÃO consegue gravar a foto (conector
+-- desconectado, ferramenta mudou, conferência recusou) sem mexer na foto vigente nem no status 'ok'. O app lê
+-- try_at/try_detail e avisa na hora, em vez de esperar o prazo do botão. pendulo_btg_apply também anota aqui a recusa.
+alter table public.pendulo_broker add column if not exists try_at timestamptz;
+alter table public.pendulo_broker add column if not exists try_detail text;
+
+create or replace function public.pendulo_btg_note(p_user uuid, p_detail text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+begin
+  update public.pendulo_broker set try_at = now(), try_detail = left(coalesce(p_detail, ''), 300)
+  where user_id = p_user;
+  return jsonb_build_object('ok', found);
+end $$;
+revoke all on function public.pendulo_btg_note(uuid, text) from public, anon, authenticated;

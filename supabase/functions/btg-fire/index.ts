@@ -142,5 +142,6 @@ async function fireOne(name: string, url: string, token: string): Promise<string
     detail,
     urlOk,
   });
-  return `rotina recusou (HTTP ${f.status}${err.type ? `, ${err.type}` : ""})`;
+  // o motivo vai para o app (ex.: "Routine is paused."), sem URL nem token, para o aviso dizer o que fazer
+  return `rotina recusou (HTTP ${f.status}${detail ? `: ${detail}` : err.type ? `, ${err.type}` : ""})`;
 }

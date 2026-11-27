@@ -31,7 +31,23 @@ export const BTG_CLOUD_TIMES = ["10h41", "13h41", "16h41", "19h41", "22h41"];
 export function btgFailMsg(why) {
   if (why === "nuvem_off")
     return `O botão ainda não dispara a leitura na nuvem (falta ligar o token da rotina). A foto do BTG se atualiza sozinha na nuvem nos dias úteis às ${BTG_CLOUD_TIMES.join(", ")}.`;
+  if (/paused/i.test(why ?? ""))
+    return "BTG: a rotina ligada ao botão está pausada. Em claude.ai › Code › Rotinas, abra a rotina do BTG e retome (ou gere o token da API da rotina ativa e troque os segredos BTG_ROUTINE_URL/BTG_ROUTINE_TOKEN da função btg-fire). A Carteira segue com a última foto."; // prettier-ignore
+  if (/HTTP 40[13]|unauthori[sz]ed|forbidden|invalid.*token/i.test(why ?? ""))
+    return "BTG: o token da rotina do botão foi recusado (expirou ou foi trocado). Gere um novo em claude.ai › Code › Rotinas › BTG › API e grave em BTG_ROUTINE_TOKEN da função btg-fire. A Carteira segue com a última foto."; // prettier-ignore
   return `BTG não atualizado (${why || "falha na leitura"}). A Carteira segue com a última foto.`;
+}
+
+/**
+ * A rotina anotou que tentou e NÃO gravou (pendulo_btg_note) depois do disparo? Devolve o motivo; o app para de
+ * esperar na hora. `since` = hora do disparo (ISO).
+ */
+export function btgTryFailed(b, since) {
+  const t = Date.parse(b?.tryAt ?? "");
+  const s = Date.parse(since ?? "");
+  if (!Number.isFinite(t) || !Number.isFinite(s) || t < s - 5000) return null;
+  if (Date.parse(b?.syncedAt ?? "") >= t) return null; // gravou depois da anotação
+  return b.tryDetail || "a leitura na nuvem não gravou";
 }
 
 /** Pela nuvem: dispara a rotina e espera a foto nova (synced_at muda; ~1–2 min quando a rotina tem o conector). */
@@ -42,9 +58,12 @@ async function viaCloud(fire, onChanged) {
   let until = start + CLOUD_LIMIT_MS;
   let second = !(fire.hasFallback && !done); // 2ª conta já tentada (ou não há)
   let b = done ? await cloud.pullBroker().catch(() => null) : null;
+  let failed = null;
   while (!(Date.parse(b?.syncedAt ?? "") > before) && Date.now() < until) {
     await wait(CLOUD_POLL_MS);
     b = await cloud.pullBroker().catch(() => b);
+    failed = done ? null : btgTryFailed(b, fire.since);
+    if (failed && (second || !fire.hasFallback)) break;
     if (
       !second &&
       !(Date.parse(b?.syncedAt ?? "") > before) &&
@@ -59,7 +78,8 @@ async function viaCloud(fire, onChanged) {
     }
     hooks.render(); // o botão mostra há quanto tempo espera
   }
-  if (!(Date.parse(b?.syncedAt ?? "") > before)) return toast(BTG_SLOW_MSG, "err", 16000);
+  if (!(Date.parse(b?.syncedAt ?? "") > before))
+    return toast(failed ? `BTG não atualizado: ${failed} A Carteira segue com a última foto.` : BTG_SLOW_MSG, "err", 16000); // prettier-ignore
   if (await syncCloud({ force: true })) onChanged?.();
   if (b.status === "rejected") return toast(btgFailMsg(b.statusDetail), "err");
   toast("Posições e valores atualizados do BTG.", "ok");

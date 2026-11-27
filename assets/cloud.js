@@ -194,7 +194,7 @@ export async function pullPortfolio() {
 /** Foto das contas BTG (só leitura: quem grava é a sincronização diária). */
 export async function pullBroker() {
   const rows = await call(
-    `/rest/v1/pendulo_broker?select=as_of,summary,status,status_detail,synced_at`,
+    `/rest/v1/pendulo_broker?select=as_of,summary,status,status_detail,synced_at,try_at,try_detail`,
     {
       token: await token(),
     },
@@ -207,6 +207,8 @@ export async function pullBroker() {
         status: r.status,
         statusDetail: r.status_detail,
         syncedAt: r.synced_at,
+        tryAt: r.try_at ?? null,
+        tryDetail: r.try_detail ?? null,
       }
     : null;
 }
