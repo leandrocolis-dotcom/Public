@@ -66,3 +66,18 @@ describe("botão Atualizar BTG", () => {
     expect(btgFailMsg("rotina recusou (HTTP 401, authentication_error)")).toMatch(/token/);
   });
 });
+
+describe("conferência das quantidades com o total do BTG", async () => {
+  const { qtyCheck } = await import("../assets/btg.js");
+  const photo = Date.parse("2026-11-27T01:55:00Z"); // noite: sem pregão até agora
+  it("bate dentro de 3% e acusa diferença maior", () => {
+    expect(qtyCheck(1000, 1020, photo, photo + 3600e3)).toMatchObject({ ok: true });
+    expect(qtyCheck(1000, 1100, photo, photo + 3600e3)).toMatchObject({ ok: false });
+  });
+  it("não compara quando houve pregão entre a leitura e agora", () => {
+    const day = Date.parse("2026-11-25T15:00:00Z"); // 10h de NY, pregão aberto
+    expect(qtyCheck(1000, 1100, day - 2 * 3600e3, day)).toBeNull();
+    // leitura de 10 min atrás: compara mesmo com pregão aberto
+    expect(qtyCheck(1000, 1100, day - 10 * 60e3, day)).toMatchObject({ ok: false });
+  });
+});

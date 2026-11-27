@@ -51,7 +51,7 @@ function liveHtml(m) {
     .join("");
   return `<h4 style="margin:12px 0 4px">Diário fora da amostra (decide) · ${m.sessions ?? 0} pregões ao vivo · atualizado em ${dateBR(m.updatedAt)}</h4>
     <div class="tw"><table class="spd-t"><thead><tr><th>Gatilho</th><th>Operação</th><th>Situação</th><th class="num">Excesso ao vivo</th><th class="num">Prévia (60 pregões reconstruídos)</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="note">Mesmas regras do aprendizado: cada dia é uma observação; com ${RULES.minN}+ dias, aprova se o excesso médio for positivo e passar na correção de Benjamini-Hochberg entre as lógicas; elimina se for ≤ 0. Sessões: pré (até 9h30 de NY), pregão (16h) e pós (20h), em barras de 5 min com pré e pós-mercado, entrada no preço daquele momento e saída no fechamento do pregão seguinte. Universo: ${m.universe?.daily ?? "–"} ativos no fechamento; ${m.universe?.session ?? "–"} do Fluxo nas sessões. Modo sombra: não muda a aba Sinais de hoje nem os avisos.</p>`; // prettier-ignore
+    <p class="note">Mesmas regras do aprendizado: cada dia é uma observação; com ${RULES.minN}+ dias, aprova se o excesso médio for positivo e passar na correção de Benjamini-Hochberg entre as lógicas; elimina se for ≤ 0. Sessões: pré (até 9h30 de NY), pregão (16h) e pós (20h), em barras de 5 min com pré e pós-mercado, entrada no preço daquele momento e saída no fechamento do pregão seguinte. Universo: ${m.universe?.daily ?? "–"} ativos no fechamento; ${m.universe?.session ?? "–"} do Fluxo nas sessões. Modo sombra: não muda os gatilhos nem os avisos.</p>`; // prettier-ignore
 }
 
 /** Cartão do Simulador. learn = { speed, speedStudy } (assets/model-status.js). */

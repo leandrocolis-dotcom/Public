@@ -158,7 +158,7 @@ self.addEventListener("push", (e) => {
         tag: d.tag || undefined,
         icon: "icons/icon-192.png",
         badge: "icons/icon-192.png",
-        data: { url: d.url || "./?tab=signals", update: !!d.update },
+        data: { url: d.url || "./?tab=trig", update: !!d.update },
         ...(rev
           ? { renotify: !!d.tag, vibrate: urgent ? [300, 120, 300, 120, 600] : [200, 100, 200] }
           : {}),
@@ -179,7 +179,7 @@ async function logPush(d) {
       at: Date.now(),
       title: d.title,
       body: d.body || "",
-      url: d.url || "./?tab=signals",
+      url: d.url || "./?tab=trig",
     });
     await c.put(
       "./__notif-log",
@@ -218,7 +218,7 @@ async function openUpdated(url) {
 // Toque na notificação: traz o app para a frente (ou abre) na aba indicada (padrão: Sinais).
 self.addEventListener("notificationclick", (e) => {
   e.notification.close();
-  const url = e.notification.data?.url || "./?tab=signals";
+  const url = e.notification.data?.url || "./?tab=trig";
   if (e.notification.data?.update) return e.waitUntil(openUpdated(url));
   e.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {

@@ -140,9 +140,9 @@ export function trendContext(kind, x) {
   const up = x.price > x.ma200 && x.ma50 > x.ma200;
   const down = x.price < x.ma200 && x.ma50 < x.ma200;
   if (kind === "entry" && down)
-    return "Contra a tendência de baixa (abaixo das médias de 50 e 200 dias): aposta de repique curto; a aba Quando entrar tende a indicar cautela.";
+    return "Contra a tendência de baixa (abaixo das médias de 50 e 200 dias): aposta de repique curto; a Decisão do trader tende a indicar cautela.";
   if (kind !== "entry" && up)
-    return "A tendência de fundo segue de alta: sinal para realizar parte ou proteger, não para zerar; a aba Quando entrar pode continuar positiva.";
+    return "A tendência de fundo segue de alta: sinal para realizar parte ou proteger, não para zerar; a Decisão do trader pode continuar positiva.";
   return "";
 }
 

@@ -333,7 +333,7 @@ export function alertsFor({
       title: topicTitle("more", `+${extra.length} aviso(s)`),
       body: extra.map((x) => x.title).join(" · "),
       tag: "more",
-      url: "./?tab=signals&log=1",
+      url: "./?tab=trig&log=1",
       covers: extra.flatMap((x) => [x.key, ...(x.covers ?? [])]),
     });
   return { send: shown, all };

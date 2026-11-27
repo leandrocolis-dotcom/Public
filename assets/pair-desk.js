@@ -65,14 +65,18 @@ export function legMove(leg, delta, fee = DESK_DEFAULTS.fee) {
  * Ordem de preferência: (1) vender ponta com lucro (realiza ganho e já inclina); (2) comprar a outra ponta com o
  * caixa livre acima da reserva (não realiza perda); (3) vender a ponta com o menor prejuízo.
  */
-export function tiltPlan(st, { score, maxTilt, band, fee, cash } = {}) {
+export function tiltPlan(st, { score, maxTilt, band, fee, cash, target = null } = {}) {
   const o = { ...DESK_DEFAULTS, maxTilt: maxTilt ?? DESK_DEFAULTS.maxTilt, band: band ?? DESK_DEFAULTS.band, fee: fee ?? DESK_DEFAULTS.fee }; // prettier-ignore
   const gross = st.rows.reduce((a, r) => a + Math.abs(r.expo), 0);
-  const want = targetTilt(score, o.maxTilt);
+  // alvo manual da dupla (−1 a +1) vence o alvo pelo regime
+  const manual = fin(target);
+  const want = manual ? clamp(target, -1, 1) : targetTilt(score, o.maxTilt);
   const now = gross > 0 ? st.expo / gross : 0;
   const delta = want * gross - st.expo; // US$ de exposição no ativo-base que faltam
-  const on = gross > 0 && Math.abs(want - now) > o.band;
-  if (!on) return { want, now, delta, ok: true, options: [], pick: null };
+  // dentro da folga não precisa mexer, mas as opções saem mesmo assim (quanto custaria chegar ao alvo exato)
+  const ok = !(gross > 0 && Math.abs(want - now) > o.band);
+  const base = { want, now, delta, ok, manual, gross };
+  if (!(gross > 0) || Math.abs(delta) < gross * 0.005) return { ...base, options: [], pick: null };
   const options = st.rows
     .map((leg) => legMove(leg, delta, o.fee))
     .filter(Boolean)
@@ -92,7 +96,7 @@ export function tiltPlan(st, { score, maxTilt, band, fee, cash } = {}) {
       : pick.side === "buy"
         ? "compra a outra ponta com o caixa acima da reserva: inclina sem realizar prejuízo"
         : "única saída sem caixa livre: vende a ponta com o menor prejuízo";
-  return { want, now, delta, ok: false, options, pick, why };
+  return { ...base, options, pick, why };
 }
 
 /** Painel inteiro: estado de cada dupla com alvo de saída, inclinação pelo regime e o caixa da conta. */
@@ -102,15 +106,22 @@ export function deskState(pairs, { account, cash, score, move = null, cfg = {} }
     ...Object.fromEntries(Object.entries(cfg).filter(([, v]) => fin(v))),
   };
   const money = cashState(cash, account, o.reserve);
-  const out = pairs.map(({ key, legs, goal }) => {
+  const out = pairs.map(({ key, legs, goal, tilt: target = null }) => {
     const st = pairState(legs, { equity: account, fee: o.fee, base: cfg.base ?? "cost" });
     const g = fin(goal) && goal > 0 ? goal : o.goal;
     const [exit] = targetsFor(st, [g], { equity: account, fee: o.fee });
-    const tilt = tiltPlan(st, { score, maxTilt: o.maxTilt, band: o.band, fee: o.fee, cash: money });
-    return { key, st, goal: g, exit, tilt };
+    const tilt = tiltPlan(st, { score, maxTilt: o.maxTilt, band: o.band, fee: o.fee, cash: money, target }); // prettier-ignore
+    // fotografia da exposição: quanto da exposição bruta está comprado e vendido no ativo-base
+    const long = st.rows.reduce((a, r) => a + Math.max(0, r.expo), 0);
+    const short = st.rows.reduce((a, r) => a + Math.max(0, -r.expo), 0);
+    const mix = { long, short, gross: long + short, longPct: long + short > 0 ? long / (long + short) : null, shortPct: long + short > 0 ? short / (long + short) : null }; // prettier-ignore
+    return { key, st, goal: g, exit, tilt, mix };
   });
   // virada: a nota andou ≥ 10 pontos em 1h contra a inclinação atual das duplas somadas
   const net = out.reduce((a, p) => a + p.st.expo, 0);
   const turning = fin(move) && Math.abs(move) >= 10 && Math.sign(move) !== Math.sign(net || move) ? Math.sign(move) : 0; // prettier-ignore
-  return { pairs: out, money, score, move, turning, net, cfg: o };
+  const long = out.reduce((a, p) => a + p.mix.long, 0);
+  const short = out.reduce((a, p) => a + p.mix.short, 0);
+  const total = { long, short, net, gross: long + short, tilt: long + short > 0 ? net / (long + short) : null }; // prettier-ignore
+  return { pairs: out, money, score, move, turning, net, total, cfg: o };
 }

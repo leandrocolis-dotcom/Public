@@ -227,7 +227,7 @@ export function viewWatch() {
         <span class="wl-head-acts"><button class="btn small ghost" data-w-act="rename">Renomear</button><button class="btn small ghost" data-w-act="drop">Excluir lista</button></span></div>
       <details class="wl-paste"${(pasteOpen ?? !items.length) ? " open" : ""}><summary>Colar ativos <span class="dim">(tickers ou a tabela da watchlist do Investing.com)</span></summary>
         <textarea id="wlInput" rows="4" placeholder="AAPL, MSFT, NVDA, VOO, PETR4&#10;ou copie a tabela da watchlist do Investing (Name, Symbol, Last…) e cole aqui">${esc(draft)}</textarea>
-        <div class="wl-acts"><button class="btn" data-w-act="preview">Ler colagem</button><span class="dim">Códigos dos EUA como no Yahoo; ações da B3 sem sufixo viram .SA (PETR4 → PETR4.SA); VIX → ^VIX, SPX → ^GSPC. Sem limite de ativos por lista (listas grandes demoram mais a carregar); até ${MAX_LISTS} listas, as mesmas da aba Sinais de hoje.</span></div>
+        <div class="wl-acts"><button class="btn" data-w-act="preview">Ler colagem</button><span class="dim">Códigos dos EUA como no Yahoo; ações da B3 sem sufixo viram .SA (PETR4 → PETR4.SA); VIX → ^VIX, SPX → ^GSPC. Sem limite de ativos por lista (listas grandes demoram mais a carregar); até ${MAX_LISTS} listas.</span></div>
         ${prev}</details>
       <div class="toolbar wl-bar"><span class="seg" role="group" aria-label="Janela da velocidade">${Object.entries(
         WATCH_WINDOWS,
@@ -249,7 +249,7 @@ export function viewWatch() {
     </div>`;
 }
 
-/** Grava as listas (as mesmas da aba Sinais de hoje), envia para a nuvem e redesenha. */
+/** Grava as listas , envia para a nuvem e redesenha. */
 function setLists(lists, active) {
   state.prefs.watchlists = lists;
   if (active) state.prefs.watchActive = active;

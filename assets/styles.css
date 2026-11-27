@@ -11578,3 +11578,12 @@ html[data-nav="bottom"] main {
 .pd-head h2 {
   margin: 0;
 }
+.pd-cons {
+  margin-bottom: 12px;
+}
+.pd-cons h3 {
+  margin: 0 0 8px;
+}
+.pd-cons tr.pd-total td {
+  border-top: 2px solid var(--line-2);
+}

@@ -31,8 +31,8 @@
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Sinais",
-      "url": "/?tab=signals",
+      "name": "Gatilhos",
+      "url": "/?tab=trig",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {

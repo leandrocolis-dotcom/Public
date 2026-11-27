@@ -1,7 +1,7 @@
 // Carteira › Duplas L/S: painel de controle das duplas long × short (motor em assets/pair-desk.js).
 import { DESK_DEFAULTS, deskState } from "./pair-desk.js";
 import { DEFAULT_FEE, MAX_PAIRS, detectPairs, legFrom } from "./pairs.js";
-import { btgButton, positionsAsOf, withManual } from "./btg.js";
+import { btgButton, qtyCheck, withManual } from "./btg.js";
 import { quoteOf } from "./asset-pop.js";
 import { zoneOf } from "./regime-zones.js";
 import { esc, num } from "./format.js";
@@ -25,6 +25,28 @@ function cfg() {
   };
 }
 
+const z = (t) =>
+  !fin(t) ? "–" : Math.abs(t) < 0.005 ? "0%" : `${t > 0 ? "+" : "−"}${num(Math.abs(t) * 100, 0)}%`;
+const act = (m) =>
+  m ? `${m.side === "buy" ? "Comprar" : "Vender"} ${num(m.shares, 0)} ${esc(m.sym)}` : "–";
+
+/** Consolidado: uma linha por dupla (mistura comprado × vendido, inclinação agora → alvo e o melhor ajuste). */
+function consolidated(d) {
+  const rows = d.pairs
+    .map((p) => {
+      const t = p.tilt;
+      const other = t.options.find((m) => m !== t.pick);
+      const status = t.ok ? '<span class="muted">na folga</span>' : `<b class="${t.delta >= 0 ? "up" : "down"}">${t.delta >= 0 ? "comprar exposição" : "reduzir exposição"}</b>`; // prettier-ignore
+      return `<tr><td><b>${esc(p.key.replace("-", " × "))}</b></td><td class="num">${plain(p.mix.longPct, 0)}<br><span class="muted small">${usd(p.mix.long)}</span></td><td class="num">${plain(p.mix.shortPct, 0)}<br><span class="muted small">${usd(p.mix.short)}</span></td><td class="num">${z(t.now)} → <b>${z(t.want)}</b><br><span class="muted small">${t.manual ? "alvo manual" : "pelo regime"} · ${status}</span></td><td>${t.pick ? `★ <b>${act(t.pick)}</b><br><span class="muted small">${usd(t.pick.notional)} · ${t.pick.side === "sell" ? `realiza ${usd(t.pick.realized)}` : `usa ${usd(-t.pick.cashDelta)} do caixa`}</span>` : '<span class="muted">nada a fazer</span>'}</td><td>${other ? `${act(other)}<br><span class="muted small">${other.side === "sell" ? `realiza ${usd(other.realized)}` : `usa ${usd(-other.cashDelta)} do caixa${other.fits ? "" : " (sem caixa livre)"}`}</span>` : "–"}</td></tr>`; // prettier-ignore
+    })
+    .join("");
+  const t = d.total;
+  const totalRow = `<tr class="pd-total"><td><b>Total das duplas</b></td><td class="num">${plain(t.gross > 0 ? t.long / t.gross : null, 0)}<br><span class="muted small">${usd(t.long)}</span></td><td class="num">${plain(t.gross > 0 ? t.short / t.gross : null, 0)}<br><span class="muted small">${usd(t.short)}</span></td><td class="num"><b>${z(t.tilt)}</b><br><span class="muted small">líquido ${usd(t.net)}</span></td><td colspan="2" class="small muted">${fin(d.score) ? `Alvo pelo regime agora: ${z((d.score / 100) * d.cfg.maxTilt)}` : ""}</td></tr>`; // prettier-ignore
+  return `<section class="card pd-cons"><h3>Exposição consolidada</h3>
+    <div class="table-wrap"><table class="cal-table"><thead><tr><th>Dupla</th><th>Comprado</th><th>Vendido</th><th>Inclinação → alvo</th><th>Melhor ajuste</th><th>Outra opção</th></tr></thead><tbody>${rows}${totalRow}</tbody></table></div>
+    <div class="pd-txt">Exposição no ativo-base = valor × alavancagem (SOXL 3x, SOXS −3x…). Inclinação = líquido ÷ bruto: +100% todo comprado, −100% todo vendido. ★ = maior lucro realizado ou menor prejuízo; comprar só usa o caixa acima da reserva.</div></section>`; // prettier-ignore
+}
+
 function moveRow(m, best) {
   return `<tr class="${m === best ? "pd-best" : ""}"><td>${m === best ? "★ " : ""}<b>${m.side === "buy" ? "Comprar" : "Vender"} ${num(m.shares, 0)} ${esc(m.sym)}</b></td><td class="num">${usd(m.notional)}</td><td class="num">${usd(m.cost)}</td><td class="num">${m.side === "sell" ? usd(m.realized) : "–"}</td><td class="num">${usd(m.cashDelta)}</td><td class="small">${m.side === "buy" && !m.fits ? '<span class="down">sem caixa livre</span>' : m.full === false ? "vende tudo e não basta" : ""}</td></tr>`; // prettier-ignore
 }
@@ -42,19 +64,19 @@ function pairCard(p, d, i, account) {
   const exitTxt = exit.hit
     ? `<div class="pd-hit">🎯 <b>Alvo batido.</b> Vender <b>${num(e.shares, 0)} ${esc(e.sym)}</b> (≈ ${usd(e.notional)}) embolsa <b>${usd(e.realized)}</b> líquido (custo ${usd(e.cost)}). Caixa vai a ${usd(after)}${after >= d.money.want ? " (reserva coberta)" : ` (reserva pede ${usd(d.money.want)})`}.</div>` // prettier-ignore
     : `<div class="pd-txt">Falta ${plain(account > 0 ? exit.gap / account : null, 2)} da conta para o alvo (${usd(exit.gap)}).</div>`;
-  const z = (t) =>
-    Math.abs(t) < 0.005 ? "0%" : `${t > 0 ? "+" : "−"}${num(Math.abs(t) * 100, 0)}%`;
-  const tiltTxt = tilt.ok
-    ? `<div class="pd-txt">Inclinação ${z(tilt.now)} · alvo pelo regime ${z(tilt.want)}: <b>dentro da folga</b>, nada a fazer.</div>`
-    : `<div class="pd-txt">Inclinação <b>${z(tilt.now)}</b> · alvo pelo regime <b>${z(tilt.want)}</b> (${tilt.delta >= 0 ? "mais comprado" : "mais vendido"} em ${usd(Math.abs(tilt.delta))} de exposição).${tilt.pick ? ` ★ ${esc(tilt.why)}.` : ` ${esc(tilt.why)}.`}</div>
-       <div class="table-wrap"><table class="cal-table pd-moves"><thead><tr><th>Ação</th><th>Valor</th><th>Custo</th><th>Realiza</th><th>Caixa</th><th></th></tr></thead><tbody>${tilt.options.map((m) => moveRow(m, tilt.pick)).join("")}</tbody></table></div>`; // prettier-ignore
+  const src = tilt.manual ? "alvo manual" : "alvo pelo regime";
+  const mixTxt = `Comprado <b>${plain(p.mix.longPct, 0)}</b> (${usd(p.mix.long)}) × vendido <b>${plain(p.mix.shortPct, 0)}</b> (${usd(p.mix.short)}) no ativo-base.`; // prettier-ignore
+  const opts = tilt.options.length
+    ? `<div class="table-wrap"><table class="cal-table pd-moves"><thead><tr><th>Ação</th><th>Valor</th><th>Custo</th><th>Realiza</th><th>Caixa</th><th></th></tr></thead><tbody>${tilt.options.map((m) => moveRow(m, tilt.pick)).join("")}</tbody></table></div>` // prettier-ignore
+    : "";
+  const tiltTxt = `<div class="pd-txt">${mixTxt} Inclinação <b>${z(tilt.now)}</b> · ${src} <b>${z(tilt.want)}</b>${tilt.ok ? ": <b>dentro da folga</b>" : ` (${tilt.delta >= 0 ? "mais comprado" : "mais vendido"} em ${usd(Math.abs(tilt.delta))} de exposição)`}.${tilt.pick ? ` ${tilt.ok ? "Para chegar ao alvo exato" : "★"} ${esc(tilt.why)}.` : ""}</div>${opts}`; // prettier-ignore
   return `<article class="pr-card pd-card">
     <header class="pr-h"><b>${esc(key.replace("-", " × "))}</b>
       <span class="pr-net">${pct(st.grossPct, 2)} <span class="muted small">${usd(st.gross)} ${cfg().base === "day" ? "hoje" : "desde o médio"}</span></span>
       <button class="linkish small" data-pair-del="${i}" aria-label="Tirar a dupla">×</button></header>
     <div class="table-wrap"><table class="cal-table"><thead><tr><th>Ponta</th><th>Cotas</th><th>Preço</th><th>Médio</th><th>Andou</th><th>Resultado</th><th>Exposição</th></tr></thead><tbody>${legs}</tbody></table></div>
     <div class="pd-sec"><label class="small">Alvo de saída da dupla (% da conta) <input class="rfx-in pr-in" data-desk-goal="${esc(key)}" value="${pctIn(goal)}" inputmode="decimal"></label>${exitTxt}</div>
-    <div class="pd-sec"><b class="small">Ajuste pelo regime</b>${tiltTxt}</div>
+    <div class="pd-sec"><label class="small">Ajuste da exposição · alvo de inclinação (%) <input class="rfx-in pr-in" data-desk-tilt="${esc(key)}" value="${tilt.manual ? pctIn(tilt.want) : ""}" placeholder="regime" inputmode="decimal" title="Vazio = pelo regime. Ex.: 30 = 30% mais comprado; −20 = 20% mais vendido."></label>${tiltTxt}</div>
   </article>`;
 }
 
@@ -68,19 +90,34 @@ export function viewPairDesk({ score = null, move = null } = {}) {
   const list = (state.prefs.pairs ?? detectPairs(Object.keys(held))).filter(([a, b]) => held[a] && held[b]); // prettier-ignore
   const c = cfg();
   const goals = state.prefs.pairGoals ?? {};
+  const tilts = state.prefs.pairTilts ?? {};
   const d = deskState(
     list.map((pr) => ({
       key: keyOf(pr),
       legs: pr.map((s) => legFrom(held[s], quoteOf(s))),
       goal: fin(goals[keyOf(pr)]) ? goals[keyOf(pr)] : undefined,
+      tilt: fin(tilts[keyOf(pr)]) ? tilts[keyOf(pr)] : null,
     })),
     { account, cash, score, move, cfg: c },
   );
   // quantidades = foto do BTG + ajustes do ✎; preço = cotação ao vivo do app (não o da foto)
   const fmt = (iso) => (iso ? new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "–"); // prettier-ignore
-  const posAt = positionsAsOf(broker);
+  const photo = broker?.asOf ?? broker?.summary?.asOf ?? null;
+  const qc =
+    broker?.summary?.offshore?.positionsStale && !broker.manual
+      ? qtyCheck(
+          broker.summary.offshore.investedUsd,
+          state.valuation?.total,
+          Date.parse(photo ?? ""),
+        )
+      : null;
+  const qcTxt = !qc
+    ? ""
+    : qc.ok
+      ? " ✓ Quantidades conferem com o total investido do BTG."
+      : ` <span class="down">⚠ Quantidades não batem com o BTG (investido US$ ${num(qc.btg, 0)} × quantidades US$ ${num(qc.mine, 0)}): comprou ou vendeu? Corrija no ✎ da ponta.</span>`; // prettier-ignore
   const srcTxt = broker
-    ? `Quantidades: foto do BTG de ${fmt(broker.asOf ?? broker.summary?.asOf)}${posAt && posAt !== (broker.asOf ?? broker.summary?.asOf) ? ` (exterior ativo a ativo de ${fmt(posAt)})` : ""}${broker.manual ? " + ajustes do ✎" : ""}. Preços: ao vivo. Comprou ou vendeu? Corrija no ✎ da ponta.` // prettier-ignore
+    ? `Leitura do BTG de ${fmt(photo)}${broker.manual ? " + ajustes do ✎" : ""}: quantidades e caixa. Preços ao vivo.${qcTxt}` // prettier-ignore
     : "Quantidades da Carteira; preços ao vivo.";
   const zone = fin(score) ? zoneOf(score) : null;
   const regimeTxt = fin(score)
@@ -102,7 +139,7 @@ export function viewPairDesk({ score = null, move = null } = {}) {
   const body = !(account > 0)
     ? `<p class="muted">Importe a carteira para usar o painel.</p>`
     : d.pairs.length
-      ? d.pairs.map((p, i) => pairCard(p, d, i, account)).join("")
+      ? consolidated(d) + d.pairs.map((p, i) => pairCard(p, d, i, account)).join("")
       : `<p class="muted">Nenhuma dupla na carteira. Monte as duas pontas (ex.: SOXL × SOXS, SNDU × SNDQ, UVIX × SVIX) ou escolha abaixo.</p>`; // prettier-ignore
   return `<section class="pd">
     <section class="card pr">
@@ -120,7 +157,7 @@ export function viewPairDesk({ score = null, move = null } = {}) {
       <p class="muted small">Alvo de saída: quanto vender da ponta vencedora para embolsar o alvo líquido do custo. Ajuste pelo regime: a nota do pêndulo (−100 a +100) vira a inclinação-alvo da dupla (nota ÷ 100 × inclinação máx.; folga de 10 p.p.); entre vender uma ponta ou comprar a outra, ★ é o de maior lucro / menor prejuízo que respeita a reserva de caixa. Vender realiza contra o preço médio.</p>
     </section>
     ${body}
-    <p class="muted small">Exterior ativo a ativo vem da última foto completa do BTG mais os ajustes do ✎; preços ao vivo. ETF alavancado perde por volatilidade com o tempo. Material educacional; não é recomendação de investimento.</p>
+    <p class="muted small">ETF alavancado perde por volatilidade com o tempo. Material educacional; não é recomendação de investimento.</p>
   </section>`;
 }
 
@@ -132,6 +169,18 @@ export function deskChange(e) {
     const v = num2(t.value);
     if (!(v >= 0 && v <= 100)) return;
     state.prefs[t.id === "desk-reserve" ? "deskReserve" : "deskMaxTilt"] = v / 100;
+  } else if (t.dataset?.deskTilt) {
+    const k = t.dataset.deskTilt;
+    const next = { ...(state.prefs.pairTilts ?? {}) };
+    const raw = String(t.value).trim();
+    if (!raw)
+      delete next[k]; // vazio = volta ao regime
+    else {
+      const v = num2(raw.replace("−", "-"));
+      if (!(v >= -100 && v <= 100)) return;
+      next[k] = v / 100;
+    }
+    state.prefs.pairTilts = next;
   } else if (t.dataset?.deskGoal) {
     const v = num2(t.value);
     if (!(v > 0 && v <= 50)) return;

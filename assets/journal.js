@@ -6,8 +6,10 @@ import { intTxt } from "./format.js";
 
 /** Motivos de entrada: de que parte do app (ou de fora dele) veio a decisão. A chave é gravada; o rótulo é da tela. */
 export const REASONS = [
-  ["signals", "Sinais de hoje"],
-  ["entry", "Quando entrar"],
+  ["pairs", "Duplas L/S"],
+  ["trig", "Gatilhos"],
+  ["signals", "Sinais de hoje (tela antiga)"],
+  ["entry", "Quando entrar (tela antiga)"],
   ["flow", "Fluxo / rotação"],
   ["screener", "Screener"],
   ["analysis", "Análise / nota"],

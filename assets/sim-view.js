@@ -184,11 +184,11 @@ export function viewSim() {
     return `<section class="desk">${head}<div class="card empty"><p>Nenhum ativo para simular. Adicione ativos na Carteira ou crie uma watchlist em Mercados › Watchlist.</p><div class="empty-cta"><button class="btn" data-tab="portfolio">Ir para a Carteira</button><button class="btn ghost" data-tab="watch">Abrir Watchlist</button></div></div></section>`;
   const intro =
     src === "retro"
-      ? `<p class="muted small">E se você tivesse seguido a aba Sinais de hoje? Refazemos, em cada pregão do último ano, as mesmas contas da aba (com os dados que existiam naquela data) e medimos o que aconteceu ${HORIZON} pregões depois.</p>`
-      : `<p class="muted small">Cada gatilho que a aba Sinais de hoje mostrou (decisão, nível e sinais) é gravado neste aparelho com a data e o preço da tela, e avaliado ${HORIZON} pregões depois. Abra a aba Sinais de hoje para alimentar o diário.</p>`;
+      ? `<p class="muted small">E se você tivesse seguido a Decisão do trader? Refazemos, em cada pregão do último ano, as mesmas contas (com os dados que existiam naquela data) e medimos o que aconteceu ${HORIZON} pregões depois.</p>`
+      : `<p class="muted small">Cada gatilho que a Decisão do trader mostrou (decisão, nível e sinais) é gravado neste aparelho com a data e o preço da tela, e avaliado ${HORIZON} pregões depois. O diário é alimentado pela Watchlist e pela página do ativo.</p>`;
   const empty =
     src === "diary"
-      ? `<div class="card empty">O diário ainda está vazio. Ele começa a encher quando você abre a aba Sinais de hoje; os primeiros resultados aparecem ${HORIZON} pregões depois.</div>`
+      ? `<div class="card empty">O diário ainda está vazio. Ele começa a encher quando você abre a Watchlist ou a página de um ativo; os primeiros resultados aparecem ${HORIZON} pregões depois.</div>`
       : sim.running
         ? ""
         : `<div class="card empty">Sem histórico suficiente para simular (precisa de ~1 ano de pregões).</div>`;

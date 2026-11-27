@@ -4,7 +4,7 @@
 export const NOTIF_KINDS = [
   ["news", "Notícias da carteira", "Manchete com impacto de mercado que afeta suas posições (opinião e ruído nunca avisam). Os assuntos seguem os filtros da aba Notícias."],
   ["portfolio", "Sinais da carteira", "Entrada, saída e risco nos ativos que você tem, pelas regras da aba Sinais."],
-  ["universe", "Oportunidades do universo", "Entradas em ETFs fora da carteira."],
+  ["universe", "Entradas no universo", "Entradas em ETFs fora da carteira."],
   ["levels", "Níveis da carteira", "Preço perto de resistência, suporte ou stop de um ativo seu."],
   ["macro", "Calendário macro", "Assim que sai o dado (EUA, Europa, Reino Unido, Japão, China, Brasil): valor divulgado x expectativa. Alto impacto sempre; médio só quando sua carteira tem ativo na região, com 💼 e os ativos atingidos."],
   ["pairhit", "Alvo dos pares", "Par long × short (Gatilhos › Agora) bateu um alvo em % da carteira: quantas cotas vender da ponta vencedora para embolsar o alvo líquido do custo. 1 aviso por par e alvo por dia."],

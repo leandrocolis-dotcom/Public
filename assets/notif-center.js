@@ -54,7 +54,7 @@ export function centerHtml(log, cat = "all", status = "") {
     ? `<ul class="ncenter-list">${list
         .map(
           (n) =>
-            `<li data-notif-url="${esc(n.url ?? "./?tab=signals")}" data-nt="${esc(n.title)}" data-nb="${esc(n.body ?? "")}" data-nat="${n.at ?? ""}" data-npop-close tabindex="0"><span class="muted small nowrap">${when(n.at)}</span><b>${esc(n.title)}</b>${n.body ? `<span class="muted small">${esc(n.body)}</span>` : ""}</li>`,
+            `<li data-notif-url="${esc(n.url ?? "./?tab=trig")}" data-nt="${esc(n.title)}" data-nb="${esc(n.body ?? "")}" data-nat="${n.at ?? ""}" data-npop-close tabindex="0"><span class="muted small nowrap">${when(n.at)}</span><b>${esc(n.title)}</b>${n.body ? `<span class="muted small">${esc(n.body)}</span>` : ""}</li>`,
         )
         .join("")}</ul>`
     : `<p class="muted">Nenhuma notificação nesta categoria ainda.</p>`;

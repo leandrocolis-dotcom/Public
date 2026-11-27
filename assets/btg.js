@@ -2,6 +2,7 @@
 // sincronização (ver docs/BTG-PONTE.md); o app só lê. Valores como o BTG informou; o internacional usa
 // o preço ao vivo quando a carteira tem cotação (mesma conta da tabela de posições).
 import { cls, esc, fmtDT, num } from "./format.js";
+import { usSession } from "./sessions.js";
 
 /** Sem foto nova há mais que isso (cobre o fim de semana) = aviso de dado velho. */
 export const BTG_STALE_MS = 96 * 3600 * 1000;
@@ -23,6 +24,26 @@ export function btgFireDone(fire) {
  */
 export const positionsAsOf = (row) =>
   row?.summary?.offshore?.positionsAsOf ?? row?.asOf ?? row?.summary?.asOf ?? null;
+
+/** Tolerância da conferência de quantidades (investido do BTG × quantidades × preço). */
+export const QTY_TOL = 0.03;
+
+/**
+ * As quantidades do exterior ainda batem com o BTG? Desde 26/11/2026 o BTG só manda o TOTAL investido; as
+ * quantidades são da última foto completa (+ ajustes do ✎). Compara esse total com Σ quantidade × preço, mas só
+ * quando os preços de agora valem para a hora da foto: foto de até 20 min, ou sem pregão regular dos EUA entre a
+ * foto e agora (noite, fim de semana). Devolve { ok, gap, btg, mine } ou null quando não dá para comparar.
+ */
+export function qtyCheck(btgInvested, mineInvested, photoMs, now = Date.now()) {
+  if (!(btgInvested > 0) || !(mineInvested > 0) || !Number.isFinite(photoMs)) return null;
+  const age = now - photoMs;
+  let quiet = age >= 0 && age < 16 * 3600e3;
+  for (let t = photoMs; quiet && t <= now; t += 15 * 60e3)
+    if (usSession(t) === "open") quiet = false;
+  if (!(age >= 0 && age <= 20 * 60e3) && !quiet) return null;
+  const gap = mineInvested / btgInvested - 1;
+  return { ok: Math.abs(gap) <= QTY_TOL, gap, btg: btgInvested, mine: mineInvested };
+}
 
 /** Ajuste manual vale enquanto não chega foto do BTG com posições mais novas que as usadas como base. */
 export function manualActive(row, manual) {
@@ -145,6 +166,7 @@ export function brokerView(row, now = Date.now(), live = {}, fxq = null) {
     stale: !Number.isFinite(at) || now - at > BTG_STALE_MS,
     rejected: row.status === "rejected" ? row.statusDetail || "leitura recusada" : null,
     posAsOf: s.offshore.positionsStale && positionsAsOf(row) ? new Date(positionsAsOf(row)) : null,
+    qty: s.offshore.positionsStale && !row.manual ? qtyCheck(fin(s.offshore.investedUsd), invested, at, now) : null, // prettier-ignore
     tryFail:
       Date.parse(row.tryAt ?? "") > (Date.parse(row.syncedAt ?? "") || 0) ? row.tryDetail || "leitura não gravou" : null, // prettier-ignore
     manual: row.manual ?? null,
@@ -277,8 +299,9 @@ export function btgParts(
         : v.stale
           ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
           : "") +
-    (v.posAsOf && !v.manual
-      ? `<p class="pf-btg-warn">ⓘ Exterior: totais (investido e caixa) de agora; ativo a ativo da foto de ${fmtDT(v.posAsOf)}. O BTG deixou de enviar as posições do exterior em 26/11/2026. Operou desde então? Ajuste no ✎ das posições.</p>` // prettier-ignore
+    // aviso só quando as quantidades NÃO batem com o total investido que o BTG mandou na última leitura
+    (v.qty && !v.qty.ok
+      ? `<p class="pf-btg-warn">⚠ Quantidades do exterior não batem com o BTG: a leitura de ${v.asOf ? fmtDT(v.asOf) : "–"} mostra US$ ${num(v.qty.btg, 0)} investidos; as quantidades × preço dão US$ ${num(v.qty.mine, 0)} (${v.qty.gap >= 0 ? "+" : "−"}${num(Math.abs(v.qty.gap) * 100, 1)}%). O BTG não manda mais o exterior ativo a ativo: se comprou ou vendeu, ajuste no ✎ das posições.</p>` // prettier-ignore
       : "");
   const hm = (d) =>
     d ? d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "";

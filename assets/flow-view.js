@@ -242,7 +242,7 @@ function drawStory(ctx) {
             .join("")}</ul></details>`
         : ""
     }
-    <p class="note">Leitura de preço e volume de hoje em σ (desvios da volatilidade própria de cada ativo): ${esc(STATE_LABEL.up.toLowerCase())} = média do grupo ≥ +0,5σ. É uma lista de pauta para estudar a entrada, não recomendação de investimento: ${esc(ctx.confirmNote ?? "confirme com o gatilho da aba Sinais de hoje e use stop.")}</p>`;
+    <p class="note">Leitura de preço e volume de hoje em σ (desvios da volatilidade própria de cada ativo): ${esc(STATE_LABEL.up.toLowerCase())} = média do grupo ≥ +0,5σ. É uma lista de pauta para estudar a entrada, não recomendação de investimento: ${esc(ctx.confirmNote ?? "confirme com Gatilhos › Agora e use stop.")}</p>`;
 }
 
 // ───────────── partes dinâmicas (repintadas no replay) ─────────────

@@ -8,6 +8,16 @@ export const codeRefs = (html) =>
   [...new Set(html.match(/dist\/[\w.-]+\.(?:js|css)/g) ?? [])].sort().join(" ");
 
 let checkedSha = null;
+let watching = false;
+
+/** Recarrega na versão nova se ninguém estiver digitando nem com o painel lateral aberto. */
+function applyWhenIdle() {
+  if (!state.newVersion) return;
+  const typing = document.activeElement?.matches?.("input, textarea, select, [contenteditable]");
+  const drawer = !document.getElementById("drawer")?.hidden;
+  if (typing || drawer) return;
+  hardRefresh();
+}
 /**
  * Compara a versão publicada com a que esta aba carregou. O commit (informado pela função) muda a cada deploy,
  * inclusive os dos robôs que só gravam dados (preços, varredura, notas): por isso, quando ele muda, confere o
@@ -29,6 +39,15 @@ export function checkVersion() {
       if (!live || live === mine) return;
       state.newVersion = v;
       document.querySelector("[data-action=hard-refresh]")?.classList.add("has-update");
+      // versão nova do código: aplica sozinha logo depois de abrir o app, ou quando ele volta para a frente
+      // (sem atrapalhar quem está digitando ou com um painel aberto)
+      if (performance.now() < 20000) applyWhenIdle();
+      else if (!watching) {
+        watching = true;
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "visible") applyWhenIdle();
+        });
+      }
     })
     .catch(() => {}); // sem rede: confere de novo no próximo deploy
 }

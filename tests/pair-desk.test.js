@@ -59,7 +59,17 @@ describe("inclinação pelo regime", () => {
   });
   it("dentro da folga não mexe", () => {
     const st = pairState(legs(), { equity: EQ, fee: 0.01, base: "cost" });
-    expect(tiltPlan(st, { score: 10, maxTilt: 0.5, band: 0.1 }).ok).toBe(true);
+    const p = tiltPlan(st, { score: 10, maxTilt: 0.5, band: 0.1 });
+    expect(p.ok).toBe(true);
+    // mesmo dentro da folga, mostra quanto custaria chegar ao alvo exato (+5%)
+    expect(p.options.length).toBeGreaterThan(0);
+  });
+  it("alvo manual da dupla vence o regime", () => {
+    const st = pairState(legs(), { equity: EQ, fee: 0.01, base: "cost" });
+    const p = tiltPlan(st, { score: 80, target: -0.3, cash: cashState(0, EQ) });
+    expect(p.manual).toBe(true);
+    expect(p.want).toBe(-0.3);
+    expect(p.pick.side).toBe("sell");
   });
 });
 
@@ -78,5 +88,8 @@ describe("painel das duplas", () => {
     expect(p.tilt.pick.side).toBe("sell");
     expect(d.money).toMatchObject({ want: 10_000, free: 2_000 });
     expect(d.turning).toBe(0); // dupla neutra: andar 15 pontos para baixa não é "contra" a inclinação
+    // fotografia: 90.000 comprado × 90.000 vendido no ativo-base = 50% / 50%
+    expect(p.mix).toMatchObject({ longPct: 0.5, shortPct: 0.5 });
+    expect(d.total).toMatchObject({ long: 90000, short: 90000, net: 0, tilt: 0 });
   });
 });

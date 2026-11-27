@@ -249,7 +249,7 @@ export function followHtml(sym, price = null) {
       <input id="srListName" placeholder="Nome da lista nova" maxlength="30" ${opts ? "hidden" : ""} style="padding:6px 8px" />
       <button class="btn" data-sr-list="${esc(sym)}">+ Adicionar à lista</button>
     </div>
-    <p class="note">As listas aparecem em Sinais de hoje e na Watchlist, com decisão e níveis para cada ativo.</p></div>`;
+    <p class="note">As listas aparecem na Watchlist (Mercados), com decisão e níveis para cada ativo.</p></div>`;
 }
 
 /** Página do ativo. hint = sugestão escolhida ({ name, exch, type, isin }) para preencher antes do perfil chegar. */
@@ -272,7 +272,7 @@ export async function openAssetPage(sym, hint = {}) {
     `${head.title}
      ${p ? "" : `<div class="card"><p class="muted">Perfil indisponível agora; mostrando só o histórico de preço.</p></div>`}
      ${assetPanelHtml(sym, null, fb, head.inner)}
-     ${champBadge(sym) ? `<div class="card">${champBadge(sym)} <span class="muted small">na lista 🏆 da aba Sinais de hoje</span></div>` : ""}
+     ${champBadge(sym) ? `<div class="card">${champBadge(sym)} <span class="muted small">na lista 🏆 dos campeões dos setores</span></div>` : ""}
      ${momLineHtml(sym)}
      ${head.follow}
      <div id="anCtx" data-sym="${esc(sym)}"><div class="card"><p class="muted">Carregando resumo, analistas, financeiros e manchetes…</p></div></div>

@@ -128,7 +128,7 @@ const KIND_TXT = {
 export function osNotify(
   title,
   body,
-  url = "./?tab=signals",
+  url = "./?tab=trig",
   { log = true, always = false, tag = null, urgent = false } = {},
 ) {
   // prettier-ignore
