@@ -93,3 +93,38 @@ describe("painel das duplas", () => {
     expect(d.total).toMatchObject({ long: 90000, short: 90000, net: 0, tilt: 0 });
   });
 });
+
+describe("preços de alvo e de trava da dupla", async () => {
+  const { exitLevels, guardLevels } = await import("../assets/pair-desk.js");
+  // dupla inclinada para alta: 1.000 SOXL a 30 (médio 25) × 300 SOXS a 60 (médio 70); sem custo para a conta fechar
+  const st = pairState(
+    [
+      { sym: "SOXL", qty: 1000, avg: 25, price: 30, lev: 3 },
+      { sym: "SOXS", qty: 300, avg: 70, price: 60, lev: -3 },
+    ],
+    { equity: EQ, fee: 0, base: "cost" },
+  );
+  it("resolve o movimento do ativo-base e o preço de cada ponta", () => {
+    // agora: +5.000 − 3.000 = +2.000; B = 30.000×3 − 18.000×3 = 36.000 por 1 de movimento
+    const t = exitLevels(st, 5600, 0);
+    expect(t.now).toBeCloseTo(2000);
+    expect(t.u).toBeCloseTo(0.1); // 3.600 a mais ÷ 36.000
+    const [soxl, soxs] = t.legs;
+    expect(soxl.at).toBeCloseTo(39); // 30 × (1 + 0,3)
+    expect(soxl.order).toBe("limit");
+    expect(soxs.at).toBeCloseTo(42); // 60 × (1 − 0,3)
+    expect(soxs.order).toBe("stop");
+  });
+  it("trava de metade do alvo: preços abaixo do de agora, armada só se o par já ganha mais que ela", () => {
+    const g = guardLevels(st, { goalUsd: 3000, lock: 0.5, fee: 0 });
+    expect(g.lockUsd).toBe(1500);
+    expect(g.armed).toBe(true); // ganha 2.000 > 1.500
+    expect(g.guard.legs[0].order).toBe("stop"); // SOXL caindo até o preço da trava
+    expect(g.guard.legs[0].at).toBeLessThan(30);
+    expect(guardLevels(st, { goalUsd: 6000, lock: 0.5, fee: 0 }).armed).toBe(false); // trava de 3.000 > 2.000
+  });
+  it("dupla neutra: preço não muda o resultado", () => {
+    const flat = pairState(legs(), { equity: EQ, fee: 0, base: "cost" });
+    expect(exitLevels(flat, 1000, 0).flat).toBe(true);
+  });
+});

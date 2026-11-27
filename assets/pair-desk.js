@@ -125,3 +125,39 @@ export function deskState(pairs, { account, cash, score, move = null, cfg = {} }
   const total = { long, short, net, gross: long + short, tilt: long + short > 0 ? net / (long + short) : null }; // prettier-ignore
   return { pairs: out, money, score, move, turning, net, total, cfg: o };
 }
+
+/**
+ * Preços de saída da dupla inteira (zera as duas pontas, pagando o custo) para o resultado chegar a `amount` US$.
+ * Modelo de 1 movimento do ativo-base: se ele anda u, cada ponta anda lev × u (aproximação; ETF alavancado
+ * reajusta todo dia, então em vários dias o preço real se afasta um pouco). Resultado ao zerar:
+ *   PL(u) = A + B·u,  A = Σ qty·(preço − ref) − custo·Σ qty·preço,  B = Σ qty·preço·lev·(1 − custo).
+ * Devolve { u, now: A, legs: [{ sym, price, at, order }] } — order "limit" (vende se SUBIR até o preço) ou "stop"
+ * (vende se CAIR até o preço) — ou { flat: true } quando a dupla é neutra (o preço não muda o resultado).
+ */
+export function exitLevels(st, amount, fee = DESK_DEFAULTS.fee) {
+  let A = 0;
+  let B = 0;
+  for (const r of st.rows) {
+    A += r.qty * (r.price - r.ref) - fee * r.qty * r.price;
+    B += r.qty * r.price * r.lev * (1 - fee);
+  }
+  if (!(Math.abs(B) > 1e-9) || !fin(amount)) return { flat: true, now: A };
+  const u = (amount - A) / B;
+  const legs = st.rows.map((r) => {
+    const at = r.price * (1 + r.lev * u);
+    return { sym: r.sym, price: r.price, at, move: r.lev * u, order: at >= r.price ? "limit" : "stop", ok: at > 0 }; // prettier-ignore
+  });
+  return { u, now: A, legs, reachable: legs.every((l) => l.ok) };
+}
+
+/**
+ * Alvo e trava da dupla: `goal` US$ é o alvo; a trava garante `lock` (fração do alvo, ex.: 0,5 = metade) se o
+ * mercado virar. A trava só faz sentido com o resultado de agora acima dela (senão o "stop" já estaria batido).
+ */
+export function guardLevels(st, { goalUsd, lock = 0.5, fee = DESK_DEFAULTS.fee } = {}) {
+  const target = exitLevels(st, goalUsd, fee);
+  const lockUsd = goalUsd * clamp(lock, 0, 1);
+  const guard = exitLevels(st, lockUsd, fee);
+  const armed = !guard.flat && guard.now > lockUsd;
+  return { goalUsd, lockUsd, target, guard, armed, now: target.now };
+}

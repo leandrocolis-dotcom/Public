@@ -1,5 +1,5 @@
 // Carteira › Duplas L/S: painel de controle das duplas long × short (motor em assets/pair-desk.js).
-import { DESK_DEFAULTS, deskState } from "./pair-desk.js";
+import { DESK_DEFAULTS, deskState, guardLevels } from "./pair-desk.js";
 import { DEFAULT_FEE, MAX_PAIRS, detectPairs, legFrom } from "./pairs.js";
 import { btgButton, qtyCheck, withManual } from "./btg.js";
 import { quoteOf } from "./asset-pop.js";
@@ -22,6 +22,7 @@ function cfg() {
     maxTilt: fin(p.deskMaxTilt) ? p.deskMaxTilt : DESK_DEFAULTS.maxTilt,
     fee: fin(p.pairFee) ? p.pairFee : DEFAULT_FEE,
     base: p.pairBase === "day" ? "day" : "cost",
+    lock: fin(p.pairLock) ? p.pairLock : 0.5,
   };
 }
 
@@ -70,12 +71,25 @@ function pairCard(p, d, i, account) {
     ? `<div class="table-wrap"><table class="cal-table pd-moves"><thead><tr><th>Ação</th><th>Valor</th><th>Custo</th><th>Realiza</th><th>Caixa</th><th></th></tr></thead><tbody>${tilt.options.map((m) => moveRow(m, tilt.pick)).join("")}</tbody></table></div>` // prettier-ignore
     : "";
   const tiltTxt = `<div class="pd-txt">${mixTxt} Inclinação <b>${z(tilt.now)}</b> · ${src} <b>${z(tilt.want)}</b>${tilt.ok ? ": <b>dentro da folga</b>" : ` (${tilt.delta >= 0 ? "mais comprado" : "mais vendido"} em ${usd(Math.abs(tilt.delta))} de exposição)`}.${tilt.pick ? ` ${tilt.ok ? "Para chegar ao alvo exato" : "★"} ${esc(tilt.why)}.` : ""}</div>${opts}`; // prettier-ignore
+  // ordens de saída da dupla inteira: alvo (meta) e trava (parte da meta garantida se o regime virar)
+  const g = guardLevels(st, { goalUsd: goal * account, lock: cfg().lock, fee: cfg().fee });
+  const ord = (l) =>
+    !l?.ok ? "–" : `<b>${num(l.at, 2)}</b> <span class="muted small">${l.order === "limit" ? "venda limitada (se subir)" : "stop de venda (se cair)"} · ${pct(l.move, 1)}</span>`; // prettier-ignore
+  const pairPct = (usdAmt) =>
+    st.value > 0 ? ` · ${plain(usdAmt / st.value, 1)} do capital da dupla` : "";
+  const guardTxt = g.target.flat
+    ? `<div class="pd-txt">Dupla neutra: o preço do ativo-base não muda o resultado, então não há preço de alvo nem de trava. Incline a dupla para um lado primeiro.</div>` // prettier-ignore
+    : `<div class="table-wrap"><table class="cal-table pd-moves"><thead><tr><th>Ponta</th><th>Agora</th><th>🎯 Alvo ${plain(goal, 1)} da conta (${usd(g.goalUsd)})</th><th>🔒 Trava ${plain(g.lockUsd / (account || 1), 2)} (${usd(g.lockUsd)})</th></tr></thead><tbody>${g.target.legs
+        .map((l, k) => `<tr><td><b>${esc(l.sym)}</b></td><td class="num">${num(l.price, 2)}</td><td>${ord(l)}</td><td>${ord(g.guard.legs?.[k])}</td></tr>`)
+        .join("")}</tbody></table></div>
+       <div class="pd-txt">Zerando as duas pontas nesses preços (com o custo), a dupla fecha com o resultado da coluna.${pairPct(g.goalUsd)} Hoje, zerando tudo: ${usd(g.now)}. ${g.armed ? "🔒 Trava armada: o par já ganha mais que ela; deixe as duas ordens da trava na corretora." : `🔒 Trava ainda não armada: o par ganha ${usd(g.now)}, menos que a trava (${usd(g.lockUsd)}); ela passa a valer quando o resultado passar disso.`} Preços estimados por um movimento do ativo-base (ETF alavancado reajusta todo dia; revise a cada pregão).</div>`; // prettier-ignore
   return `<article class="pr-card pd-card">
     <header class="pr-h"><b>${esc(key.replace("-", " × "))}</b>
       <span class="pr-net">${pct(st.grossPct, 2)} <span class="muted small">${usd(st.gross)} ${cfg().base === "day" ? "hoje" : "desde o médio"}</span></span>
       <button class="linkish small" data-pair-del="${i}" aria-label="Tirar a dupla">×</button></header>
     <div class="table-wrap"><table class="cal-table"><thead><tr><th>Ponta</th><th>Cotas</th><th>Preço</th><th>Médio</th><th>Andou</th><th>Resultado</th><th>Exposição</th></tr></thead><tbody>${legs}</tbody></table></div>
     <div class="pd-sec"><label class="small">Alvo de saída da dupla (% da conta) <input class="rfx-in pr-in" data-desk-goal="${esc(key)}" value="${pctIn(goal)}" inputmode="decimal"></label>${exitTxt}</div>
+    <div class="pd-sec"><b class="small">Ordens de saída (alvo e trava)</b>${guardTxt}</div>
     <div class="pd-sec"><label class="small">Ajuste da exposição · alvo de inclinação (%) <input class="rfx-in pr-in" data-desk-tilt="${esc(key)}" value="${tilt.manual ? pctIn(tilt.want) : ""}" placeholder="regime" inputmode="decimal" title="Vazio = pelo regime. Ex.: 30 = 30% mais comprado; −20 = 20% mais vendido."></label>${tiltTxt}</div>
   </article>`;
 }
@@ -151,6 +165,7 @@ export function viewPairDesk({ score = null, move = null } = {}) {
         <span class="seg"><button data-pair-base="cost" aria-pressed="${c.base === "cost"}">Desde o médio</button><button data-pair-base="day" aria-pressed="${c.base === "day"}">Hoje</button></span>
         <label>Reserva de caixa (%) <input id="desk-reserve" class="rfx-in pr-in" value="${pctIn(c.reserve)}" inputmode="decimal"></label>
         <label>Inclinação máx. (%) <input id="desk-tilt" class="rfx-in pr-in" value="${pctIn(c.maxTilt)}" inputmode="decimal"></label>
+        <label>Trava (% do alvo) <input id="desk-lock" class="rfx-in pr-in" value="${pctIn(c.lock)}" inputmode="decimal" title="Quanto do alvo garantir com ordens de saída se o regime virar. Ex.: alvo 10% e trava 50% = garantir 5%."></label>
         <label>Custo por operação (%) <input id="pair-fee" class="rfx-in pr-in" value="${pctIn(c.fee)}" inputmode="decimal"></label>
         ${add}
       </div>
@@ -165,10 +180,10 @@ const num2 = (s) => parseFloat(String(s).replace(",", "."));
 
 export function deskChange(e) {
   const t = e.target;
-  if (t.id === "desk-reserve" || t.id === "desk-tilt") {
+  if (t.id === "desk-reserve" || t.id === "desk-tilt" || t.id === "desk-lock") {
     const v = num2(t.value);
     if (!(v >= 0 && v <= 100)) return;
-    state.prefs[t.id === "desk-reserve" ? "deskReserve" : "deskMaxTilt"] = v / 100;
+    state.prefs[{ "desk-reserve": "deskReserve", "desk-tilt": "deskMaxTilt", "desk-lock": "pairLock" }[t.id]] = v / 100; // prettier-ignore
   } else if (t.dataset?.deskTilt) {
     const k = t.dataset.deskTilt;
     const next = { ...(state.prefs.pairTilts ?? {}) };
