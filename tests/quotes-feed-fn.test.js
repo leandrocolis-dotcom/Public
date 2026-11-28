@@ -2,7 +2,7 @@
 // 1ª rodada busca tudo e manda completo; rodadas seguintes só a camada quente e só o que mudou;
 // foto + contadores no máximo 1 vez por minuto; force só com segredo.
 import { build } from "esbuild";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -57,6 +57,9 @@ function fakeFetch(url, init = {}) {
     log.broadcasts.push(JSON.parse(init.body).messages[0].payload);
     return Promise.resolve(new Response("{}", { status: 202 }));
   }
+  // o robô baixa o pacote do site ao subir: aqui, o arquivo local (o mesmo que o deploy publica)
+  if (u.endsWith("/supabase/functions/quotes-feed/quotes.bundle.js"))
+    return Promise.resolve(new Response(readFileSync("supabase/functions/quotes-feed/quotes.bundle.js", "utf8"))); // prettier-ignore
   throw new Error(`fetch inesperado: ${u}`);
 }
 

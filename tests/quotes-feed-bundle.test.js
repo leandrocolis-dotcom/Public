@@ -20,9 +20,9 @@ describe("quotes-feed: pacote do api/quotes.js", () => {
     expect(code).not.toMatch(/\bprocess\b/);
   });
 
-  it("a função não chama mais a Vercel", () => {
+  it("a função não chama funções da Vercel (só baixa o pacote estático, sem CPU)", () => {
     const src = readFileSync(OUT.replace("quotes.bundle.js", "index.ts"), "utf8");
-    expect(src).not.toMatch(/vercel\.app/);
-    expect(src).toMatch(/from "\.\/quotes\.bundle\.js"/);
+    expect(src).not.toMatch(/vercel\.app\/api\//);
+    expect(src).toMatch(/vercel\.app\/supabase\/functions\/quotes-feed\/quotes\.bundle\.js/);
   });
 });

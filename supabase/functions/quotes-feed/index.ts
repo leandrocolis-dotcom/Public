@@ -10,7 +10,16 @@
 // A foto completa vai para `pendulo_quotes` no máximo 1 vez por minuto, com os contadores do dia (`stats`).
 // A busca roda AQUI, direto no Yahoo (→ spark → Nasdaq), com o mesmo código do app: quotes.bundle.js é o
 // api/quotes.js (+ sessions/feed-tiers/feed-delta) empacotado por `npm run build:feed`.
-import {
+// O pacote vem do SITE (arquivo estático, sem CPU da Vercel), uma vez por instância, como na função `push`:
+// mudou api/quotes.js? `npm run build:feed` + publicar o main basta (sem reimplantar). Falhou: a chamada dá
+// erro e a próxima (15 s) tenta de novo. Voltar atrás: versão com import local em git (cb9eb05).
+const BUNDLE_URL =
+  "https://etf-portfolio-ten.vercel.app/supabase/functions/quotes-feed/quotes.bundle.js";
+const r0 = await fetch(BUNDLE_URL, { signal: AbortSignal.timeout(15000) });
+if (!r0.ok) throw new Error(`quotes.bundle.js HTTP ${r0.status}`);
+const B = await import(`data:text/javascript;charset=utf-8,${encodeURIComponent(await r0.text())}`);
+if (typeof B.fetchAll !== "function") throw new Error("quotes.bundle.js sem fetchAll");
+const {
   addStats,
   feedSession,
   fetchAll,
@@ -24,7 +33,7 @@ import {
   SYMBOLS,
   yahooCalls,
   ZERO_STATS,
-} from "./quotes.bundle.js";
+} = B;
 
 const KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const URL_ = Deno.env.get("SUPABASE_URL")!;
