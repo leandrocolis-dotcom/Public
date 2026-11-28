@@ -1,7 +1,7 @@
 {
- "geradoEm": "2026-11-27T04:36:13.913Z",
+ "geradoEm": "2026-11-28T04:19:44.035Z",
  "inicio": "2026-11-19",
- "dias": 4,
+ "dias": 5,
  "comResultado": 0,
  "porEstado": {
   "favorável": {
@@ -79,6 +79,22 @@
     "state": "defesa",
     "trend": -0.01925651852345489,
     "credit": -0.029489933899714216
+   },
+   "drop63": null
+  },
+  {
+   "date": "2026-11-27",
+   "spy": 728.32,
+   "notes": {
+    "1d": 55,
+    "5d": -17,
+    "1m": -54,
+    "3m": -58
+   },
+   "backdrop": {
+    "state": "defesa",
+    "trend": -0.0036399591048048574,
+    "credit": -0.023383465007359105
    },
    "drop63": null
   }
