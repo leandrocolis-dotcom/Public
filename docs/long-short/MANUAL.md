@@ -1,5 +1,7 @@
 # Long & Short — manual de uso
 
+Versão para imprimir: [`Manual-Long-Short.pdf`](Manual-Long-Short.pdf).
+
 Onde fica: **Carteira › Long & Short**. Para ver tudo funcionando com um exemplo (mesmo com o mercado fechado),
 toque em **“Fazer o tour guiado”** no bloco **“Como usar”** ou no convite que aparece na primeira visita. O tour não
 registra nada e não mexe na sua carteira.
