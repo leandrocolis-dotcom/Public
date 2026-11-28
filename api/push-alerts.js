@@ -1,5 +1,5 @@
 // Vercel Function: decide QUAIS avisos push cada usuário deve receber (regime, níveis, sinais e notícias da carteira).
-// POST { users: [{ id, holdings, prefs, sent: [chaves já enviadas] }] } -> { alerts: { id: [aviso...] } }
+// POST { users: [{ id, holdings, prefs, sent: [chaves já enviadas], broker? }] } -> { alerts: { id: [aviso...] } }
 // Só cálculo, sem banco e sem segredo. Quem lê o banco e envia é a Edge Function do Supabase (supabase/functions/push),
 // que desde 22/11/2026 roda `computeAlerts` empacotado (push.bundle.js) em vez de chamar esta rota; ela fica para
 // teste manual e reserva.
@@ -18,6 +18,10 @@ import { mktRegimeAlerts } from "../assets/mkt-regime-alerts.js";
 import { regimeReversal, reversalAlerts } from "../assets/regime-reversal.js";
 import { topicTitle } from "../assets/notif-topics.js";
 import { quietNow } from "../assets/weekend.js";
+import { btgLoginAlerts } from "../assets/btg-login.js";
+
+/** Login do conector BTG (caiu / expira em 20 min): `u.broker` = linha de pendulo_broker que a Edge Function manda. */
+const btgFor = (u) => btgLoginAlerts(u.broker, u.prefs ?? {}, new Set(u.sent ?? []));
 
 /** Aviso do regime do mercado ligado nas preferências: troca de faixa (mktregime) ou radar de virada (reversal). */
 export const mktOn = (a, prefs) => (a.topic === "rev" ? prefs.reversal !== false : prefs.mktregime !== false); // prettier-ignore
@@ -91,7 +95,8 @@ export async function computeAlerts(body, get) {
     const flow = await get("data/flow.json");
     const { alerts: mkt, pair } = await marketRegimeAlerts(get, flow);
     const alerts = {};
-    for (const u of users) alerts[u.id] = mktFor(mkt, u.prefs ?? {}, new Set(u.sent ?? []));
+    for (const u of users)
+      alerts[u.id] = [...btgFor(u), ...mktFor(mkt, u.prefs ?? {}, new Set(u.sent ?? []))];
     return { alerts, mkt: mkt.length, score: pair?.now?.score ?? null };
   }
   // ativos de todas as carteiras (sem repetir): histórico de 2 anos + cotação ao vivo, em lotes
@@ -136,22 +141,25 @@ export async function computeAlerts(body, get) {
   const { alerts: mkt, pair } = await marketRegimeAlerts(get, flow).catch(() => ({ alerts: [], pair: null })); // prettier-ignore
   const alerts = {};
   for (const u of users)
-    alerts[u.id] = alertsFor({
-      holdings: u.holdings ?? [],
-      flow,
-      news,
-      live: series,
-      global,
-      analyses,
-      quotes: quotes?.quotes ?? {},
-      market: { spy: ref?.series?.SPY },
-      scan,
-      eco,
-      leaders,
-      mkt,
-      prefs: u.prefs ?? {},
-      sent: new Set(u.sent ?? []),
-    }).send;
+    alerts[u.id] = [
+      ...btgFor(u),
+      ...alertsFor({
+        holdings: u.holdings ?? [],
+        flow,
+        news,
+        live: series,
+        global,
+        analyses,
+        quotes: quotes?.quotes ?? {},
+        market: { spy: ref?.series?.SPY },
+        scan,
+        eco,
+        leaders,
+        mkt,
+        prefs: u.prefs ?? {},
+        sent: new Set(u.sent ?? []),
+      }).send,
+    ];
   return {
     alerts,
     flow: !!flow,

@@ -120,13 +120,16 @@ async function send(dry: boolean, only: string | null = null) {
     keys.publicKey,
     keys.privateKey,
   );
-  const [subs, portfolios] = await Promise.all([
+  const [subs, portfolios, brokers] = await Promise.all([
     rest("pendulo_push_subscriptions?select=endpoint,user_id,p256dh,auth,prefs,updated_at"),
     rest("pendulo_portfolio?select=user_id,holdings"),
+    // login do conector BTG (aviso "🔑 Reconectar BTG" / "⏳ expira"): falhar aqui não pode parar os outros avisos
+    rest("pendulo_broker?select=user_id,synced_at,try_at,try_detail,login_at").catch(() => []),
   ]);
   const byUser = new Map<string, any[]>();
   for (const s of subs) byUser.set(s.user_id, [...(byUser.get(s.user_id) ?? []), s]);
   const pfBy = new Map(portfolios.map((p: any) => [p.user_id, p.holdings ?? []]));
+  const brokerBy = new Map((brokers ?? []).map((b: any) => [b.user_id, b]));
   const since = new Date(Date.now() - 3 * 864e5).toISOString();
   const users = [];
   for (const [id, devices] of byUser) {
@@ -136,7 +139,7 @@ async function send(dry: boolean, only: string | null = null) {
     // preferências do aparelho atualizado por último (mesma regra de userPrefs em scripts/lib/push-alerts.mjs):
     // um aparelho antigo não desfaz o "silenciar no fim de semana" ligado em outro
     const last = [...devices].sort((a, b) => String(b.updated_at ?? "").localeCompare(String(a.updated_at ?? "")))[0]; // prettier-ignore
-    users.push({ id, holdings, prefs: last?.prefs ?? {}, sent: sent.map((r: any) => r.key) });
+    users.push({ id, holdings, prefs: last?.prefs ?? {}, sent: sent.map((r: any) => r.key), broker: brokerBy.get(id) ?? null }); // prettier-ignore
   }
   if (!users.length) return { users: byUser.size, sent: 0, log: [] };
   const { alerts, via } = await alertsOf(only ? { users, only } : { users });

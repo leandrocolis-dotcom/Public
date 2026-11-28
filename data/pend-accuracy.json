@@ -1,11 +1,11 @@
 {
  "meta": {
-  "generated": "2026-11-27 04:36 UTC",
+  "generated": "2026-11-28 04:19 UTC",
   "from": "29/09, 16:00",
-  "to": "25/11, 19:55",
-  "days": 42,
+  "to": "27/11, 16:55",
+  "days": 43,
   "range": "5d",
-  "fresh": 1368,
+  "fresh": 1560,
   "missing": []
  },
  "params": {
@@ -26,8 +26,8 @@
  },
  "report": {
   "coherence": {
-   "n": 12048,
-   "active": 4190,
+   "n": 12528,
+   "active": 4401,
    "hitPct": 100,
    "rho": 0.86
   },
@@ -37,163 +37,163 @@
      "k": -12,
      "min": -60,
      "r": 0.04,
-     "n": 11398
+     "n": 11852
     },
     {
      "k": -11,
      "min": -55,
      "r": 0,
-     "n": 11448
+     "n": 11904
     },
     {
      "k": -10,
      "min": -50,
      "r": 0.01,
-     "n": 11498
+     "n": 11956
     },
     {
      "k": -9,
      "min": -45,
-     "r": -0.01,
-     "n": 11548
+     "r": 0.01,
+     "n": 12008
     },
     {
      "k": -8,
      "min": -40,
      "r": 0.01,
-     "n": 11598
+     "n": 12060
     },
     {
      "k": -7,
      "min": -35,
      "r": 0.01,
-     "n": 11648
+     "n": 12112
     },
     {
      "k": -6,
      "min": -30,
      "r": -0.02,
-     "n": 11698
+     "n": 12164
     },
     {
      "k": -5,
      "min": -25,
      "r": 0,
-     "n": 11748
+     "n": 12216
     },
     {
      "k": -4,
      "min": -20,
      "r": 0,
-     "n": 11798
+     "n": 12268
     },
     {
      "k": -3,
      "min": -15,
      "r": 0,
-     "n": 11848
+     "n": 12320
     },
     {
      "k": -2,
      "min": -10,
      "r": 0.02,
-     "n": 11898
+     "n": 12372
     },
     {
      "k": -1,
      "min": -5,
      "r": 0.03,
-     "n": 11948
+     "n": 12424
     },
     {
      "k": 0,
      "min": 0,
-     "r": 0.62,
-     "n": 11998
+     "r": 0.61,
+     "n": 12476
     },
     {
      "k": 1,
      "min": 5,
-     "r": 0.07,
-     "n": 11948
+     "r": 0.06,
+     "n": 12424
     },
     {
      "k": 2,
      "min": 10,
      "r": 0.02,
-     "n": 11898
+     "n": 12372
     },
     {
      "k": 3,
      "min": 15,
      "r": 0,
-     "n": 11848
+     "n": 12320
     },
     {
      "k": 4,
      "min": 20,
      "r": 0,
-     "n": 11798
+     "n": 12268
     },
     {
      "k": 5,
      "min": 25,
-     "r": 0,
-     "n": 11748
+     "r": 0.01,
+     "n": 12216
     },
     {
      "k": 6,
      "min": 30,
-     "r": 0.01,
-     "n": 11698
+     "r": 0,
+     "n": 12164
     },
     {
      "k": 7,
      "min": 35,
      "r": 0,
-     "n": 11648
+     "n": 12112
     },
     {
      "k": 8,
      "min": 40,
-     "r": 0.01,
-     "n": 11598
+     "r": 0,
+     "n": 12060
     },
     {
      "k": 9,
      "min": 45,
      "r": 0,
-     "n": 11548
+     "n": 12008
     },
     {
      "k": 10,
      "min": 50,
      "r": 0,
-     "n": 11498
+     "n": 11956
     },
     {
      "k": 11,
      "min": 55,
      "r": 0,
-     "n": 11448
+     "n": 11904
     },
     {
      "k": 12,
      "min": 60,
      "r": 0.01,
-     "n": 11398
+     "n": 11852
     }
    ],
    "peakK": 0,
    "lagMin": 0,
-   "peakR": 0.62,
-   "spread": 0.16
+   "peakR": 0.61,
+   "spread": 0.14
   },
   "reaction": {
    "n": 89,
-   "reactedPct": 67.4,
+   "reactedPct": 68.5,
    "medLagMin": 0,
-   "meanLagMin": 3.92,
+   "meanLagMin": 4.1,
    "events": [
     {
      "t": 1794790500,
@@ -363,8 +363,8 @@
      "d": -1,
      "dz": -0.51,
      "mktMin": 5,
-     "penMin": 5,
-     "lagMin": 0
+     "penMin": null,
+     "lagMin": null
     },
     {
      "t": 1795181400,
@@ -372,8 +372,8 @@
      "d": 1,
      "dz": 0.57,
      "mktMin": 15,
-     "penMin": 60,
-     "lagMin": 45
+     "penMin": null,
+     "lagMin": null
     },
     {
      "t": 1795184400,
@@ -381,8 +381,8 @@
      "d": 1,
      "dz": 0.54,
      "mktMin": 25,
-     "penMin": 15,
-     "lagMin": -10
+     "penMin": 35,
+     "lagMin": 10
     },
     {
      "t": 1795186500,
@@ -390,8 +390,8 @@
      "d": -1,
      "dz": -1.07,
      "mktMin": 15,
-     "penMin": 15,
-     "lagMin": 0
+     "penMin": 20,
+     "lagMin": 5
     },
     {
      "t": 1795188600,
@@ -408,8 +408,8 @@
      "d": -1,
      "dz": -0.88,
      "mktMin": 20,
-     "penMin": 50,
-     "lagMin": 30
+     "penMin": null,
+     "lagMin": null
     },
     {
      "t": 1795193700,
@@ -433,46 +433,19 @@
      "t": 1795204800,
      "ses": "reg",
      "d": -1,
-     "dz": -0.57,
+     "dz": -0.56,
      "mktMin": 30,
-     "penMin": null,
-     "lagMin": null
-    },
-    {
-     "t": 1795388400,
-     "ses": "night",
-     "d": 1,
-     "dz": 1.68,
-     "mktMin": 10,
-     "penMin": null,
-     "lagMin": null
-    },
-    {
-     "t": 1795390800,
-     "ses": "night",
-     "d": 1,
-     "dz": 0.57,
-     "mktMin": 10,
-     "penMin": null,
-     "lagMin": null
-    },
-    {
-     "t": 1795402200,
-     "ses": "night",
-     "d": 1,
-     "dz": 0.53,
-     "mktMin": 20,
      "penMin": null,
      "lagMin": null
     },
     {
      "t": 1795422600,
      "ses": "night",
-     "d": -1,
-     "dz": -0.61,
+     "d": 1,
+     "dz": 2.04,
      "mktMin": 30,
-     "penMin": null,
-     "lagMin": null
+     "penMin": 30,
+     "lagMin": 0
     },
     {
      "t": 1795434300,
@@ -480,8 +453,8 @@
      "d": -1,
      "dz": -0.51,
      "mktMin": 25,
-     "penMin": null,
-     "lagMin": null
+     "penMin": 55,
+     "lagMin": 30
     },
     {
      "t": 1795440300,
@@ -532,7 +505,7 @@
      "t": 1795480500,
      "ses": "post",
      "d": 1,
-     "dz": 0.61,
+     "dz": 0.62,
      "mktMin": 20,
      "penMin": 30,
      "lagMin": 10
@@ -577,7 +550,7 @@
      "t": 1795596900,
      "ses": "night",
      "d": -1,
-     "dz": -0.51,
+     "dz": -0.52,
      "mktMin": 25,
      "penMin": 25,
      "lagMin": 0
@@ -644,17 +617,44 @@
      "mktMin": 10,
      "penMin": 15,
      "lagMin": 5
+    },
+    {
+     "t": 1795768200,
+     "ses": "night",
+     "d": 1,
+     "dz": 1.82,
+     "mktMin": 30,
+     "penMin": 30,
+     "lagMin": 0
+    },
+    {
+     "t": 1795788000,
+     "ses": "pre",
+     "d": -1,
+     "dz": -0.61,
+     "mktMin": 30,
+     "penMin": null,
+     "lagMin": null
+    },
+    {
+     "t": 1795791900,
+     "ses": "reg",
+     "d": 1,
+     "dz": 0.63,
+     "mktMin": 15,
+     "penMin": 50,
+     "lagMin": 35
     }
    ]
   },
   "bands": {
    "n": 75,
    "whipsawPct": 6.7,
-   "confirm30": 48,
-   "meanFwd30": 0.01,
+   "confirm30": 45.3,
+   "meanFwd30": 0,
    "confirm60": 58.1,
-   "meanFwd60": 0.05,
-   "medLateMin": 95,
+   "meanFwd60": 0.07,
+   "medLateMin": 90,
    "medLeftPct": 25,
    "changes": [
     {
@@ -1218,15 +1218,15 @@
      "whipsaw": false
     },
     {
-     "t": 1795165200,
+     "t": 1795167900,
      "ses": "pre",
      "d": -1,
      "fwd": {
-      "6": 0.131,
-      "12": 0.09699999999999998
+      "6": -0.18799999999999994,
+      "12": -0.41
      },
      "lateMin": 120,
-     "leftPct": 44,
+     "leftPct": 8,
      "from": 2,
      "to": 1,
      "whipsaw": false
@@ -1236,11 +1236,11 @@
      "ses": "night",
      "d": 1,
      "fwd": {
-      "6": 0.19799999999999995,
-      "12": -0.3679999999999999
+      "6": 0,
+      "12": 2.221
      },
-     "lateMin": 105,
-     "leftPct": 53,
+     "lateMin": 0,
+     "leftPct": 100,
      "from": 2,
      "to": 3,
      "whipsaw": false
@@ -1320,8 +1320,8 @@
      "ses": "night",
      "d": -1,
      "fwd": {
-      "6": 0.03600000000000003,
-      "12": -0.11099999999999999
+      "6": 0.03300000000000003,
+      "12": -0.10999999999999999
      },
      "lateMin": 65,
      "leftPct": 26,
@@ -1363,27 +1363,27 @@
    "byZone": [
     {
      "zone": "Defesa forte",
-     "n": 179,
-     "meanZ": -3.15,
-     "medAbsZ": 2.82
+     "n": 171,
+     "meanZ": -3.12,
+     "medAbsZ": 2.79
     },
     {
      "zone": "Defesa",
-     "n": 2068,
-     "meanZ": -0.91,
+     "n": 2077,
+     "meanZ": -0.92,
      "medAbsZ": 0.81
     },
     {
      "zone": "Neutro",
-     "n": 7527,
+     "n": 7795,
      "meanZ": 0.08,
      "medAbsZ": 0.2
     },
     {
      "zone": "Risco",
-     "n": 2198,
-     "meanZ": 1.02,
-     "medAbsZ": 0.71
+     "n": 2409,
+     "meanZ": 0.95,
+     "medAbsZ": 0.7
     },
     {
      "zone": "Risco forte",
@@ -1397,85 +1397,85 @@
      "lo": null,
      "hi": -1.5,
      "n": 493,
-     "meanS": -55.86
+     "meanS": -53.61
     },
     {
      "lo": -1.5,
      "hi": -0.5,
      "n": 1684,
-     "meanS": -26.96
+     "meanS": -26.51
     },
     {
      "lo": -0.5,
      "hi": 0.5,
-     "n": 7485,
-     "meanS": 0.64
+     "n": 7804,
+     "meanS": 1.33
     },
     {
      "lo": 0.5,
      "hi": 1.5,
-     "n": 1917,
-     "meanS": 25.07
+     "n": 2125,
+     "meanS": 24.63
     },
     {
      "lo": 1.5,
      "hi": null,
-     "n": 469,
-     "meanS": 43.74
+     "n": 422,
+     "meanS": 51.97
     }
    ],
    "monoZone": 1,
    "monoZ": 1,
-   "slope": 19.86,
-   "r2": 0.62
+   "slope": 21.58,
+   "r2": 0.66
   },
   "forward": {
    "30": {
-    "n": 4359,
-    "hitPct": 53.5,
-    "baseUpPct": 47.8,
+    "n": 4424,
+    "hitPct": 53.3,
+    "baseUpPct": 46.4,
     "riskMeanDz": 0.02,
     "defMeanDz": -0.02
    },
    "60": {
-    "n": 4226,
-    "hitPct": 56.5,
-    "baseUpPct": 48,
-    "riskMeanDz": 0.04,
+    "n": 4293,
+    "hitPct": 56.6,
+    "baseUpPct": 46.8,
+    "riskMeanDz": 0.05,
     "defMeanDz": -0.04
    }
   },
   "bySession": {
    "pre": {
-    "n": 2706,
+    "n": 2772,
     "coherence": 100,
-    "rho": 0.89,
+    "rho": 0.9,
     "lagMin": 0,
-    "reactLag": 0,
-    "reacted": 71.4,
+    "reactLag": 2.5,
+    "reacted": 85.7,
     "bandN": 11,
     "confirm30": 44.4,
     "whipsaw": 0,
     "lateMin": 55,
-    "fwd30": 54.1
+    "fwd30": 53.1
    },
    "reg": {
-    "n": 3198,
+    "n": 3240,
     "coherence": 100,
     "rho": 0.93,
     "lagMin": 0,
     "reactLag": 0,
-    "reacted": 67.8,
+    "reacted": 65,
     "bandN": 35,
     "confirm30": 45.7,
     "whipsaw": 14.3,
     "lateMin": 40,
-    "fwd30": 53.6
+    "fwd30": 53.7
    },
    "post": {
-    "n": 2016,
+    "n": 2064,
     "coherence": 100,
-    "rho": 0.6,
+    "rho": 0.61,
     "lagMin": 0,
     "reactLag": 2.5,
     "reacted": 50,
@@ -1486,51 +1486,51 @@
     "fwd30": 39.2
    },
    "night": {
-    "n": 4128,
+    "n": 4452,
     "coherence": 100,
-    "rho": 0.78,
+    "rho": 0.77,
     "lagMin": 0,
     "reactLag": 0,
-    "reacted": 57.1,
+    "reacted": 100,
     "bandN": 23,
-    "confirm30": 61.9,
+    "confirm30": 57.1,
     "whipsaw": 0,
-    "lateMin": 90,
-    "fwd30": 53.8
+    "lateMin": 70,
+    "fwd30": 53.2
    }
   },
   "blocks": [
    {
     "id": "cls",
-    "n": 12048,
+    "n": 12528,
     "rho": 0.79,
     "lagMin": 0,
-    "peakR": 0.36,
+    "peakR": 0.37,
     "fwdHit": {
-     "30": 52.1,
-     "60": 53.8
+     "30": 51.8,
+     "60": 53.9
     }
    },
    {
     "id": "eq",
-    "n": 12048,
+    "n": 12528,
     "rho": 0.82,
     "lagMin": 0,
-    "peakR": 0.62,
+    "peakR": 0.61,
     "fwdHit": {
-     "30": 53.9,
-     "60": 55
+     "30": 53.8,
+     "60": 55.2
     }
    },
    {
     "id": "vol",
-    "n": 12048,
-    "rho": 0.48,
+    "n": 12528,
+    "rho": 0.44,
     "lagMin": 0,
-    "peakR": 0.41,
+    "peakR": 0.37,
     "fwdHit": {
-     "30": 51,
-     "60": 52.4
+     "30": 50.9,
+     "60": 52.2
     }
    }
   ]

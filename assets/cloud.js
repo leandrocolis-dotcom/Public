@@ -194,7 +194,7 @@ export async function pullPortfolio() {
 /** Foto das contas BTG (só leitura: quem grava é a sincronização diária). */
 export async function pullBroker() {
   const rows = await call(
-    `/rest/v1/pendulo_broker?select=as_of,summary,status,status_detail,synced_at,try_at,try_detail`,
+    `/rest/v1/pendulo_broker?select=as_of,summary,status,status_detail,synced_at,try_at,try_detail,login_at`,
     {
       token: await token(),
     },
@@ -209,6 +209,7 @@ export async function pullBroker() {
         syncedAt: r.synced_at,
         tryAt: r.try_at ?? null,
         tryDetail: r.try_detail ?? null,
+        loginAt: r.login_at ?? null,
       }
     : null;
 }
@@ -246,8 +247,8 @@ export async function pullBrokerDaily() {
  * Devolve { ok, since, syncedAt, fired, hasFallback } ou { ok: false, why } ("nuvem_off" = rotina sem endereço de API
  * configurado). { fallback: true } dispara só a rotina da 2ª conta do Claude (ver supabase/functions/btg-fire).
  */
-export async function fireBtg({ fallback = false } = {}) {
-  const body = fallback ? { fallback: true } : {};
+export async function fireBtg({ fallback = false, reconnected = false } = {}) {
+  const body = fallback ? { fallback: true } : reconnected ? { reconnected: true } : {};
   return call(`/functions/v1/btg-fire`, { method: "POST", token: await token(), body });
 }
 

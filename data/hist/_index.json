@@ -1,692 +1,692 @@
 {
  "symbols": {
   "AAPL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSFT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BRK-B": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "A": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AAPU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ABBV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ABNB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ABT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ACGL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ACN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ADBE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ADI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ADM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ADP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ADSK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AEE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AEM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AEP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AES": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AFL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AGG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AGQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AIBD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AIBU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AIG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AIQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AIZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AJG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AKAM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ALAB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ALB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ALGN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ALL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ALLE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMAT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMCR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AME": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMGN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMLP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMUU": {
-   "last": "2026-11-25",
-   "n": 415,
+   "last": "2026-11-27",
+   "n": 416,
    "currency": "USD"
   },
   "AMZD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMZN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AMZU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ANET": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AON": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AOS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "APA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "APD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "APH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "APO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "APP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "APTV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARES": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARGX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARKF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARKQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARKX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ARTY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ASML": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ASTS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ATO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AVGO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AVL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AVY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AWAY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AWK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AXON": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AXP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AYA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AZN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "AZO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BABA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BAC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BALL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BAX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BBY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BDX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BEN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BF-B": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BIB": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "BIIB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BIL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BITB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BITI": {
-   "last": "2026-11-25",
-   "n": 504,
+   "last": "2026-11-27",
+   "n": 505,
    "currency": "USD"
   },
   "BITU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BITX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BKCH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BKLN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BKNG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BKR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BLK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BMY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BND": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BNDX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BNO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BNY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BOIL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BOTZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BOXX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BRO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BRZU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BSX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BUG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BWX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BWXT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "BXP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "C": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CAH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CARR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CARZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CASY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CAT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CAVA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CBOE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CBRE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CCI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CCJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CCL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CDNS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CDW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CEG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CFG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -696,1577 +696,1577 @@
    "currency": "USD"
   },
   "CHD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CHRW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CHTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CIBR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CIEN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CINF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CLOU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CLX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CMCSA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CME": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CMG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CMI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CMS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CNC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CNP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COHR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COIN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CONL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COPX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CORN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "COST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CPAY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CPER": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CPRT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CPT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CRDO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CRH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CRL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CRM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CRWD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CRWV": {
-   "last": "2026-11-25",
-   "n": 419,
+   "last": "2026-11-27",
+   "n": 420,
    "currency": "USD"
   },
   "CSCO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CSGP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CSX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CTAS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CTSH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CTVA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CURE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CVNA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CVS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CVX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CWEB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "D": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DAL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DASH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DBA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DBC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DDM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DDOG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DECK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DELL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DFEN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DGX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DHI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DHR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DIA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DIG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DLR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DLTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DOC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DOG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DOV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DOW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DPST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DPZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DRI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DRIP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DRIV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DRN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DRV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DTCR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DTE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DUG": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "DUK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DUSL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DUST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DVA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DVN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DXCM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DXD": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "DXJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EBAY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ECHO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ECL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ED": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EDC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EDV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EDZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EEM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EFA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EFO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EFX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EFZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EGP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EIX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ELIL": {
-   "last": "2026-11-25",
-   "n": 420,
+   "last": "2026-11-27",
+   "n": 421,
    "currency": "USD"
   },
   "ELV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EMB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EME": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EMLC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EMR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ENPH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EOG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EPI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EQIX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EQT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ERIE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ERX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ERY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ES": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ESS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ET": {
-   "last": "2026-11-25",
-   "n": 93,
+   "last": "2026-11-27",
+   "n": 94,
    "currency": "USD"
   },
   "ETHA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ETHD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ETHU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ETN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ETR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EURL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EVRG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EWJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EWW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EWZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EWZS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EXC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EXE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EXEL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EXPD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EXPE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "EXR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "F": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FANG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FAS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FAST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FAZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FBTC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FCX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FDS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FDX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FDXF": {
-   "last": "2026-11-25",
-   "n": 128,
+   "last": "2026-11-27",
+   "n": 129,
    "currency": "USD"
   },
   "FE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FERG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FETH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FFIV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FICO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FIGS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FINX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FISV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 507,
    "currency": "USD"
   },
   "FITB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FIX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FLEX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FLOT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FNGU": {
-   "last": "2026-11-25",
-   "n": 445,
+   "last": "2026-11-27",
+   "n": 446,
    "currency": "USD"
   },
   "FNV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FOX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FOXA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FRO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FRT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FSLR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FTEC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FTNT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FTV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FXI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "FXY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GDDY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GDX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GDXJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GEHC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GEN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GEV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GGLL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GGLS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GILD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GLDM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GLL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GLW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GNRC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GOOG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GOOGL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GPC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GPN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GRID": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GRMN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GSG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GUSH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "GWW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HACK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HAFN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HAL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HAS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HBAN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HCA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HDB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HIG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HII": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HLT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HNGE": {
-   "last": "2026-11-25",
-   "n": 381,
+   "last": "2026-11-27",
+   "n": 382,
    "currency": "USD"
   },
   "HON": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HONA": {
-   "last": "2026-11-25",
-   "n": 115,
+   "last": "2026-11-27",
+   "n": 116,
    "currency": "USD"
   },
   "HOOD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HPE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HPQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HRL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HRTS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HSIC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HSY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HUBB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HUM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HWM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "HYG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IAI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IAK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IAU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IBB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IBIT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IBKR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IBM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IBN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IBUY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ICE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ICLN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IDXX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IEF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IEI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IEMG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IEX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IEZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IFF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IGIB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IGPT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IGV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IHAK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IHE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IHF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IHI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IJR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ILMN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IMAX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INCY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INDA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INDL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INFY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INSW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INTC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INTU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "INVH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IONQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IPAY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IQV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IREN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IRM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ISRG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ITA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ITB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ITUB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ITW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IVES": {
-   "last": "2026-11-25",
-   "n": 373,
+   "last": "2026-11-27",
+   "n": 374,
    "currency": "USD"
   },
   "IVV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IVZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IWM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IYT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "IYZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "J": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JAAA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JBHT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JBL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JCI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JDST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JETS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JKHY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JNJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JNK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JNUG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "JPM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KBE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KBWB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KDP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KEY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KEYS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KHC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KIE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KIM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KKR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KLAC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KMB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KMI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KOLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "KRE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -2276,22 +2276,22 @@
    "currency": "USD"
   },
   "KWEB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "L": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LABD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LABU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -2301,97 +2301,97 @@
    "currency": "USD"
   },
   "LDOS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LEN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LHX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LII": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LIN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LITE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LLY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LMT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LNG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LNT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LOW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LQD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LRCX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LTC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LTL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LULU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LUV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LVS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -2401,97 +2401,97 @@
    "currency": "USD"
   },
   "LYB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LYV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MAA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MAR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MAS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MBB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MCD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MCHI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MCHP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MCK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MCO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MDB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MDLZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MDT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MELI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MET": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "META": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "METU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -2501,992 +2501,992 @@
    "currency": "USD"
   },
   "MGM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MGNI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MKC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MLM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MLPX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MMM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MNST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MOD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MOO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MOS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MPC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MPWR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MRK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MRNA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MRSH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MRVL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSCI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSFD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSFU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSTU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MSTX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MTB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MTD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MUB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MUU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NAIL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NBIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NCLH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NDAQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NDSN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NEBX": {
-   "last": "2026-11-25",
-   "n": 307,
+   "last": "2026-11-27",
+   "n": 308,
    "currency": "USD"
   },
   "NEE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NEM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NET": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NFLX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NKE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NLR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NOC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NOW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NRG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NSC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NTAP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NTRS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NUE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NUGT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NUKZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NVDA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NVDD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NVDL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NVDU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NVO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NVR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NWS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NWSA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NXPI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "O": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ODFL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OIH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OKE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OKLO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OMC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ON": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ONLN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ORCL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ORLY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OTIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OXY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "P": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PAAS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PANW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PAYX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PBJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PCAR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PCG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PDBC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PDD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PEG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PEJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PEP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PFE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PFG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PGR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PHM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PILL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PJP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PKG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PLTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PLTU": {
-   "last": "2026-11-25",
-   "n": 491,
+   "last": "2026-11-27",
+   "n": 492,
    "currency": "USD"
   },
   "PM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PNC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PNR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PNW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PODD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PPA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PPG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PPL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PRU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PSA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PSI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PSP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PSQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PSX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PTC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PTGX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PWR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "PYPL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "Q": {
-   "last": "2026-11-25",
-   "n": 273,
+   "last": "2026-11-27",
+   "n": 274,
    "currency": "USD"
   },
   "QBTS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QCLN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QCOM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QID": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "QLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QQQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QQQM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QTUM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RACE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RCL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RDDT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "REG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "REGN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "REK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RETL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "REW": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "RF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RGTI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RJF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RKLB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RMD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ROBO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ROK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ROKU": {
-   "last": "2026-11-09",
-   "n": 508,
+   "last": "2026-11-06",
+   "n": 507,
    "currency": "USD"
   },
   "ROL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ROM": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "ROP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ROST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RSG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RSP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RTX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RVTY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RWM": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "RXD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "RXL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SBAC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SBIT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SBLK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SBUX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SCC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SCCO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SCHO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SCHP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SCHW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SCO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SDOW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SDP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SDS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SEF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SGOV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SHEL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SHLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SHOP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SHV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SHW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SHY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SIJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SIL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SILJ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SIVR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SJB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SJM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SJNK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SKF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SKYD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SKYU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SKYY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SLB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SLDE": {
-   "last": "2026-11-25",
-   "n": 363,
+   "last": "2026-11-27",
+   "n": 364,
    "currency": "USD"
   },
   "SLV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SLX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SMCI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SMH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SMN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SMR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SNA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -3496,487 +3496,487 @@
    "currency": "USD"
   },
   "SNOW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SNPS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOFI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOLV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOXL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOXQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOXS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOXX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SOYB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPGI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPOT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPXL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPXS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SPXU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SQQQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SRE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SRLN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SRS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SRVR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SSG": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "SSO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STIP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STRL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "STZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SWK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SWKS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SYF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SYK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SYM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SYY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SZK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "T": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TAN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TBF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TBT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TCEHY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TDG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TDY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TECH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TECL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TECS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TEL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TER": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TFC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TFLO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TGT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TIP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TJX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TKO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TLN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TLT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TMF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TMO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TMUS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TMV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TNA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TNK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TPL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TPR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TPYP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TQQQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TRGP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TRMB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TRNO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TROW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TRV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSCO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSLA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSLL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSLQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSMX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TSN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TTT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TTWO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TWLO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TWM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TXN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TXRH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TXT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TYD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TYL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TYO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "TZA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UAL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UBER": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UBT": {
-   "last": "2026-11-25",
-   "n": 505,
+   "last": "2026-11-27",
+   "n": 506,
    "currency": "USD"
   },
   "UCC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UCO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
@@ -3986,712 +3986,712 @@
    "currency": "USD"
   },
   "UDOW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UDR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UFO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UGE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UGL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UHS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ULTA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UNG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UNH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UNP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UPRO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UPS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UPW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "URA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "URE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "URI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "URNM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "USB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "USD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "USFR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "USHY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "USO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UTSL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UUP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UWM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UXI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UYG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "UYM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "V": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VAW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VCIT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VCR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VCSH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VCTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VDC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VDE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VEA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VEEV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VFH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VG": {
-   "last": "2026-11-25",
-   "n": 463,
+   "last": "2026-11-27",
+   "n": 464,
    "currency": "USD"
   },
   "VGIT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VGK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VGLT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VGSH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VGT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VHT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VICI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VIS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VIXY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VKTX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VLO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VLTO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VMBS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VMC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VMRK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VNQ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VNQI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VOO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VOX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VPU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VRSK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VRSN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VRT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VRTX": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VTEB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VTIP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VTR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VTRS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VWO": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "VZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WAB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WANT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WAT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WCLD": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WCN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WDAY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WDC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WEAT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WEC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WELL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WFC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WGMI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WMB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WMT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WPM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WRB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WSM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WST": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WTAI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WTW": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "WYNN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XAR": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XBI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XEL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XHB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLB": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLF": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLK": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLRE": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLU": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XLY": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XOM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XOP": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XPH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XRT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XTN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XYL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "XYZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "YANG": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "YINN": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "YUM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ZBH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ZBRA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ZROZ": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ZS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ZSL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "ZTS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CDNA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "CWT": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "DV": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "MEOH": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "NIC": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "OHI": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "QLYS": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SM": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SSL": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "LITG": {
-   "last": "2026-11-25",
-   "n": 76,
+   "last": "2026-11-27",
+   "n": 77,
    "currency": "USD"
   },
   "STLL": {
-   "last": "2026-11-25",
-   "n": 76,
+   "last": "2026-11-27",
+   "n": 77,
    "currency": "USD"
   },
   "OKTA": {
-   "last": "2026-11-25",
+   "last": "2026-11-27",
    "n": 508,
    "currency": "USD"
   },
   "SNDQ": {
-   "last": "2026-11-25",
-   "n": 151,
+   "last": "2026-11-27",
+   "n": 152,
    "currency": "USD"
   },
   "SNDU": {
-   "last": "2026-11-25",
-   "n": 180,
+   "last": "2026-11-27",
+   "n": 181,
    "currency": "USD"
   }
  },
- "updated_at": "2026-11-27T03:57:22.543Z",
+ "updated_at": "2026-11-28T03:44:41.977Z",
  "n": 938,
  "errors": [
   "CLDL: gráfico HTTP 404",
