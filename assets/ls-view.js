@@ -11,6 +11,7 @@ import { clocks, leftText, nextMark, tradingDay } from "./ls-clock.js";
 import { PARAMS } from "./ls-params.js";
 import { ETF_CATALOG, assetInfo } from "./ls-etfs.js";
 import { TIPS, tipText } from "./ls-tooltips.js";
+import { DEMO_NOW, MANUAL, TOUR, demoInput } from "./ls-guide.js";
 import { barsKey, useBars } from "./bars-hub.js";
 import { fetchQuotes } from "./quote-hub.js";
 import { manualActive, positionsAsOf, withManual } from "./btg.js";
@@ -54,6 +55,10 @@ export const info = (id, vars) => {
   const v = vars ? ` data-ls-tipv="${esc(JSON.stringify(vars))}"` : "";
   return `<button type="button" class="ls-i" data-ls-tip="${id}"${v} aria-label="Ajuda: ${esc(t.que)}" title="${esc(`${t.que} · ${t.ler}${t.fazer ? ` · ${t.fazer}` : ""}`)}">ⓘ</button>`; // prettier-ignore
 };
+const TOUR_KEY = "pendulo.ls.tourSeen";
+/** Âncora do tour: data-tour (+ data-tour-on no bloco do passo atual, que ganha o destaque). */
+const T = (id) =>
+  ` data-tour="${id}"${state.lsTour != null && TOUR[state.lsTour]?.anchor === id ? " data-tour-on" : ""}`;
 const lab = (txt, id, vars) => `<span class="ls-lab">${txt} ${info(id, vars)}</span>`;
 
 // ───────── estado do livro (aparelho + nuvem pendulo_ls) ─────────
@@ -260,7 +265,8 @@ function statusBar(c, now) {
     f.rsk01 || f.rsk02 || f.rsk03 || f.rsk04 || out.blockers?.some((b) => /^BEH/.test(b.id));
   const near = out.portfolio?.near?.length;
   const noData =
-    (!state.lsQuotes && input.session !== "FECHADO") || out.legs?.some((m) => m.qty > 0 && !m.ok);
+    !c.demo &&
+    ((!state.lsQuotes && input.session !== "FECHADO") || out.legs?.some((m) => m.qty > 0 && !m.ok));
   const sem = noData
     ? `<span class="ls-sem">– sem dados</span>`
     : trava
@@ -280,7 +286,7 @@ function statusBar(c, now) {
     bands.push(`<div class="ls-band wait">⚠ Reconciliação pendente: compras bloqueadas<ul>${rec.issues.map((i) => `<li>${esc(i.msg)}${i.orderId ? ` <button class="btn small ghost" data-ls-rem="${esc(i.orderId)}" data-ans="aberto">Está aberta</button> <button class="btn small ghost" data-ls-rem="${esc(i.orderId)}" data-ans="cancelado">Foi cancelada</button>` : ""}</li>`).join("")}</ul></div>`); // prettier-ignore
   if (state.lsSync && !state.lsSync.ok) bands.push(`<div class="ls-band wait">⚠ Nuvem do Long & Short indisponível (${esc(state.lsSync.msg)}): o registro fica neste aparelho até voltar.</div>`); // prettier-ignore
   if (meta.paramErrors.length) bands.push(`<div class="ls-band wait">⚠ Parâmetros ignorados: ${esc(meta.paramErrors.join("; "))}</div>`); // prettier-ignore
-  return `<header class="ls-status">
+  return `<header class="ls-status"${T("status")}>
     <div class="ls-row"><span class="ls-pill ${input.session === "REGULAR" ? "on" : ""}">● ${ses}</span> ${info("sessao")}
       <span class="ls-clock">${ck.et} ET · ${ck.br} BRT</span> ${info("relogio")}</div>
     <div class="ls-row ls-sub">${nm ? `${esc(nm.label)} em ${leftText(nm.left)}` : "sem marcos até amanhã"} ${info("proximo_marco")}</div>
@@ -292,7 +298,7 @@ function metrics(c) {
   const pf = c.out.portfolio;
   if (!pf) return "";
   const bad = c.out.legs.some((m) => m.qty > 0 && !m.ok);
-  if (bad || (!state.lsQuotes && c.input.session !== "FECHADO"))
+  if (!c.demo && (bad || (!state.lsQuotes && c.input.session !== "FECHADO")))
     return `<section class="ls-metrics" aria-label="Métricas da carteira"><div class="ls-card wide">${lab("P&L do dia", "pnl_dia", { R: num(pf.R, 2) })}<b class="ls-big">–</b><span class="ls-sub">${bad ? "Falta preço de alguma ponta: métricas suspensas para não mostrar zero falso." : "Carregando cotações…"}</span></div></section>`; // prettier-ignore
   const lim = pf.lossLim > 0 ? Math.max(0, Math.min(1, pf.limiteRestante / pf.lossLim)) : 0;
   const lvl = (u) => (u >= 1 ? "down" : u > 0.8 ? "wait" : "");
@@ -302,7 +308,7 @@ function metrics(c) {
     const at = (v) => ((Math.max(-1.5, Math.min(1.5, v)) + 1.5) / 3) * 100;
     return `<div class="ls-gauge ${lvl(pf.use.liquida)}"><i class="z"></i><i class="m" style="left:${at(pf.expLiqX)}%"></i></div>`; // prettier-ignore
   })();
-  return `<section class="ls-metrics" aria-label="Métricas da carteira">
+  return `<section class="ls-metrics"${T("metrics")} aria-label="Métricas da carteira">
     <div class="ls-card ${lvl(pf.use.perda)}">${lab("P&L do dia", "pnl_dia", { R: num(pf.R, 2) })}<b class="ls-big ${tone(pf.pnlDay)}">${usd(pf.pnlDay)}</b><span class="ls-sub">${rTxt(pf.pnlDayR)} · ${sg(pf.pnlDayPct)}${num(Math.abs(pf.pnlDayPct), 2)}%</span></div>
     <div class="ls-card ${lvl(pf.use.perda)}">${lab("Limite restante", "limite_restante")}<b class="ls-big ${pf.limiteRestante < 0 ? "down" : ""}">${pf.limiteRestante < 0 ? `−US$ ${num(-pf.limiteRestante, 2)}` : usdA(pf.limiteRestante, 2)}</b>${bar(lim, lvl(pf.use.perda))}<span class="ls-sub">1R = ${usdA(pf.R, 2)} ${info("R")}</span></div>
     <div class="ls-card ${lvl(pf.use.bruta)}">${lab("Exposição bruta", "exp_bruta")}<b class="ls-big">${num(pf.expBrutaX, 2)}x</b><span class="ls-sub">limite ${num(p.exposicao_bruta_max_x_capital, 1)}x</span></div>
@@ -316,23 +322,23 @@ const ACT = (o) => {
     return o.side === "COMPRAR_PARA_COBRIR" ? "ZERAR (COMPRAR PARA COBRIR)" : "ZERAR";
   return sideText(o.side);
 };
-function orderRow(o) {
+function orderRow(o, anchors = {}) {
   const reduce = o.purpose === "REDUZIR" || o.purpose === "ZERAR";
   const arrow = reduce ? "▼" : "▲";
   const tag = `${o.reason}${o.alert ? ` · ${o.alert}` : ""}`;
   const meta = `limite ${px(o.limit)}${o.limitFrom === "último" ? " (sem bid/ask: último preço)" : ""} ${info("preco_limite")} · stop ${px(o.stop)} ${info("stop_proposto")} · ${esc(tag)} ${info("motivo")}`; // prettier-ignore
   if (o.blocked) {
     const why = o.blockers.map((b) => b.why).join("; ");
-    return `<details class="ls-order blocked"><summary><span class="ls-act">⊘ BLOQUEADO · ${esc(ACT(o).toLowerCase())} ${o.qty} ${esc(o.sym)}</span> ${info("bloqueado")}<span class="ls-why">${esc(o.blockers[0]?.why ?? "")}</span></summary><p class="ls-sub">${esc(why)}</p><p class="ls-sub">${meta}</p>${o.checklist ? checklist(o.checklist) : ""}</details>`; // prettier-ignore
+    return `<details class="ls-order blocked"${anchors.blocked ? T("blocked") : ""}${anchors.blocked && state.lsTour != null ? " open" : ""}><summary><span class="ls-act">⊘ BLOQUEADO · ${esc(ACT(o).toLowerCase())} ${o.qty} ${esc(o.sym)}</span> ${info("bloqueado")}<span class="ls-why">${esc(o.blockers[0]?.why ?? "")}</span></summary><p class="ls-sub">${esc(why)}</p><p class="ls-sub">${meta}</p>${o.checklist ? checklist(o.checklist) : ""}</details>`; // prettier-ignore
   }
-  return `<article class="ls-order ${reduce ? "down" : "up"}">
+  return `<article class="ls-order ${reduce ? "down" : "up"}"${anchors.first ? T("order1") : ""}>
     <div class="ls-act">${arrow} ${esc(ACT(o))} <span class="ls-q">${o.qty}</span> ${esc(o.sym)} ${info("acao")}</div>
     <div class="ls-sub">${meta}${o.note ? ` · ${esc(o.note)}` : ""}</div>
-    <div class="ls-btns"><button class="btn" data-ls-exec="${esc(o.id)}">Executei</button> ${info("executei")}<button class="btn ghost" data-ls-ignore="${esc(o.id)}">Ignorar</button> ${info("ignorar")}</div>
+    <div class="ls-btns"${anchors.first ? T("buttons") : ""}><button class="btn" data-ls-exec="${esc(o.id)}">Executei</button> ${info("executei")}<button class="btn ghost" data-ls-ignore="${esc(o.id)}">Ignorar</button> ${info("ignorar")}</div>
   </article>`; // prettier-ignore
 }
-function stopRow(m) {
-  return `<article class="ls-order stop"><div class="ls-act">↥ SUBIR STOP ${esc(m.sym)} para <span class="ls-q">${px(m.to)}</span> ${info("stop_vigente")}</div><div class="ls-sub">de ${px(m.from)} · ${m.reason === "P3" ? "P3: vencedora protegida no preço médio" : "stop móvel: só se aproxima do preço"}</div><div class="ls-btns"><button class="btn" data-ls-stop="${esc(m.sym)}" data-to="${m.to}">Atualizei na corretora</button></div></article>`; // prettier-ignore
+function stopRow(m, i) {
+  return `<article class="ls-order stop"${i === 0 ? T("stop") : ""}><div class="ls-act">↥ SUBIR STOP ${esc(m.sym)} para <span class="ls-q">${px(m.to)}</span> ${info("stop_vigente")}</div><div class="ls-sub">de ${px(m.from)} · ${m.reason === "P3" ? "P3: vencedora protegida no preço médio" : "stop móvel: só se aproxima do preço"}</div><div class="ls-btns"><button class="btn" data-ls-stop="${esc(m.sym)}" data-to="${m.to}">Atualizei na corretora</button></div></article>`; // prettier-ignore
 }
 function ordersBlock(c) {
   const { out, input } = c;
@@ -340,7 +346,7 @@ function ordersBlock(c) {
   let body;
   const bad = out.legs.filter((m) => !m.ok || !m.quote?.ok).map((m) => m.sym);
   // ignorada há menos de 15 min sai da lista (volta se a prioridade subir: id novo)
-  const ign = new Set((book().day.ignored ?? []).filter((x) => x.orderId && Date.now() - x.ts < input.params.dedupe_alerta_min * 60000).map((x) => x.orderId)); // prettier-ignore
+  const ign = new Set((c.bookData.day.ignored ?? []).filter((x) => x.orderId && Date.now() - x.ts < input.params.dedupe_alerta_min * 60000).map((x) => x.orderId)); // prettier-ignore
   const shown = list.filter((o) => !ign.has(o.id));
   const hidden = list.length - shown.length;
   if (input.session === "FECHADO") {
@@ -350,13 +356,17 @@ function ordersBlock(c) {
     body = `<p class="ls-none wait">⚠ Sem preço confiável em ${esc(bad.join(", "))}: não dá para dizer o que fazer agora.</p>`; // prettier-ignore
   else if (!shown.length && !out.stopMoves.length)
     body = `<p class="ls-none">＝ Nada a fazer: manter.</p>`;
-  else body = out.stopMoves.map(stopRow).join("") + shown.map(orderRow).join("");
+  else {
+    const firstOk = shown.findIndex((o) => !o.blocked);
+    const firstBlk = shown.findIndex((o) => o.blocked);
+    body = out.stopMoves.map(stopRow).join("") + shown.map((o, i) => orderRow(o, { first: i === firstOk, blocked: i === firstBlk })).join(""); // prettier-ignore
+  }
   if (hidden) body += `<p class="ls-sub">${hidden} ordem(ns) ignorada(s) há menos de 15 min.</p>`;
-  const live = liveOrders(book()).filter((o) => o.status === "PARCIAL");
+  const live = liveOrders(c.bookData).filter((o) => o.status === "PARCIAL");
   if (live.length)
     body = live.map((o) => `<article class="ls-order"><div class="ls-sub">Saldo aberto ${info("residual")}: <b>${(o.qtySug ?? 0) - (o.qtyExec ?? 0)}</b> de ${o.qtySug} ${esc(o.sym)} (${esc(o.purpose)} · ${esc(o.reason ?? "")})</div><div class="ls-btns"><button class="btn" data-ls-execlive="${esc(o.id)}">Executou o saldo</button><button class="btn ghost" data-ls-rem="${esc(o.id)}" data-ans="cancelado">Foi cancelado</button></div></article>`).join("") + body; // prettier-ignore
   const err = out.errors?.length ? `<p class="ls-sub wait">⚠ ${esc(out.errors.map((e) => `${e.sym ? `${e.sym}: ` : ""}${e.why}`).join(" · "))}</p>` : ""; // prettier-ignore
-  return `<section class="ls-block"><h3>Ordens agora ${info("ordens_agora")}</h3>${body}${err}</section>`;
+  return `<section class="ls-block"${T("orders")}><h3>Ordens agora ${info("ordens_agora")}</h3>${body}${err}</section>`;
 }
 function checklist(chk) {
   const L = { pnl: "P&L da ponta ≥ +1R", oposta: "ponta oposta já reduzida", rompimento: "rompimento com volume e VWAP a favor", lote: "lote ≤ 50% do anterior", risco: "risco da ponta ≤ 1R", janela: "≤ 2 aumentos, antes do corte, pregão regular", correlacao: "correlação ≥ mínimo" }; // prettier-ignore
@@ -417,15 +427,18 @@ function pairCard(c, pr, idx, desktop) {
     <p class="ls-sub">Beta 60d ${info("beta")}: ${esc(beta || "–")}</p>
   </article>`; // prettier-ignore
 }
-function alertsBlock() {
-  const feed = state.lsFeed ?? [];
+function alertsBlock(c) {
+  const feed = c.feed ?? state.lsFeed ?? [];
   const cls = { critico: "down", acao: "acc", atencao: "wait", info: "" };
   const ico = { critico: "‼", acao: "→", atencao: "⚠", info: "·" };
-  return `<section class="ls-block"><h3>Alertas (${feed.length}) ${info("alertas")}</h3>${feed.length ? `<ul class="ls-feed">${feed.map((a) => `<li class="${cls[a.prio]}"><span class="ls-num">${a.t}</span> <b>${ico[a.prio]} ${a.id}</b>${a.sym ? ` ${esc(a.sym)}` : ""} ${esc(a.msg)}</li>`).join("")}</ul>` : `<p class="ls-sub">Nenhum alerta.</p>`}</section>`; // prettier-ignore
+  return `<section class="ls-block"${T("alerts")}><h3>Alertas (${feed.length}) ${info("alertas")}</h3>${feed.length ? `<ul class="ls-feed">${feed.map((a) => `<li class="${cls[a.prio]}"><span class="ls-num">${a.t}</span> <b>${ico[a.prio]} ${a.id}</b>${a.sym ? ` ${esc(a.sym)}` : ""} ${esc(a.msg)}</li>`).join("")}</ul>` : `<p class="ls-sub">Nenhum alerta.</p>`}</section>`; // prettier-ignore
 }
 function planBlock(c) {
   const plan = c.plan ?? {};
-  const open = state.lsOpen === "plan" || (!c.input.plan.ok && c.input.session !== "FECHADO");
+  const open =
+    state.lsOpen === "plan" ||
+    (state.lsTour != null && TOUR[state.lsTour]?.anchor === "plan") ||
+    (!c.input.plan.ok && c.input.session !== "FECHADO");
   const rows = c.pairs.map((p) => {
     const id = pairId(p);
     const v = plan.date === c.input.date ? (plan.pairs?.[id] ?? {}) : {};
@@ -437,7 +450,7 @@ function planBlock(c) {
   });
   if (fin(c.account) && !fin(state.lsPlanCap)) state.lsPlanCap = Math.round(c.account); // congelado: o campo não anda com os preços
   const cap = plan.date === c.input.date && fin(plan.capital) ? num(plan.capital, 0) : fin(state.lsPlanCap) ? num(state.lsPlanCap, 0) : ""; // prettier-ignore
-  return `<details class="ls-block ls-plan"${open ? " open" : ""} id="ls-plan"><summary><h3>Plano do dia ${info("plano_dia")}</h3> ${c.input.plan.ok ? "✓ preenchido" : "✗ falta"}</summary>
+  return `<details class="ls-block ls-plan"${T("plan")}${open ? " open" : ""} id="ls-plan"><summary><h3>Plano do dia ${info("plano_dia")}</h3> ${c.input.plan.ok ? "✓ preenchido" : "✗ falta"}</summary>
     <label>Capital do dia (US$) <input data-ls-plancap inputmode="decimal" value="${cap}"></label>
     ${rows.join("") || `<p class="ls-sub">Monte as duplas em Carteira › Duplas L/S: elas viram os pares daqui.</p>`}
     <button class="btn" data-ls-plansave>Salvar plano de hoje</button>
@@ -483,7 +496,8 @@ function sheet(c) {
 }
 const CRIT = ["RSK-01", "RSK-02", "BEH-01"];
 function critical(c) {
-  const b = book();
+  if (c.demo) return "";
+  const b = c.bookData;
   const hit = c.alerts.find((a) => CRIT.includes(a.id) && !b.day.ack?.[a.id]);
   const allBad = c.out.legs?.length > 0 && c.out.legs.every((m) => !m.ok || !m.quote?.ok) && c.input.session !== "FECHADO"; // prettier-ignore
   const a = hit ?? (allBad && !b.day.ack?.["EXE-01"] ? { id: "EXE-01", msg: "Preço não confiável em todas as pontas: entradas bloqueadas." } : null); // prettier-ignore
@@ -500,21 +514,65 @@ function tipPop() {
   return `<div class="ls-tip" role="tooltip" id="ls-tip-pop"><b>O que é</b> ${esc(t.que)}<br><b>Como ler</b> ${esc(t.ler)}${t.fazer ? `<br><b>O que fazer</b> ${esc(t.fazer)}` : ""} <button class="ls-tip-x" data-ls-tip-close aria-label="Fechar ajuda">×</button></div>`; // prettier-ignore
 }
 
+/** Exemplo do tour: mesmo motor e mesma tela, com a carteira da especificação (nada é registrado). */
+function demoCompute() {
+  const input = demoInput();
+  const out = computeLs(input);
+  const alerts = evaluateAlerts(input, out);
+  return {
+    demo: true,
+    input,
+    out,
+    alerts,
+    feed: alerts.map((a) => ({ ...a, t: "10:15" })),
+    meta: { missing: [], paramErrors: [], planErrors: [], capitalFrom: "plano" },
+    rec: { ok: true, issues: [] },
+    rows: [],
+    pairs: [["SOXL", "SQQQ"]],
+    plan: { date: input.date, capital: input.capital, pairs: input.plan.pairs },
+    account: input.capital,
+    bookData: loadBook(null).data,
+  };
+}
+function guideBlock() {
+  const on = state.lsTour != null && TOUR[state.lsTour]?.anchor === "guide";
+  const li = (xs) => xs.map(([a, b]) => `<li><b>${esc(a)}</b> ${esc(b)}</li>`).join("");
+  return `<details class="ls-block ls-guide"${T("guide")}${on || state.lsOpen === "guide" ? " open" : ""}><summary><h3>Como usar</h3> rotina, cores e regras</summary>
+    <p><button class="btn" data-ls-tour-start>Fazer o tour guiado (2 min)</button></p>
+    <h4>Rotina do dia</h4><ol class="ls-man">${li(MANUAL.routine)}</ol>
+    <h4>O que cada cor quer dizer</h4><ul class="ls-man">${li(MANUAL.colors)}</ul>
+    <h4>Regras que o app aplica sozinho</h4><ul class="ls-man">${MANUAL.rules.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
+  </details>`; // prettier-ignore
+}
+function tourCard() {
+  const i = state.lsTour;
+  if (i == null) return "";
+  const s = TOUR[i];
+  const last = i === TOUR.length - 1;
+  return `<div class="ls-tour" role="dialog" aria-label="Tour guiado"><div class="ls-tour-in">
+    <p class="ls-tour-n">Tour · passo ${i + 1} de ${TOUR.length} · exemplo, nada é registrado</p>
+    <h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><p class="ls-tour-ex"><b>Exemplo:</b> ${esc(s.example)}</p>
+    <div class="ls-btns">${i > 0 ? `<button class="btn ghost" data-ls-tour-prev>Voltar</button>` : ""}${last ? `<button class="btn" data-ls-tour-exit>Sair do tour</button>` : `<button class="btn" data-ls-tour-next>Próximo</button><button class="btn ghost" data-ls-tour-exit>Sair</button>`}</div>
+  </div></div>`; // prettier-ignore
+}
 export function viewLongShort() {
   tick();
-  const now = Date.now();
+  const demo = state.lsTour != null;
+  const now = demo ? DEMO_NOW : Date.now();
   const rows = state.valuation?.rows ?? [];
-  if (!rows.length) return `<section class="ls"><h2>Long & Short</h2><p class="muted">Importe a carteira (ou aguarde a foto do BTG) para usar o painel.</p></section>`; // prettier-ignore
-  const c = compute(now);
+  if (!demo && !rows.length) return `<section class="ls"><h2>Long & Short</h2><p class="muted">Importe a carteira (ou aguarde a foto do BTG) para usar o painel.</p><p><button class="btn" data-ls-tour-start>Ver o tour guiado com um exemplo</button></p></section>`; // prettier-ignore
+  const c = demo ? demoCompute() : { ...compute(now), bookData: book() };
   state.lsLast = c;
   const desktop = typeof window !== "undefined" && window.innerWidth >= 1100;
-  const loading = !state.lsQuotes && c.input.session !== "FECHADO";
+  const loading = !demo && !state.lsQuotes && c.input.session !== "FECHADO";
   const pairs = c.input.pairs.map((pr, i) => pairCard(c, pr, i, desktop)).join("");
-  const left = `${metrics(c)}${loading ? `<p class="ls-sub">Carregando cotações com bid/ask…</p>` : ordersBlock(c)}${alertsBlock()}`; // prettier-ignore
-  const right = `<section class="ls-block"><h3>Pares</h3>${pairs || `<p class="ls-sub">Nenhuma dupla com as duas pontas na carteira. Monte em Carteira › Duplas L/S.</p>`}</section>${planBlock(c)}${setupBlock(c)}`; // prettier-ignore
-  return `<section class="ls">${statusBar(c, now)}<div class="ls-cols"><div class="ls-col">${left}</div><div class="ls-col">${right}</div></div>
-    <p class="ls-sub">O app não envia ordens: execute na corretora e registre. Material educacional; não é recomendação de investimento.</p>
-    ${sheet(c)}${critical(c)}${tipPop()}</section>`; // prettier-ignore
+  const left = `${metrics(c)}${loading ? `<p class="ls-sub">Carregando cotações com bid/ask…</p>` : ordersBlock(c)}${alertsBlock(c)}`; // prettier-ignore
+  const right = `<section class="ls-block"${T("pairs")}><h3>Pares</h3>${pairs || `<p class="ls-sub">Nenhuma dupla com as duas pontas na carteira. Monte em Carteira › Duplas L/S.</p>`}</section>${planBlock(c)}${guideBlock()}${demo ? "" : setupBlock(c)}`; // prettier-ignore
+  const invite = !demo && !store.get(TOUR_KEY, false) ? `<div class="ls-band acc">Primeira vez aqui? <button class="btn small" data-ls-tour-start>Fazer o tour (2 min)</button> <button class="btn small ghost" data-ls-tour-skip>Agora não</button></div>` : ""; // prettier-ignore
+  const demoBand = demo ? `<div class="ls-band acc">◆ EXEMPLO do tour: não são as suas posições e nenhum botão registra nada.</div>` : ""; // prettier-ignore
+  return `<section class="ls${demo ? " touring" : ""}">${demoBand}${invite}${statusBar(c, now)}<div class="ls-cols"><div class="ls-col">${left}</div><div class="ls-col">${right}</div></div>
+    <p class="ls-sub">O app não envia ordens: execute na corretora. Material educacional; não é recomendação de investimento.</p>
+    ${demo ? "" : sheet(c)}${critical(c)}${tipPop()}${tourCard()}</section>`; // prettier-ignore
 }
 
 // ───────── eventos ─────────
@@ -538,10 +596,32 @@ export function lsClick(e) {
   }
   if (state.lsTip && !t.closest("#ls-tip-pop")) state.lsTip = null;
   if (t.closest("[data-ls-tip-close]")) return hooks.render();
+  const q = (sel) => t.closest(sel);
+  const go = (i) => {
+    state.lsTour = i;
+    state.lsTip = null;
+    hooks.render();
+    requestAnimationFrame(() => document.querySelector("[data-tour-on]")?.scrollIntoView({ block: "center", behavior: "smooth" })); // prettier-ignore
+  };
+  if (q("[data-ls-tour-start]")) return go(0);
+  if (q("[data-ls-tour-next]")) return go(Math.min(TOUR.length - 1, (state.lsTour ?? 0) + 1));
+  if (q("[data-ls-tour-prev]")) return go(Math.max(0, (state.lsTour ?? 0) - 1));
+  if (q("[data-ls-tour-exit]") || q("[data-ls-tour-skip]")) {
+    store.set(TOUR_KEY, true);
+    state.lsTour = null;
+    return hooks.render();
+  }
   const c = state.lsLast;
   if (!c) return;
+  if (
+    c.demo &&
+    q(
+      "[data-ls-exec],[data-ls-ignore],[data-ls-stop],[data-ls-rem],[data-ls-execlive],[data-ls-plansave],[data-ls-calok],[data-ls-ack],[data-ls-confirm]",
+    )
+  )
+    // prettier-ignore
+    return flash("No tour é só exemplo: nada é registrado. Saia do tour para usar na sua carteira.");
   const now = Date.now();
-  const q = (sel) => t.closest(sel);
   if (q("[data-ls-open]")) {
     state.lsOpen = q("[data-ls-open]").dataset.lsOpen;
     hooks.render();
@@ -626,7 +706,7 @@ export function lsClick(e) {
   }
 }
 export function lsChange(e) {
-  if (state.prefs.tab !== "longshort") return;
+  if (state.prefs.tab !== "longshort" || state.lsTour != null) return;
   const t = e.target;
   const ds = t.dataset ?? {};
   if (ds.lsSetstop) {
