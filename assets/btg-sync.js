@@ -85,12 +85,15 @@ async function viaCloud(fire, onChanged) {
   toast("Posições e valores atualizados do BTG.", "ok");
 }
 
-export async function refreshBtg(onChanged) {
+/** `reconnected`: o usuário refez o login do conector BTG no claude.ai ("Reconectei"): marca a hora e lê na hora. */
+export async function refreshBtg(onChanged, { reconnected = false } = {}) {
   if (state.btgSync?.busy) return;
   if (!cloud.cloudUser()) return toast("Entre na sua conta para atualizar do BTG.", "err");
   setBusy(true);
   try {
-    const fire = await cloud.fireBtg().catch((e) => ({ ok: false, why: cloud.authMessage(e) }));
+    const fire = await cloud
+      .fireBtg({ reconnected })
+      .catch((e) => ({ ok: false, why: cloud.authMessage(e) }));
     if (fire?.ok) return await viaCloud(fire, onChanged);
     toast(btgFailMsg(fire?.why), fire?.why === "nuvem_off" ? "warn" : "bad", 14000);
   } catch (e) {

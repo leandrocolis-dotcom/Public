@@ -76,3 +76,19 @@ Carteira › ✎ edita posições internacionais (qtd, PM), inclui/remove ativo,
 - Roteiro da rotina reescrito para as ferramentas novas; clone de reserva aponta para o repositório público (`leandrocolis-dotcom/Public`).
 
 **Configuração final (27/11/2026, 02h14 UTC, testada):** o botão dispara a rotina **BTG carteira (botão do app)** (`trig_01Uh6ScVcYQv9JVXLCGVD6ei`, ligada, sem horário, conectores BTGPactual e Supabase, mesmo roteiro da leitura automática); os segredos `BTG_ROUTINE_URL`/`BTG_ROUTINE_TOKEN` da `btg-fire` apontam para ela. A leitura automática segue na **BTG carteira na nuvem** (`trig_018xpRKNFk1XgWK8ZEB9jhpT`, dias úteis 10h41/13h41/16h41/19h41/22h41 de Brasília). **Mudou o roteiro? Atualize as duas rotinas.** Teste: botão → `btg-fire` 200 → rotina ~30 s → `pendulo_btg_apply` ok (foto parcial) → app "Posições e valores atualizados do BTG". O log da `btg-fire` mostra o `trig_…` chamado quando a rotina recusa.
+
+## Login do conector BTG: aviso e "Reconectei" (27/11/2026)
+
+O MCP do BTG desloga a cada 6 h (informação do criador do conector). Reconectar é um login OAuth do usuário no
+claude.ai (não automatizável); o app avisa e atualiza sozinho em volta disso (`assets/btg-login.js`, puro):
+
+- **🔑 Reconectar BTG (push):** quando a rotina anota em `try_detail` uma falha de login (refused, sign-in,
+  "BTG indisponível"…) depois da última foto boa, a Edge Function `push` (cron de 1 min) manda um aviso, uma vez
+  por falha (chave `btg-login:<try_at>`). Ela lê `pendulo_broker` e passa `broker` a cada usuário de `computeAlerts`.
+- **Reconectei — atualizar** (cartão Contas BTG, aparece com o login caído ou perto de expirar): chama
+  `btg-fire { reconnected: true }`, que grava `pendulo_broker.login_at` e dispara a leitura na hora (espera mínima
+  de 60 s em vez de 3 min).
+- **⏳ Login do BTG expira em N min (push):** 20 min antes de `login_at + 6 h`, só das 7h às 23h de Brasília
+  (chave `btg-exp:<login_at>`). Com o login válido, a linha de status mostra "login BTG até HH:MM".
+- Preferência `prefs.btglogin = false` desliga; respeita "Silenciar no fim de semana". Testes: `tests/btg-login.test.js`.
+- Solução definitiva depende do conector: refresh token no OAuth deixaria o Claude renovar a sessão sozinho.

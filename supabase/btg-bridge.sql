@@ -403,3 +403,8 @@ begin
   return jsonb_build_object('ok', found);
 end $$;
 revoke all on function public.pendulo_btg_note(uuid, text) from public, anon, authenticated;
+
+-- Login do conector BTG (27/11/2026): o MCP do BTG desloga a cada 6 h. O botão "Reconectei" da Carteira chama
+-- btg-fire { reconnected: true }, que grava aqui a hora; a Edge Function push avisa 20 min antes das 6 h e avisa
+-- "🔑 Reconectar BTG" quando a rotina anota falha de login em try_detail (assets/btg-login.js).
+alter table public.pendulo_broker add column if not exists login_at timestamptz;

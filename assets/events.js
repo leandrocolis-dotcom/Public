@@ -479,6 +479,7 @@ export function initEvents(h) {
     else if (d.asset) openAsset(d.asset);
     else if (d.action === "close") closeDrawer();
     else if (d.action === "btg-refresh") refreshBtg(load);
+    else if (d.action === "btg-reconnected") refreshBtg(load, { reconnected: true });
     else if (d.action === "pf-day") {
       const step = +d.step;
       const today = brDay(Date.now());

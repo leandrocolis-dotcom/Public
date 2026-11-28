@@ -60,6 +60,14 @@ Deno.serve(async (req) => {
   const at = Date.parse(prev ?? "");
   const body = await req.json().catch(() => ({}));
   const fallback = body?.fallback === true;
+  // "Reconectei" (27/11/2026): o usuário refez o login do conector BTG no claude.ai. Marca a hora (o login dura 6 h;
+  // o push avisa 20 min antes) e dispara a leitura na hora, furando a espera de 3 min (mínimo 60 s entre disparos)
+  const reconnected = body?.reconnected === true;
+  if (reconnected)
+    await rest(`pendulo_broker?user_id=eq.${uid}`, {
+      method: "PATCH",
+      body: JSON.stringify({ login_at: new Date().toISOString() }),
+    }).catch(() => {});
   const second = ROUTINES.find(([name]) => name === "2");
   const already = (since: string) =>
     json({ ok: true, already: true, since, syncedAt: own[0].synced_at, hasFallback: !!second });
@@ -68,7 +76,8 @@ Deno.serve(async (req) => {
     if (!second) return json({ ok: false, why: "sem_conta2" });
     if (!Number.isFinite(at) || age < FALLBACK_MIN_MS || age > FALLBACK_MAX_MS)
       return json({ ok: false, why: "fallback_fora_do_prazo" });
-  } else if (Number.isFinite(at) && age < COOLDOWN_MS) return already(prev!);
+  } else if (Number.isFinite(at) && age < (reconnected ? FALLBACK_MIN_MS : COOLDOWN_MS))
+    return already(prev!);
 
   // reserva atômica antes de disparar: dois cliques simultâneos não geram duas leituras
   const now = new Date().toISOString();
@@ -122,7 +131,9 @@ async function fireOne(name: string, url: string, token: string): Promise<string
         "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: "Leitura pedida pelo botão Atualizar BTG do app." }),
+      body: JSON.stringify({
+        text: "Leitura pedida pelo app (botão Atualizar BTG ou Reconectei).",
+      }),
       signal: AbortSignal.timeout(20000),
     });
   } catch (e) {

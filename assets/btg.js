@@ -3,6 +3,7 @@
 // o preço ao vivo quando a carteira tem cotação (mesma conta da tabela de posições).
 import { cls, esc, fmtDT, num } from "./format.js";
 import { usSession } from "./sessions.js";
+import { BTG_REMIND_MS, CONNECTORS_URL, loginLost, loginWindow } from "./btg-login.js";
 
 /** Sem foto nova há mais que isso (cobre o fim de semana) = aviso de dado velho. */
 export const BTG_STALE_MS = 96 * 3600 * 1000;
@@ -291,13 +292,31 @@ export function btgParts(
   const manualWarn = v.manual
     ? `<p class="pf-btg-warn">✎ Ajuste manual sobre a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}${v.manual.at ? ` (editado ${fmtDT(new Date(v.manual.at))})` : ""}. Some sozinho na próxima leitura do BTG. <button class="btn small" data-action="btg-manual-clear">Descartar ajustes</button></p>`
     : "";
-  const warn = v.rejected
-    ? `<p class="pf-btg-warn">⚠ Última leitura recusada (${esc(v.rejected)}). A carteira segue com a foto anterior.</p>`
-    : v.tryFail
-      ? `<p class="pf-btg-warn">⚠ Última tentativa de leitura não gravou (${esc(v.tryFail)}). A carteira segue com a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}.</p>` // prettier-ignore
-      : v.stale
-        ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
+  // login do conector BTG (dura 6 h): caiu, está para expirar ou expirou → como reconectar + "Reconectei"
+  const lost = loginLost(row);
+  const lw = loginWindow(row, now);
+  const reconnect = `<a class="btn small" href="${CONNECTORS_URL}" target="_blank" rel="noopener">Abrir conectores do Claude ↗</a> <button class="btn small" data-action="btg-reconnected" ${sync?.busy ? "disabled" : ""} title="Marca a hora do login (vale 6 h; o push avisa 20 min antes) e lê o BTG agora">Reconectei — atualizar</button>`; // prettier-ignore
+  const loginWarn =
+    lost != null
+      ? `<p class="pf-btg-warn">🔑 O login do conector BTG caiu (${fmtDT(new Date(lost))}; ele dura 6 h). Reconecte o BTGPactual em claude.ai › Conectores e toque em "Reconectei". ${reconnect}</p>` // prettier-ignore
+      : lw && lw.left <= BTG_REMIND_MS
+        ? `<p class="pf-btg-warn">⏳ ${lw.left > 0 ? `O login do conector BTG expira às ${fmtDT(new Date(lw.expiresAt))}` : `O login do conector BTG expirou às ${fmtDT(new Date(lw.expiresAt))}`} (6 h depois do "Reconectei"). ${reconnect}</p>` // prettier-ignore
         : "";
+  const loginTxt =
+    lost == null && lw && lw.left > BTG_REMIND_MS
+      ? ` · login BTG até ${new Date(lw.expiresAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`
+      : "";
+  const warn =
+    loginWarn +
+    (lost != null
+      ? ""
+      : v.rejected
+        ? `<p class="pf-btg-warn">⚠ Última leitura recusada (${esc(v.rejected)}). A carteira segue com a foto anterior.</p>`
+        : v.tryFail
+          ? `<p class="pf-btg-warn">⚠ Última tentativa de leitura não gravou (${esc(v.tryFail)}). A carteira segue com a foto de ${v.asOf ? fmtDT(v.asOf) : "–"}.</p>` // prettier-ignore
+          : v.stale
+            ? `<p class="pf-btg-warn">⚠ Foto do BTG com mais de 4 dias.</p>`
+            : "");
   const hm = (d) =>
     d ? d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "";
   const ddmmIso = (d) => (d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "");
@@ -348,7 +367,7 @@ export function btgParts(
       <ul class="pf-btg-leg">${v.mix.map((m) => `<li><i class="mx t${MIX_TONE[m.k] ?? 4}"></i>${esc(m.k)} <b>${pctTxt(m.w)}</b> <small class="muted">${brl(m.brl, 0)}</small></li>`).join("")}</ul>`
     : ""; // prettier-ignore
   const card = `<section class="card pf-btg" aria-label="Contas BTG">
-    <div class="pf-btg-head"><span class="lab">Contas BTG</span><small class="muted">${liveTxt} · foto do BTG de ${v.asOf ? fmtDT(v.asOf) : "–"}</small><span class="pf-btg-act">${btgButton(sync)}</span></div>
+    <div class="pf-btg-head"><span class="lab">Contas BTG</span><small class="muted">${liveTxt} · foto do BTG de ${v.asOf ? fmtDT(v.asOf) : "–"}${loginTxt}</small><span class="pf-btg-act">${btgButton(sync)}</span></div>
     ${warn}${manualWarn}
     ${mix}
   </section>`;
