@@ -1,62 +1,63 @@
 # Estudo retroativo do aprendizado (prévia)
 
-> Gerado por `scripts/retro-study.mjs` em 21/11/2026. Reproduzir: `node scripts/retro-study.mjs --syms=...`.
+> Gerado por `scripts/retro-study.mjs` em 28/11/2026. Reproduzir: `node scripts/retro-study.mjs --syms=...`.
 > É **prévia**: as regras foram escolhidas olhando esses anos, então o resultado é otimista. Não aprova nada no modelo
 > real, que só aprende com o diário fora da amostra. Material educacional; não é recomendação de investimento.
 
 ## Amostra
 
-- Período avaliado: **04/12/2017 a 20/11/2026** (2248 pregões; histórico de 10y, com ~1 ano de aquecimento).
-- **40 ativos**: os ETFs do Pêndulo e a carteira (–).
-- **44.627 gatilhos encerrados** (Decisão do trader a cada 5 pregões, sinais de curto prazo e níveis), um por ativo e lógica a cada 5 pregões, como no diário real.
-- Medida: resultado em R (stop de 2,5 ATR, 0,05% de custo por perna, entrada no fechamento do dia do gatilho), no horizonte da lógica (decisões 20 pregões; sinais e níveis 5), em **excesso sobre a média do universo** no mesmo dia. Regime: S&P acima/abaixo da média de 200 dias (399 dias em baixa).
+- Período avaliado: **08/12/2017 a 27/11/2026** (2249 pregões; histórico de 10y, com ~1 ano de aquecimento).
+- **44 ativos**: os ETFs do Pêndulo e a carteira (SNDQ, SNDU, SOXL, SOXS).
+- **46.856 gatilhos encerrados** (Decisão do trader a cada 5 pregões, sinais de curto prazo e níveis), um por ativo e lógica a cada 5 pregões, como no diário real.
+- Medida: resultado em R (stop de 2,5 ATR, 0,05% de custo por perna, entrada no fechamento do dia do gatilho), no horizonte da lógica (decisões 20 pregões; sinais e níveis 5), em **excesso sobre a média do universo** no mesmo dia. Regime: S&P acima/abaixo da média de 200 dias (401 dias em baixa).
 - Decisão do trader sem fundamentos (não há fundamentos antigos) e sem o regime macro do dia.
 
 ## Lógicas que mandam operar
 
-| Lógica              | Dias | Acerto (regra antiga) | Excesso em R (faixa 90%) |          Alta / baixa | Regra antiga | Regra nova   |
-| ------------------- | ---: | --------------------: | -----------------------: | --------------------: | ------------ | ------------ |
-| dec:reduce:sell     |  432 |                   38% |    +0,05 (−0,03 a +0,13) |  +0,05 / +0,04 (82 d) | Eliminada    | Em avaliação |
-| level:res:sell      |  119 |                   43% |    +0,01 (−0,06 a +0,09) |  +0,02 / −0,00 (26 d) | Eliminada    | Em avaliação |
-| sig:lost200:sell    |  799 |                   44% |    −0,00 (−0,04 a +0,04) | −0,00 / +0,00 (154 d) | Eliminada    | Eliminada    |
-| sig:rally_down:sell |  732 |                   47% |    −0,02 (−0,06 a +0,02) | +0,01 / −0,12 (149 d) | Eliminada    | Eliminada    |
-| dec:buy:buy         |  432 |                   49% |    −0,02 (−0,10 a +0,06) |  −0,05 / +0,13 (69 d) | Eliminada    | Eliminada    |
-| level:stop:sell     |  951 |                   41% |    −0,02 (−0,05 a +0,01) | −0,03 / +0,00 (151 d) | Eliminada    | Eliminada    |
-| sig:pullback10:buy  | 1073 |                   49% |    −0,02 (−0,06 a +0,01) | −0,02 / −0,04 (193 d) | Eliminada    | Eliminada    |
-| sig:dip:buy         |  330 |                   52% |    −0,02 (−0,09 a +0,04) |  −0,01 / −0,11 (37 d) | Eliminada    | Eliminada    |
-| sig:stretched:sell  |  373 |                   45% |    −0,03 (−0,11 a +0,04) |  −0,03 / −0,08 (49 d) | Eliminada    | Eliminada    |
-| level:res:buy       | 1145 |                   50% |    −0,04 (−0,07 a −0,01) | −0,03 / −0,13 (125 d) | Eliminada    | Eliminada    |
-| sig:breakdown:sell  | 1155 |                   45% |    −0,04 (−0,07 a −0,01) | −0,05 / −0,02 (234 d) | Eliminada    | Eliminada    |
-| level:sup:buy       |  347 |                   49% |    −0,05 (−0,10 a +0,00) |  −0,06 / +0,01 (35 d) | Eliminada    | Eliminada    |
-| sig:reversal:buy    |  381 |                   50% |    −0,06 (−0,12 a −0,01) |  −0,06 / −0,07 (80 d) | Eliminada    | Eliminada    |
-| dec:sell:sell       |  283 |                   41% |    −0,07 (−0,16 a +0,03) |  −0,08 / −0,02 (75 d) | Eliminada    | Eliminada    |
-| dec:buy-part:buy    |  450 |                   49% |    −0,15 (−0,22 a −0,08) |  −0,11 / −0,31 (82 d) | Eliminada    | Eliminada    |
+| Lógica | Dias | Acerto (regra antiga) | Excesso em R (faixa 90%) | Alta / baixa | Regra antiga | Regra nova |
+|---|---:|---:|---:|---:|---|---|
+| dec:reduce:sell | 471 | 43% | +0,10 (+0,04 a +0,16) | +0,10 / +0,09 (95 d) | Eliminada | Aprovada ✓BH |
+| sig:dip:buy | 330 | 52% | −0,01 (−0,07 a +0,06) | +0,00 / −0,10 (37 d) | Eliminada | Eliminada |
+| dec:buy:buy | 557 | 49% | −0,01 (−0,08 a +0,06) | +0,01 / −0,14 (69 d) | Eliminada | Eliminada |
+| level:stop:sell | 1017 | 42% | −0,01 (−0,04 a +0,02) | −0,01 / +0,00 (178 d) | Eliminada | Eliminada |
+| sig:lost200:sell | 824 | 44% | −0,01 (−0,05 a +0,02) | −0,01 / −0,01 (164 d) | Eliminada | Eliminada |
+| sig:rally_down:sell | 784 | 47% | −0,02 (−0,06 a +0,02) | +0,01 / −0,13 (155 d) | Eliminada | Eliminada |
+| level:sup:buy | 375 | 49% | −0,02 (−0,08 a +0,04) | −0,02 / −0,02 (44 d) | Eliminada | Eliminada |
+| level:res:sell | 126 | 45% | −0,02 (−0,10 a +0,06) | −0,05 / +0,09 (29 d) | Eliminada | Eliminada |
+| sig:pullback10:buy | 1154 | 49% | −0,02 (−0,06 a +0,01) | −0,02 / −0,04 (206 d) | Eliminada | Eliminada |
+| sig:stretched:sell | 384 | 45% | −0,03 (−0,10 a +0,04) | −0,03 / −0,01 (51 d) | Eliminada | Eliminada |
+| dec:sell:sell | 380 | 41% | −0,03 (−0,11 a +0,05) | −0,02 / −0,05 (119 d) | Eliminada | Eliminada |
+| level:res:buy | 1189 | 50% | −0,04 (−0,07 a −0,01) | −0,03 / −0,13 (119 d) | Eliminada | Eliminada |
+| sig:breakdown:sell | 1210 | 46% | −0,04 (−0,07 a −0,01) | −0,05 / −0,02 (241 d) | Eliminada | Eliminada |
+| sig:reversal:buy | 402 | 50% | −0,05 (−0,11 a −0,00) | −0,05 / −0,06 (81 d) | Eliminada | Eliminada |
+| dec:buy-part:buy | 578 | 51% | −0,11 (−0,18 a −0,04) | −0,06 / −0,43 (86 d) | Eliminada | Eliminada |
 
 ## Lógicas de "esperar" (seguem pelo aproveitamento)
 
-| Lógica         | Dias | Aproveitamento | Status   |
-| -------------- | ---: | -------------: | -------- |
-| level:sup:wait | 1774 |            74% | Aprovada |
-| dec:wait:wait  |  449 |            73% | Aprovada |
-| level:res:wait | 1583 |            75% | Aprovada |
+| Lógica | Dias | Aproveitamento | Status |
+|---|---:|---:|---|
+| level:res:wait | 1649 | 76% | Aprovada |
+| level:sup:wait | 1859 | 74% | Aprovada |
+| dec:wait:wait | 486 | 75% | Aprovada |
+| level:stop:wait | 86 | 76% | Aprovada |
 
 ## O filtro de vantagem funcionou?
 
-| Grupo                  | Excesso em R por dia | Dias |
-| ---------------------- | -------------------: | ---: |
-| Bloqueadas pelo filtro |                −0,06 |  409 |
-| Liberadas              |                −0,06 |  447 |
-| Nota A                 |                +0,01 |  411 |
-| Nota B                 |                −0,14 |  422 |
-| Nota C                 |                +0,10 |  142 |
-| Nota D                 |                −0,06 |  409 |
+| Grupo | Excesso em R por dia | Dias |
+|---|---:|---:|
+| Bloqueadas pelo filtro | −0,08 | 448 |
+| Liberadas | +0,00 | 750 |
+| Nota A | −0,06 | 471 |
+| Nota B | −0,01 | 610 |
+| Nota C | +0,05 | 162 |
+| Nota D | −0,08 | 448 |
 
 ## Pesos da Decisão do trader (correlação com o excesso em 20 pregões)
 
-- tech: -0,010 (17188 decisões)
+- tech: 0,006 (18091 decisões)
 - fund: – (0 decisões)
-- market: -0,022 (17188 decisões)
-- history: -0,013 (17188 decisões)
+- market: -0,006 (18091 decisões)
+- history: -0,020 (18091 decisões)
 
 ## Leitura
 
