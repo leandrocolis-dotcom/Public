@@ -104,14 +104,14 @@ export const TIPS = Object.freeze({
     fazer: "Não force; resolva o motivo ou espere",
   },
   executei: {
-    que: "Registra o que você executou de fato",
-    ler: "Quantidade menor que a sugerida vira execução parcial",
-    fazer: "Informe quantidade, preço e custos reais",
+    que: "Opcional: avisa o painel que você executou",
+    ler: "Com o registro, posição, stop e contadores mudam na hora; sem ele, na próxima foto do BTG",
+    fazer: "Registre se quiser o painel em dia antes da foto; quantidade menor = parcial",
   },
   ignorar: {
-    que: "Marca que você decidiu não seguir",
-    ler: "Conta no diário; 2 alertas de risco ignorados em 30 min bloqueiam entradas",
-    fazer: "Escreva o motivo; ele serve para revisar depois",
+    que: "Tira a ordem da lista por 15 min quando você decide não seguir",
+    ler: "Um toque, sem motivo; 2 alertas de risco ignorados em 30 min bloqueiam entradas até amanhã",
+    fazer: "Use para limpar a tela; a regra continua valendo",
   },
   residual: {
     que: "Parte de uma ordem que ainda não foi executada",

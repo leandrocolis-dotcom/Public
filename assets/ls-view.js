@@ -6,7 +6,7 @@
 import { computeLs } from "./ls-engine.js";
 import { dedupeAlerts, evaluateAlerts, sideText } from "./ls-alerts.js";
 import { buildInput, neededSyms, pairId, parseHistCsv } from "./ls-input.js";
-import { ackCritical, answerRemainder, liveOrders, loadBook, mergeBooks, positionFrom, noteTrips, reconcile, recordExecution, recordIgnore, registerReport, rollDay, setStop, trackHwm } from "./ls-book.js"; // prettier-ignore
+import { ackCritical, answerRemainder, liveOrders, loadBook, mergeBooks, positionFrom, noteTrips, reconcile, recordExecution, recordIgnore, rollDay, setStop, trackHwm } from "./ls-book.js"; // prettier-ignore
 import { clocks, leftText, nextMark, tradingDay } from "./ls-clock.js";
 import { PARAMS } from "./ls-params.js";
 import { ETF_CATALOG, assetInfo } from "./ls-etfs.js";
@@ -423,23 +423,6 @@ function alertsBlock() {
   const ico = { critico: "‼", acao: "→", atencao: "⚠", info: "·" };
   return `<section class="ls-block"><h3>Alertas (${feed.length}) ${info("alertas")}</h3>${feed.length ? `<ul class="ls-feed">${feed.map((a) => `<li class="${cls[a.prio]}"><span class="ls-num">${a.t}</span> <b>${ico[a.prio]} ${a.id}</b>${a.sym ? ` ${esc(a.sym)}` : ""} ${esc(a.msg)}</li>`).join("")}</ul>` : `<p class="ls-sub">Nenhum alerta.</p>`}</section>`; // prettier-ignore
 }
-function journalBlock(c) {
-  const b = book();
-  const today = (b.journal ?? []).filter((x) => tradingDay(x.ts) === c.input.date);
-  const fol = today.filter((x) => x.followed);
-  const ign = today.filter((x) => !x.followed);
-  const realized = fol.reduce((s, x) => s + (x.realized ?? 0), 0);
-  const rep = registerReport(b, c.input.params);
-  const fx = state.live?.quotes?.["BRL=X"]?.p ?? null;
-  return `<section class="ls-block"><h3>Diário do dia ${info("diario")}</h3>
-    <p>Seguidas <b>${fol.length}</b> · ignoradas <b>${ign.length}</b> · realizado líquido <b class="${tone(realized)}">${usd(realized)}</b> ${info("pnl_liquido")}${fin(fx) ? ` · ≈ R$ ${num(realized * fx, 2)} ${info("pnl_brl")}` : ""}</p>
-    ${today.length ? `<ul class="ls-feed">${today.slice(-12).reverse().map((x) => `<li class="${x.followed ? "" : "wait"}"><span class="ls-num">${clocks(x.ts).et}</span> ${x.followed ? "✓" : "✗"} ${esc(x.alertId ?? "")} ${esc(x.sym ?? "")} ${x.followed ? `${esc(sideText(x.side))} ${x.qty} @ ${px(x.price)}${fin(x.realized) ? ` · ${usd(x.realized)}` : ""}` : `ignorada: ${esc(x.why ?? "")}`}</li>`).join("")}</ul>` : ""}
-    <details class="ls-more"><summary>Relatório do modo registro (${rep.days} pregões)</summary>
-      <p>Seguidas ${rep.followed.n} · resultado ${usd(rep.followed.pnl)} (${rTxt(rep.followed.pnlR)}) · queda máx. ${usd(rep.followed.maxDD)} · custos ${usd(-rep.followed.fees)}</p>
-      <p>Ignoradas ${rep.ignored.n} (${rep.ignored.risk} de risco). Mais ignorados: ${rep.topIgnored.map(([id, n]) => `${id} ×${n}`).join(", ") || "–"}. Travas mais acionadas: ${rep.topTrips.map(([id, n]) => `${id} ×${n}`).join(", ") || "–"}.</p>
-      <p class="ls-sub">${rep.ready ? "Já há 10+ pregões: decida manter ou ajustar parâmetros." : "Rode 2 semanas só seguindo ou ignorando, sem mudar regras."} Material educacional; não é recomendação de investimento.</p>
-    </details></section>`; // prettier-ignore
-}
 function planBlock(c) {
   const plan = c.plan ?? {};
   const open = state.lsOpen === "plan" || (!c.input.plan.ok && c.input.session !== "FECHADO");
@@ -496,12 +479,7 @@ function sheet(c) {
       <div class="ls-btns"><button class="btn" data-ls-confirm>Confirmar</button><button class="btn ghost" data-ls-close>Cancelar</button></div>
     </div></div>`; // prettier-ignore
   }
-  return `<div class="ls-sheet" role="dialog" aria-modal="true" aria-label="Ignorar ordem"><div class="ls-sheet-in">
-    <h3>Ignorar: ${esc(ACT(o))} ${o.qty} ${esc(o.sym)}</h3>${warn}
-    <label>Motivo ${info("ignorar")}<input id="ls-ig-why" placeholder="por que não seguir?"></label>
-    <p class="ls-sub wait">⚠ 2 alertas de risco ignorados em 30 min bloqueiam entradas até amanhã (BEH-01).</p>
-    <div class="ls-btns"><button class="btn" data-ls-igconfirm>Registrar</button><button class="btn ghost" data-ls-close>Cancelar</button></div>
-  </div></div>`; // prettier-ignore
+  return "";
 }
 const CRIT = ["RSK-01", "RSK-02", "BEH-01"];
 function critical(c) {
@@ -512,7 +490,7 @@ function critical(c) {
   if (!a) return "";
   return `<div class="ls-crit" role="alertdialog" aria-modal="true" aria-label="Alerta crítico"><div class="ls-crit-in">
     <p class="ls-crit-id">‼ ${a.id} ${info("prioridade_critico")}</p><p class="ls-crit-msg">${esc(a.msg)}</p>
-    <p class="ls-sub">As ordens de zerar continuam na lista: registre cada execução com Executei.</p>
+    <p class="ls-sub">As ordens de zerar continuam na lista: zere na corretora.</p>
     <button class="btn" data-ls-ack="${a.id}">Li e entendi</button></div></div>`; // prettier-ignore
 }
 function tipPop() {
@@ -532,7 +510,7 @@ export function viewLongShort() {
   const desktop = typeof window !== "undefined" && window.innerWidth >= 1100;
   const loading = !state.lsQuotes && c.input.session !== "FECHADO";
   const pairs = c.input.pairs.map((pr, i) => pairCard(c, pr, i, desktop)).join("");
-  const left = `${metrics(c)}${loading ? `<p class="ls-sub">Carregando cotações com bid/ask…</p>` : ordersBlock(c)}${alertsBlock()}${journalBlock(c)}`; // prettier-ignore
+  const left = `${metrics(c)}${loading ? `<p class="ls-sub">Carregando cotações com bid/ask…</p>` : ordersBlock(c)}${alertsBlock()}`; // prettier-ignore
   const right = `<section class="ls-block"><h3>Pares</h3>${pairs || `<p class="ls-sub">Nenhuma dupla com as duas pontas na carteira. Monte em Carteira › Duplas L/S.</p>`}</section>${planBlock(c)}${setupBlock(c)}`; // prettier-ignore
   return `<section class="ls">${statusBar(c, now)}<div class="ls-cols"><div class="ls-col">${left}</div><div class="ls-col">${right}</div></div>
     <p class="ls-sub">O app não envia ordens: execute na corretora e registre. Material educacional; não é recomendação de investimento.</p>
@@ -579,10 +557,11 @@ export function lsClick(e) {
     return o ? open("exec", o) : flash("A ordem mudou com o preço novo: confira a lista.", "warn");
   }
   if (q("[data-ls-ignore]")) {
+    // um toque, sem motivo obrigatório: some da lista por 15 min (risco ignorado conta no BEH-01)
     const o = c.out.orders.find((x) => x.id === q("[data-ls-ignore]").dataset.lsIgnore);
-    return o
-      ? open("ignore", o)
-      : flash("A ordem mudou com o preço novo: confira a lista.", "warn");
+    if (!o) return flash("A ordem mudou com o preço novo: confira a lista.", "warn");
+    saveBook(recordIgnore(book(), { id: o.alert ?? o.reason, sym: o.sym, ts: now, orderId: o.id }));
+    return flash(`Ignorada por 15 min: ${ACT(o)} ${o.qty} ${o.sym}.`);
   }
   if (q("[data-ls-execlive]")) {
     const bo = book().orders.find((x) => x.id === q("[data-ls-execlive]").dataset.lsExeclive);
@@ -609,17 +588,6 @@ export function lsClick(e) {
       return flash(`Registrado: ${ACT(o)} ${qty} ${o.sym} @ ${px(price)}.${o.purpose === "ENTRAR" || o.purpose === "AUMENTAR" ? ` Coloque o stop ${px(o.stop)} na corretora.` : ""}`); // prettier-ignore
     } catch (err) {
       return flash(`Não registrado: ${err.message}`, "warn");
-    }
-  }
-  if (q("[data-ls-igconfirm]")) {
-    const o = state.lsSheet?.order;
-    if (!o) return;
-    try {
-      saveBook(recordIgnore(book(), { id: o.alert ?? o.reason, sym: o.sym, why: document.getElementById("ls-ig-why")?.value ?? "", ts: now, orderId: o.id })); // prettier-ignore
-      state.lsSheet = null;
-      return flash("Ignorada e registrada no diário.");
-    } catch (err) {
-      return flash(err.message, "warn");
     }
   }
   if (q("[data-ls-stop]")) {

@@ -154,11 +154,9 @@ export function answerRemainder(data, orderId, answer, ts) {
   return closeRemainder(data, orderId, answer === "rejeitado" ? "REJEITADA" : answer === "expirado" ? "EXPIRADA" : "CANCELADA", ts); // prettier-ignore
 }
 
-/** "Ignorar": alerta de risco exige motivo; conta para o BEH-01 (2 em 30 min bloqueiam entradas). */
+/** "Ignorar" (um toque, motivo opcional): alerta de risco conta para o BEH-01 (2 em 30 min bloqueiam entradas). */
 export function recordIgnore(data, { id, sym = null, why = "", ts, orderId = null }) {
   const risk = isRiskAlert(id);
-  if (risk && String(why).trim().length < 3)
-    throw new Error("escreva o motivo para ignorar um alerta de risco");
   const day = { ...data.day, ignored: [...(data.day.ignored ?? []), { ts, id, sym, risk }] };
   const journal = [...(data.journal ?? []), { ts, day: data.day?.date ?? null, kind: "ignore", alertId: id, sym, orderId, followed: false, why: String(why).slice(0, 280), realized: null }]; // prettier-ignore
   return { ...data, day, journal };

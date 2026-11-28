@@ -82,8 +82,8 @@ describe("livro: execução manual", () => {
 });
 
 describe("livro: ignorar, stop, hwm, dia", () => {
-  it("ignorar alerta de risco exige motivo e conta no BEH-01 por 30 min", () => {
-    expect(() => recordIgnore(fresh(), { id: "DEC-07", ts: T0 })).toThrow("motivo");
+  it("ignorar (motivo opcional) conta alerta de risco no BEH-01 por 30 min", () => {
+    expect(recordIgnore(fresh(), { id: "DEC-07", ts: T0 }).day.ignored).toHaveLength(1); // sem motivo obrigatório
     let b = recordIgnore(fresh(), { id: "DEC-07", why: "spread largo", ts: T0 });
     b = recordIgnore(b, { id: "RSK-03", why: "vou reduzir no fechamento", ts: T0 + 60000 });
     expect(dayForEngine(b, T0 + 120000).ignoredRisk30).toBe(2);
